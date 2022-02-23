@@ -1,0 +1,5674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="th" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 自定义分类2,自定义分类3,单位
+FROM 新单位信息
+WHERE 营业状态 = '营业'
+AND 自定义分类2 !='电渠部'
+order by 自定义分类2,自定义分类3,单位]]></Query>
+</TableData>
+<TableData name="this_dur" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call unit_achivement('${start}','${end}','合并')]]></Query>
+</TableData>
+<TableData name="last_dur" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="last_start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="last_end"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call unit_achivement('${last_start}','${last_end}','合并')]]></Query>
+</TableData>
+<TableData name="last_this_dur" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="lastthis_end"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="lastthis_start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call unit_achivement('${lastthis_start}','${lastthis_end}','合并')]]></Query>
+</TableData>
+<TableData name="goal" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call 单位任务('${start}','合并')]]></Query>
+</TableData>
+<TableData name="this_xiaomi" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O>
+<![CDATA[2022-01-10]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单位,
+
+SUM(毛利) AS 毛利,
+
+SUM(终端) AS 终端
+
+FROM 春促报表_小米数据录入
+WHERE 月份 BETWEEN DATE_FORMAT('${start}','%Y-%m') AND DATE_FORMAT('${end}','%Y-%m')
+GROUP BY 单位]]></Query>
+</TableData>
+<TableData name="last_xiaomi" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="last_start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="last_end"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 单位,SUM(毛利)/DAY(LAST_DAY('${last_start}'))*DATEDIFF('${last_end}','${last_start}') AS 毛利,SUM(终端)/DAY(LAST_DAY('${last_start}'))*DATEDIFF('${last_end}','${last_start}') AS 终端
+FROM 春促报表_小米数据录入
+WHERE 月份 BETWEEN DATE_FORMAT('${last_start}','%Y-%m') AND DATE_FORMAT('${last_end}','%Y-%m')
+GROUP BY 单位
+]]></Query>
+</TableData>
+<TableData name="lastthis_xiaomi" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="lastthis_end"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="lastthis_start"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 单位,SUM(毛利)/DAY(LAST_DAY('${lastthis_start}'))*DATEDIFF('${lastthis_end}','${lastthis_start}') AS 毛利,SUM(终端)/DAY(LAST_DAY('${lastthis_start}'))*DATEDIFF('${lastthis_end}','${lastthis_start}') AS 终端
+FROM 春促报表_小米数据录入
+WHERE 月份 BETWEEN DATE_FORMAT('${lastthis_start}','%Y-%m') AND DATE_FORMAT('${lastthis_end}','%Y-%m')
+GROUP BY 单位
+]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="1"/>
+<FR/>
+<HC F="0" T="2"/>
+<FC/>
+<UPFCR COLUMN="true" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,3771900,5029200,0,0,2743200,2743200,2743200,2743200,0,0,2743200,0,0,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" rs="2" s="0">
+<O>
+<![CDATA[负责人]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" rs="2" s="0">
+<O>
+<![CDATA[分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" rs="2" s="0">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" cs="14" s="0">
+<O>
+<![CDATA[总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="0" cs="7" s="0">
+<O>
+<![CDATA[酬金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="0" cs="7" s="0">
+<O>
+<![CDATA[新装宽带]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="0" cs="7" s="0">
+<O>
+<![CDATA[存量升级]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="0" cs="7" s="0">
+<O>
+<![CDATA[手机台量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="0" cs="7" s="0">
+<O>
+<![CDATA[单机毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="0" cs="7" s="0">
+<O>
+<![CDATA[单机贡献]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" s="1">
+<O>
+<![CDATA[非小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="2">
+<O>
+<![CDATA[小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" s="0">
+<O>
+<![CDATA[排名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" s="3">
+<O>
+<![CDATA[上期非小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="2">
+<O>
+<![CDATA[上期小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="1" s="3">
+<O>
+<![CDATA[同期非小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" s="2">
+<O>
+<![CDATA[同期小米]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="47" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="48" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="50" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="53" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="54" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="56" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="57" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="1" s="0">
+<O>
+<![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="0">
+<O t="DSColumn">
+<Attributes dsName="th" columnName="自定义分类2"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="0">
+<O t="DSColumn">
+<Attributes dsName="th" columnName="自定义分类3"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2" s="0">
+<O t="DSColumn">
+<Attributes dsName="th" columnName="单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="全利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="this_xiaomi" columnName="毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D3 + E3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="总毛任务"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F3 / G3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="8" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(G3 = 0, len(G3) = 0), 0, sort(H3))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="全利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_xiaomi" columnName="毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J3 + K3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="全利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="lastthis_xiaomi" columnName="毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M3 + N3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(l3=0,len(l3)=0),1,(F3 - L3) / L3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(o3=0,len(o3)=0),1,(F3 - O3) / O3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="酬金任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R3 / S3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="20" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="21" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="22" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(u3=0,len(u3)=0),1,(R3 - U3) / U3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(v3=0,len(v3)=0),1,(R3 - V3) / V3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="新装宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="25" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="26" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=y3/z3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="27" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="新装宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="28" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="新装宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="29" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(ab3=0,len(ab3)=0),1,(y3-ab3)/ab3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(ac3=0,len(ac3)=0),1,(y3-ac3)/ac3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="升级宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="32" r="2" s="4">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="2" s="6">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="34" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="升级宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="35" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="升级宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="36" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(ai3=0,len(ai3)=0),1,(af3-ai3)/ai3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(aj3=0,len(aj3)=0),1,(af3-aj3)/aj3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="手机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="39" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="智能机"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="40" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM3 / AN3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="41" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="手机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="42" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="手机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="43" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(aq3=0,len(aq3)=0),1,(AM3 - AQ3) / AQ3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="单机毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="46" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="单机毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="47" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT3 / AU3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="48" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="单机毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="49" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="单机毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="50" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(ax3=0,len(ax3)=0),1,(AT3 - AX3) / AX3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="this_dur" columnName="单机贡献"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="53" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="单机贡献"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="54" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA3 / BB3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="55" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_dur" columnName="单机贡献"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="56" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="last_this_dur" columnName="单机贡献"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="57" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(be3=0,len(be3)=0),1,(BA3 - BE3) / BE3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="0">
+<O>
+<![CDATA[杨盛翔]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="3" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="3" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D4 + E4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F4 / G4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="3" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J4 + K4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M4 + N4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L4=0,len(L4)=0),1,(F4 - L4) / L4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O4=0,len(O4)=0),1,(F4 - O4) / O4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R4 / S4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U4=0,len(U4)=0),1,(R4 - U4) / U4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V4=0,len(V4)=0),1,(R4 - V4) / V4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y4/Z4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB4=0,len(AB4)=0),1,(Y4-AB4)/AB4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC4=0,len(AC4)=0),1,(Y4-AC4)/AC4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="3" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI4=0,len(AI4)=0),1,(AF4-AI4)/AI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ4=0,len(AJ4)=0),1,(AF4-AJ4)/AJ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM4 / AN4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ4=0,len(AQ4)=0),1,(AM4 - AQ4) / AQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT4 / AU4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX4=0,len(AX4)=0),1,(AT4 - AX4) / AX4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA4 / BB4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE4=0,len(BE4)=0),1,(BA4 - BE4) / BE4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="4" s="0">
+<O>
+<![CDATA[沈平]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="4" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="4" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E4[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D5 + E5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F5 / G5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="4" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J5 + K5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M5 + N5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L5=0,len(L5)=0),1,(F5 - L5) / L5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O5=0,len(O5)=0),1,(F5 - O5) / O5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R5 / S5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U5=0,len(U5)=0),1,(R5 - U5) / U5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V5=0,len(V5)=0),1,(R5 - V5) / V5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y5/Z5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB5=0,len(AB5)=0),1,(Y5-AB5)/AB5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC5=0,len(AC5)=0),1,(Y5-AC5)/AC5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="4" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI5=0,len(AI5)=0),1,(AF5-AI5)/AI5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ5=0,len(AJ5)=0),1,(AF5-AJ5)/AJ5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM5 / AN5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ5=0,len(AQ5)=0),1,(AM5 - AQ5) / AQ5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT5 / AU5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX5=0,len(AX5)=0),1,(AT5 - AX5) / AX5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA5 / BB5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE5=0,len(BE5)=0),1,(BA5 - BE5) / BE5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="5" s="0">
+<O>
+<![CDATA[邓群]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="5" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="5" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E5[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D6 + E6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F6 / G6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="5" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J6 + K6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M6 + N6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L6=0,len(L6)=0),1,(F6 - L6) / L6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O6=0,len(O6)=0),1,(F6 - O6) / O6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R6 / S6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U6=0,len(U6)=0),1,(R6 - U6) / U6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V6=0,len(V6)=0),1,(R6 - V6) / V6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y6/Z6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB6=0,len(AB6)=0),1,(Y6-AB6)/AB6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC6=0,len(AC6)=0),1,(Y6-AC6)/AC6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="5" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI6=0,len(AI6)=0),1,(AF6-AI6)/AI6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ6=0,len(AJ6)=0),1,(AF6-AJ6)/AJ6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM6 / AN6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ6=0,len(AQ6)=0),1,(AM6 - AQ6) / AQ6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT6 / AU6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX6=0,len(AX6)=0),1,(AT6 - AX6) / AX6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA6 / BB6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE6=0,len(BE6)=0),1,(BA6 - BE6) / BE6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="6" s="0">
+<O>
+<![CDATA[李康]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="6" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="6" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E6[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D7 + E7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F7 / G7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="6" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J7 + K7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M7 + N7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L7=0,len(L7)=0),1,(F7 - L7) / L7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O7=0,len(O7)=0),1,(F7 - O7) / O7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R7 / S7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U7=0,len(U7)=0),1,(R7 - U7) / U7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V7=0,len(V7)=0),1,(R7 - V7) / V7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y7/Z7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB7=0,len(AB7)=0),1,(Y7-AB7)/AB7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC7=0,len(AC7)=0),1,(Y7-AC7)/AC7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="6" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI7=0,len(AI7)=0),1,(AF7-AI7)/AI7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ7=0,len(AJ7)=0),1,(AF7-AJ7)/AJ7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM7 / AN7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ7=0,len(AQ7)=0),1,(AM7 - AQ7) / AQ7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT7 / AU7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX7=0,len(AX7)=0),1,(AT7 - AX7) / AX7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA7 / BB7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE7=0,len(BE7)=0),1,(BA7 - BE7) / BE7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="7" s="0">
+<O>
+<![CDATA[罗娇]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="7" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="7" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E7[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D8 + E8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F8 / G8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="7" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J8 + K8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M8 + N8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L8=0,len(L8)=0),1,(F8 - L8) / L8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O8=0,len(O8)=0),1,(F8 - O8) / O8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R8 / S8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U8=0,len(U8)=0),1,(R8 - U8) / U8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V8=0,len(V8)=0),1,(R8 - V8) / V8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y8/Z8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB8=0,len(AB8)=0),1,(Y8-AB8)/AB8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC8=0,len(AC8)=0),1,(Y8-AC8)/AC8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="7" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI8=0,len(AI8)=0),1,(AF8-AI8)/AI8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ8=0,len(AJ8)=0),1,(AF8-AJ8)/AJ8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM8 / AN8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ8=0,len(AQ8)=0),1,(AM8 - AQ8) / AQ8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT8 / AU8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX8=0,len(AX8)=0),1,(AT8 - AX8) / AX8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA8 / BB8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="7" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE8=0,len(BE8)=0),1,(BA8 - BE8) / BE8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="8" s="0">
+<O>
+<![CDATA[林耀亮]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="8" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="8" s="0">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E8[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D9 + E9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F9 / G9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="8" s="7">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J9 + K9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M9 + N9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L9=0,len(L9)=0),1,(F9 - L9) / L9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O9=0,len(O9)=0),1,(F9 - O9) / O9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R9 / S9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U9=0,len(U9)=0),1,(R9 - U9) / U9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V9=0,len(V9)=0),1,(R9 - V9) / V9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y9/Z9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB9=0,len(AB9)=0),1,(Y9-AB9)/AB9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC9=0,len(AC9)=0),1,(Y9-AC9)/AC9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="8" s="9">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI9=0,len(AI9)=0),1,(AF9-AI9)/AI9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ9=0,len(AJ9)=0),1,(AF9-AJ9)/AJ9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM9 / AN9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ9=0,len(AQ9)=0),1,(AM9 - AQ9) / AQ9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT9 / AU9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX9=0,len(AX9)=0),1,(AT9 - AX9) / AX9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA9 / BB9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="8" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE9=0,len(BE9)=0),1,(BA9 - BE9) / BE9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="0" r="9" s="0">
+<O>
+<![CDATA[公司合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="1" r="9" s="0">
+<O>
+<![CDATA[公司合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="9" s="0">
+<O>
+<![CDATA[公司合计]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="9" s="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D10 + E10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F10 / G10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="9" s="10">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J10 + K10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M10 + N10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(L10=0,len(L10)=0),1,(F10 - L10) / L10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(O10=0,len(O10)=0),1,(F10 - O10) / O10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R10 / S10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(U10=0,len(U10)=0),1,(R10 - U10) / U10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(V10=0,len(V10)=0),1,(R10 - V10) / V10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(z3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y10/Z10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ab3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ac3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AB10=0,len(AB10)=0),1,(Y10-AB10)/AB10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AC10=0,len(AC10)=0),1,(Y10-AC10)/AC10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(af3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="32" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(ag3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="33" r="9" s="12">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(y3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AI10=0,len(AI10)=0),1,(AF10-AI10)/AI10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AJ10=0,len(AJ10)=0),1,(AF10-AJ10)/AJ10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AM3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="39" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="40" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AM10 / AN10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AP10=0,len(AP10)=0),1,(AM10 - AP10) / AP10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AQ10=0,len(AQ10)=0),1,(AM10 - AQ10) / AQ10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AT3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="46" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AU3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AT10 / AU10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AW3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="49" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(AX3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="50" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="51" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AX10=0,len(AX10)=0),1,(AT10 - AX10) / AX10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="52" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BA3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="53" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BB3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA10 / BB10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BD3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="56" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BE3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="57" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=
+if(or(BD10=0,len(BD10)=0),1,(BA10 - BD10) / BD10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="58" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BE10=0,len(BE10)=0),1,(BA10 - BE10) / BE10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="155520000" height="72000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="lastthis_start"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=todate(date(year($start)-1,month($start),day($start)))]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="458" y="4" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labellastthis_start"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[同期开始]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="378" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="lastthis_end"/>
+<LabelName name="lastthis_end:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=todate(date(year($end)-1,month($end),day($end)))]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="458" y="25" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labellastthis_end"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[同期结束]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="378" y="25" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="last_end"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=todate(date(year($end),month($end)-1,day($end)))]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="270" y="25" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labellast_end"/>
+<LabelName name="统计结束"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[上期结束]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="190" y="25" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="last_start"/>
+<LabelName name="last_start:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=todate(date(year($start),month($start)-1,day($start)))]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="270" y="4" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labellast_start"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[上期开始]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="190" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.FreeButton">
+<Listener event="click">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var url='${servletURL}?reportlet=%5B8fd0%5D%5B8425%5D%5B5546%5D%5B62a5%5D%5B8868%5D%2F2022%5B6625%5D%5B4fc3%5D%5B62a5%5D%5B8868%5D_%5B5c0f%5D%5B7c73%5D%5B5f55%5D%5B5165%5D.cpt&op=write';
+var $iframe = $("<iframe width='100%'height='100%'scrolling='yes'frameborder='0'></frame>");
+$iframe.attr('src',url)
+var o = {title:"请录入小米数据",width:800,height:600};
+window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="button0"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[小米数据录入]]></Text>
+</InnerWidget>
+<BoundsAttr x="652" y="4" width="80" height="41"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<LabelName name="end:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="563" y="4" width="80" height="42"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="end"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="25" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelend"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[本期结束]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="25" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="start"/>
+<LabelName name="start:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="4" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelstart"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[本期开始]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="4" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="start"/>
+<Widget widgetName="last_start"/>
+<Widget widgetName="lastthis_start"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="button0"/>
+<Widget widgetName="end"/>
+<Widget widgetName="last_end"/>
+<Widget widgetName="lastthis_end"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="last_start" modified="true"/>
+<TagModified tag="Search" modified="true"/>
+<TagModified tag="start" modified="true"/>
+<TagModified tag="lastthis_end" modified="true"/>
+<TagModified tag="end" modified="true"/>
+<TagModified tag="last_end" modified="true"/>
+<TagModified tag="lastthis_start" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="last_start" tag="last_start:"/>
+<NameTag name="Search" tag="end:"/>
+<NameTag name="start" tag="start:"/>
+<NameTag name="lastthis_end" tag="lastthis_end:"/>
+<NameTag name="end" tag="end:"/>
+<NameTag name="last_end" tag="last_end:"/>
+<NameTag name="lastthis_start" tag="lastthis_start:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="46"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="06a1f460-e6d2-4e2a-aecf-08ec28fe5ca5"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="c9cf1018-dd96-4207-bdde-af86c2b37c0e"/>
+</TemplateIdAttMark>
+</WorkBook>

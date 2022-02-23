@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="name"/>
+<O>
+<![CDATA[程霞]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2022-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT a.name_in_company,
+CASE WHEN a.position_trans ='店长' THEN '店长岗位工资' WHEN a.position_trans = '副店长' THEN '副店长岗位工资' ELSE 0 END 绩效类型,
+
+CASE WHEN a.position_trans ='店长' THEN c.kpi WHEN a.position_trans = '副店长' THEN d.kpi ELSE 0 END kpi,
+CASE WHEN a.position_trans ='店长' THEN b.店岗 WHEN a.position_trans = '副店长' THEN b.副店岗 ELSE 0 END 绩效基数,
+CASE WHEN a.position_trans ='店长' THEN b.店岗 WHEN a.position_trans = '副店长' THEN b.副店岗 ELSE 0 END*
+IFNULL(CASE WHEN a.position_trans ='店长' THEN c.kpi WHEN a.position_trans = '副店长' THEN d.kpi ELSE 0 END,100)/100 AS 实际绩效
+
+FROM
+(
+	SELECT name_in_company,position_trans,department_trans
+	FROM selectroster_tmp
+	WHERE `month` = '${月份}'
+	AND position_trans IN ('店长','副店长')
+) a
+
+LEFT JOIN
+
+(	
+	
+	SELECT 单位,显示分类,
+	CASE WHEN 显示分类 = 'A' THEN 1500 WHEN 显示分类 = 'B' THEN 1200 WHEN 显示分类='C' THEN 800 END 店岗,
+	CASE WHEN 单位 IN ('益州国际小米专卖店','东方华大小米专卖店') THEN 0 ELSE 500 END 副店岗
+	FROM 新单位信息
+	WHERE 营业状态 = '营业'
+	AND  单位类型= '厅店'
+) b ON a.department_trans =b.单位
+
+LEFT JOIN
+
+(
+##店长kpi	
+	SELECT *
+	FROM kpi_unit
+	WHERE ym = '${月份}'
+) c ON a.department_trans = c.unit
+
+LEFT JOIN
+
+(
+##副店kpi
+	SELECT *
+	FROM kpi_crew
+	WHERE ym = '${月份}'
+	AND class = '综合'
+) d ON a.name_in_company=d.nickname
+WHERE a.name_in_company = '${name}'
+
+UNION ALL
+
+SELECT s.name_in_company,
+"副总绩效" AS 绩效类型,
+(IFNULL(kpihq.kpi,100) + kv.kpi*100)/2 AS kpi,
+b.performance_wage AS 绩效基数,
+
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`performance_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.performance_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.performance_wage
+	ELSE b.performance_wage 
+	END*(IFNULL(kpihq.kpi,100)/100 + kv.kpi)/2
+	
+FROM selectroster_tmp s
+LEFT JOIN basicSalary b ON s.status = b.`status`  AND s.`position` = b.`position` AND s.`grade` = b.`grade`
+LEFT JOIN kpi_vp kv ON s.`month` = kv.月份 AND s.name_in_company = kv.姓名
+LEFT JOIN (SELECT * FROM kpi_crew WHERE class = '副总管理') kpihq ON s.`month` = kpihq.ym AND kpihq.nickname = s.name_in_company
+WHERE s.`month` = '${月份}'
+AND s.`name_in_company` = '${name}'
+AND s.position_trans = '营销副总'
+
+UNION ALL
+
+SELECT s.name_in_company,
+"后勤" AS 绩效类型,
+kpihq.kpi AS kpi,
+b.performance_wage AS 绩效基数,
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`performance_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.performance_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.performance_wage
+	ELSE b.performance_wage 
+	END*IFNULL(kpihq.kpi,100)/100 AS performance_wage
+
+FROM selectroster_tmp s
+LEFT JOIN basicSalary b ON s.status = b.`status`  AND s.`position` = b.`position` AND s.`grade` = b.`grade`
+LEFT JOIN (SELECT * FROM kpi_crew) kpihq ON s.`month` = kpihq.ym AND kpihq.nickname = s.name_in_company
+WHERE s.`month` = '${月份}'
+AND s.`name_in_company` = '${name}'
+AND s.`position_trans` NOT IN ('副店长','店长',"装维班长","营销副总")
+
+UNION ALL
+
+SELECT s.name_in_company,
+"班长绩效" AS 绩效类型,
+IFNULL(kpihq.kpi,100) AS kpi,
+b.performance_wage AS 绩效基数,
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`performance_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.performance_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.performance_wage
+	ELSE b.performance_wage 
+	END*IF(IFNULL(kpihq.kpi,100)/100>0.95,1,IFNULL(kpihq.kpi,100)/100)
+	
+	AS performance_wage
+
+FROM selectroster_tmp s
+LEFT JOIN basicSalary b ON s.status = b.`status`  AND s.`position` = b.`position` AND s.`grade` = b.`grade`
+LEFT JOIN (SELECT * FROM kpi_crew WHERE class = '后勤') kpihq ON s.`month` = kpihq.ym AND kpihq.nickname = s.name_in_company
+WHERE s.`month` = '${月份}'
+AND s.`name_in_company` = '${name}'
+AND s.`position_trans`  = "装维班长"]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3456000,3456000,3456000,3456000,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O>
+<![CDATA[KPI]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O>
+<![CDATA[绩效基数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<O>
+<![CDATA[实际绩效]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="name_in_company"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="KPI"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="绩效基数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="实际绩效"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="25920000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="5096992e-e830-42e2-b2dc-96ee2cf2fcd2"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="50b5fc0d-e5e2-4fd7-bcaf-b9041c45fc0d"/>
+</TemplateIdAttMark>
+</WorkBook>

@@ -1,0 +1,2899 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="沉睡金额小于"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="沉睡金额大于"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="统计结束"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="统计开始"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="商品属性"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="商品类型"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="过滤系统商品"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="单据类型"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT *
+FROM
+(
+	SELECT tb.*,
+	tb2.库存数量,
+	IF(tb2.库存数量 > 0,1,0) AS 库存sku算量,
+	tb2.库存金额,
+	tb3.销售数量,
+	tb3.销售sku算量,
+	tb3.销售金额,
+	tb3.销售成本,
+	tb3.销售利润,
+	tb3.毛利率,
+	IF(库存数量>0 AND (销售数量=0 OR 销售数量 IS NULL),1,0) AS 睡眠sku算量,
+	IF(IF(库存数量>0 AND (销售数量=0 OR 销售数量 IS NULL),1,0)=1,tb2.库存金额,0) AS 睡眠sku金额,
+	IF(tb3.销售数量>0 AND (tb2.库存数量 IS NULL OR tb2.库存数量 =0),1,0) AS 断货,
+	IF(tb4.定位="A+",1,0) AS 定位,
+
+	IF(DATEDIFF(CURDATE(),DATE_FORMAT(tb.创建时间,'%Y-%m-%d'))<=60,"1","") AS 是否新品,
+	tb6.月日均销量,
+	tb2.库存数量/tb6.月日均销量 AS DOS,
+	tb3.销售成本/tb2.库存金额 AS 资金成本周转天数,
+	tb3.销售成本/tb2.库存金额*tb3.毛利率 AS 商品贡献率
+
+
+	FROM
+	(
+		SELECT *
+		FROM by_sorts
+		WHERE 是否启用 = '是'
+	) tb
+
+	LEFT JOIN
+
+	(
+		SELECT *,数量 AS 库存数量,成本金额 AS 库存金额
+		FROM 库存成本日报
+		WHERE 日期 = (select max(日期) from 库存成本日报)
+	) tb2 ON tb.商品全称 = tb2.商品全称
+
+	LEFT JOIN
+
+	(
+	####销售情况
+		SELECT 商品全称,商品类型,
+		SUM(数量) AS 销售数量,
+		IF(SUM(数量)IS NULL OR SUM(数量) = 0,0,1) AS 销售sku算量,
+		SUM(金额) AS 销售金额,
+		SUM(利润) AS 销售利润,
+		SUM(数量*成本单价) AS 销售成本,
+		SUM(利润)/SUM(金额) AS 毛利率
+		FROM 利润明细
+		WHERE 日期 BETWEEN '${统计开始}' AND '${统计结束}'
+		AND 1=1 ${IF(单据类型 = '零售',"and 单据类型 in ('零售','零售退货','零售换机')","")}
+		AND 1=1 ${IF(单据类型 = '批发',"and 单据类型 in ('批发出库','批发换机','批发退货')","")}
+		GROUP BY 商品全称,商品类型
+	) tb3 ON tb.商品全称 = tb3.商品全称 AND tb.商品类型 = tb3.商品类型
+
+	LEFT JOIN
+
+	(
+		SELECT 商品全称,定位
+		FROM 重点产品
+		WHERE 月份 = DATE_FORMAT('${统计结束}','%Y-%m')
+	) tb4 ON tb.商品全称 =  tb4.商品全称
+
+
+	LEFT JOIN
+
+	(
+	##28天日均销量
+		SELECT 商品全称,商品类型,
+		SUM(数量)/28 AS 月日均销量
+		FROM 利润明细
+		WHERE 日期 BETWEEN DATE_ADD('${统计结束}',INTERVAL -27 DAY) AND '${统计结束}'
+		AND 1=1 ${IF(单据类型 = '零售',"and 单据类型 in ('零售','零售退货','零售换机')","")}
+		AND 1=1 ${IF(单据类型 = '批发',"and 单据类型 in ('批发出库','批发换机','批发退货')","")}
+		GROUP BY 商品全称,商品类型
+	) tb6 ON tb.商品全称 =  tb6.商品全称 AND tb.商品类型 = tb6.商品类型
+
+	WHERE  1=1 ${IF(len(过滤系统商品)==0,'',"and tb.二级分类名称 != '系统商品'")}
+	AND  1=1 ${IF(len(商品类型)==0,"","and tb.二级分类名称 in ('"+ substitute(商品类型,",","','") +"')")}
+	AND 1=1 ${IF(len(商品属性)==0,"","and tb.商品属性 = '"+ 商品属性 +"'")}
+) tbb
+WHERE 1=1 ${IF(len(沉睡金额大于)==0,""," and tbb.睡眠sku金额 > '"+ 沉睡金额大于 +"'")}
+AND 1=1 ${IF(len(沉睡金额小于)==0,""," and tbb.睡眠sku金额 < '"+ 沉睡金额小于 +"'")}
+
+
+UNION
+
+
+SELECT *
+FROM
+(
+	SELECT tb.*,
+	tb2.库存数量,
+	IF(tb2.库存数量 > 0,1,0) AS 库存sku算量,
+	tb2.库存金额,
+	tb3.销售数量,
+	tb3.销售sku算量,
+	tb3.销售金额,
+	tb3.销售成本,
+	tb3.销售利润,
+	tb3.毛利率,
+	IF(库存数量>0 AND (销售数量=0 OR 销售数量 IS NULL),1,0) AS 睡眠sku算量,
+	IF(IF(库存数量>0 AND (销售数量=0 OR 销售数量 IS NULL),1,0)=1,tb2.库存金额,0) AS 睡眠sku金额,
+	IF(tb3.销售数量>0 AND (tb2.库存数量 IS NULL OR tb2.库存数量 =0),1,0) AS 断货,
+	IF(tb4.定位="A+",1,0) AS 定位,
+	IF(DATEDIFF(CURDATE(),DATE_FORMAT(tb.创建时间,'%Y-%m-%d'))<=60,"1","") AS 是否新品,
+	tb6.月日均销量,
+	tb2.库存数量/tb6.月日均销量 AS DOS,
+	tb3.销售成本/tb2.库存金额 AS 资金成本周转天数,
+	tb3.销售成本/tb2.库存金额*tb3.毛利率 AS 商品贡献率
+
+
+	FROM
+	(
+		SELECT *
+		FROM by_sorts
+		WHERE 是否启用 = '否'
+	) tb
+
+	LEFT JOIN
+
+	(
+		SELECT *,数量 AS 库存数量,成本金额 AS 库存金额
+		FROM 库存成本日报
+		WHERE 日期 = (select max(日期) from 库存成本日报)
+	) tb2 ON tb.商品全称 = tb2.商品全称
+
+	LEFT JOIN
+
+	(
+	####销售情况
+		SELECT 商品全称,商品类型,
+		SUM(数量) AS 销售数量,
+		IF(SUM(数量)IS NULL OR SUM(数量) = 0,0,1) AS 销售sku算量,
+		SUM(金额) AS 销售金额,
+		SUM(利润) AS 销售利润,
+		SUM(数量*成本单价) AS 销售成本,
+		SUM(利润)/SUM(金额) AS 毛利率
+		FROM 利润明细
+		WHERE 日期 BETWEEN '${统计开始}' AND '${统计结束}'
+		AND 1=1 ${IF(单据类型 = '零售',"and 单据类型 in ('零售','零售退货','零售换机')","")}
+		AND 1=1 ${IF(单据类型 = '批发',"and 单据类型 in ('批发出库','批发换机','批发退货')","")}
+		GROUP BY 商品全称,商品类型
+	) tb3 ON tb.商品全称 = tb3.商品全称 AND tb.商品类型 = tb3.商品类型
+
+	LEFT JOIN
+
+	(
+		SELECT 商品全称,定位
+		FROM 重点产品
+		WHERE 月份 = DATE_FORMAT('${统计结束}','%Y-%m')
+	) tb4 ON tb.商品全称 =  tb4.商品全称
+
+
+	LEFT JOIN
+
+	(
+	##28天日均销量
+		SELECT 商品全称,商品类型,
+		SUM(数量)/28 AS 月日均销量
+		FROM 利润明细
+		WHERE 日期 BETWEEN DATE_ADD('${统计结束}',INTERVAL -27 DAY) AND '${统计结束}'
+		AND 1=1 ${IF(单据类型 = '零售',"and 单据类型 in ('零售','零售退货','零售换机')","")}
+		AND 1=1 ${IF(单据类型 = '批发',"and 单据类型 in ('批发出库','批发换机','批发退货')","")}
+		GROUP BY 商品全称,商品类型
+	) tb6 ON tb.商品全称 =  tb6.商品全称 AND tb.商品类型 = tb6.商品类型
+
+	WHERE  1=1 ${IF(len(过滤系统商品)==0,'',"and tb.二级分类名称 != '系统商品'")}
+	AND  1=1 ${IF(len(商品类型)==0,"","and tb.二级分类名称 in ('"+ substitute(商品类型,",","','") +"')")}
+	AND 1=1 ${IF(len(商品属性)==0,"","and tb.商品属性 = '"+ 商品属性 +"'")}
+) tbb
+
+WHERE 1=1 ${IF(len(沉睡金额大于)==0,""," and tbb.睡眠sku金额 > '"+ 沉睡金额大于 +"'")}
+AND 1=1 ${IF(len(沉睡金额小于)==0,""," and tbb.睡眠sku金额 < '"+ 沉睡金额小于 +"'")}]]></Query>
+</TableData>
+<TableData name="利润明细" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 日期
+from 利润明细
+order by 日期 desc
+limit 1]]></Query>
+</TableData>
+<TableData name="库存成本日报" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 日期
+from 库存成本日报
+order by 日期 desc
+limit 1]]></Query>
+</TableData>
+<TableData name="重点产品" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 月份
+from 重点产品
+order by 月份 desc
+limit 1]]></Query>
+</TableData>
+<TableData name="过滤系统商品" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[布尔]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[HT#@s!!~
+]]></RowData>
+</TableData>
+<TableData name="未归类商品" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="统计结束"/>
+<O>
+<![CDATA[2021-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="统计开始"/>
+<O>
+<![CDATA[2021-01-10]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+CASE
+	WHEN t.商品类型 = '实物商品' THEN '实物商品'
+	WHEN t.商品类型 = '虚拟商品' THEN '虚拟商品'
+	WHEN t.商品类型 = '保障服务' THEN '保障服务'
+	WHEN t.商品类型 = '分期' THEN '分期'
+	WHEN t.商品类型 = '套餐' THEN '套餐'
+	ELSE "无需更新"
+	END AS 需更新
+
+FROM 利润明细 t
+LEFT JOIN by_sorts t1 ON t.商品全称= t1.`商品全称`
+WHERE 日期 BETWEEN '${统计开始}' AND '${统计结束}'
+AND t1.`一级分类代码` IS NULL]]></Query>
+</TableData>
+<TableData name="单据类型" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[单据类型]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[HT?H-djaUmSosIKg-6/L~
+]]></RowData>
+</TableData>
+<TableData name="商品类型筛选" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 一级分类名称,二级分类名称
+FROM by_sorts
+GROUP BY 一级分类名称,二级分类名称]]></Query>
+</TableData>
+<TableData name="商品属性" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select distinct 商品属性
+from by_sorts]]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebViewContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[contentPane.makeHighlight('LightSteelBlue','mouseover',true); ]]></Content>
+</JavaScript>
+</Listener>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.PageSetup">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('PageSetup-Page_Setup')}]]></Text>
+<IconName>
+<![CDATA[pagesetup]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.PrintPreview">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('PrintP-Print_Preview')}]]></Text>
+<IconName>
+<![CDATA[preview]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.FlashPrint">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('FR-Engine_Utils_Flash_Print[Client]A')}]]></Text>
+<IconName>
+<![CDATA[flashprint]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.Print">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Print')}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+<PrintButtons/>
+</Widget>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+<Widget class="com.fr.report.web.button.Email">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Email')}]]></Text>
+<IconName>
+<![CDATA[email]]></IconName>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<SortFuncCheck check="true"/>
+<ConditionFuncCheck check="true"/>
+<ListFuncCheck check="true"/>
+</WebViewContent>
+</ReportWebAttr>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="1"/>
+<FR/>
+<HC/>
+<FC/>
+<UPFCR COLUMN="false" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1409700,1152000,1152000,1152000,1152000,1152000,0,0,1152000,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2781300,3162300,2705100,2400300,4686300,2247900,2400300,2400300,1905000,2209800,2705100,2400300,2552700,2438400,2324100,2400300,3009900,2095500,2286000,1371600,1866900,1524000,1638300,1371600,1866900,1790700,2057400,1981200,1866900,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="4" rs="2" s="0">
+<O>
+<![CDATA[商品分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" rs="2" s="0">
+<O>
+<![CDATA[商品全称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="0" cs="3" s="0">
+<O>
+<![CDATA[库存]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="0" cs="9" s="0">
+<O>
+<![CDATA[销售]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="0" cs="2" s="0">
+<O>
+<![CDATA[睡眠商品]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="0" rs="2" s="0">
+<O>
+<![CDATA[断货商品]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="0" cs="9" s="0">
+<O>
+<![CDATA[商品分析]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" s="0">
+<O>
+<![CDATA[库存数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" s="0">
+<O>
+<![CDATA[库存sku量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" s="0">
+<O>
+<![CDATA[库存金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" s="0">
+<O>
+<![CDATA[销售量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" s="0">
+<O>
+<![CDATA[发生销售的sku量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="0">
+<O>
+<![CDATA[销售金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="0">
+<O>
+<![CDATA[销售毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="1" s="0">
+<O>
+<![CDATA[销售毛利率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" s="0">
+<O>
+<![CDATA[毛利占比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="0">
+<O>
+<![CDATA[sku动销率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="0">
+<O>
+<![CDATA[月日均销量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="1" s="0">
+<O>
+<![CDATA[销售成本]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="1" s="0">
+<O>
+<![CDATA[睡眠sku量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="1" s="0">
+<O>
+<![CDATA[睡眠库存金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="1" s="0">
+<O>
+<![CDATA[主推A+]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="1" s="0">
+<O>
+<![CDATA[新品]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="1" s="0">
+<O>
+<![CDATA[DOS]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="1" s="0">
+<O>
+<![CDATA[即将售罄]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="1" s="0">
+<O>
+<![CDATA[资金成本周转率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="1" s="0">
+<O>
+<![CDATA[商品贡献率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="1" s="0">
+<O>
+<![CDATA[调整商品贡献率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="1" s="0">
+<O>
+<![CDATA[资金销售周转率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="1" s="0">
+<O>
+<![CDATA[资金成本周转天数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="1">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="一级分类名称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.report.web.button.form.TreeNodeToggleButton">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+</Widget>
+<Expand dir="0" leftParentDefault="false"/>
+</C>
+<C c="1" r="2" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L3 / K3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L3 / eval("l" + "8")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J3 / G3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Q4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="2" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="2" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="2" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F3 / P3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="2" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(W3 < 14, "是", "")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Q3 / H3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y3 * M3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="2" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Z3 * N3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K3 / H3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(datedif($统计开始, $统计结束, "D") + 1) * Y3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="11">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="二级分类名称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.report.web.button.form.TreeNodeToggleButton">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+</Widget>
+<Expand dir="0" leftParentDefault="false" left="A3"/>
+</C>
+<C c="2" r="3" s="13">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="3" s="13">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="3" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L4 / K4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="3" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L4 / eval("l" + "8")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="3" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J4 / G4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="3" s="16">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Q5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="3" s="17">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="3" s="17">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="3" s="17">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F4 / P4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="3" s="17">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(W4 < 14, "是", "")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="3" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Q4 / H4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="3" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y4 * M4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="3" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Z4 * N4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="3" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K4 / H4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="3" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(datedif($统计开始, $统计结束, "D") + 1) * Y4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" s="19">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="4" s="19">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="20">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="三级分类名称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.report.web.button.form.TreeNodeToggleButton">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+</Widget>
+<Expand dir="0" leftParentDefault="false" left="B4"/>
+</C>
+<C c="3" r="4" s="21">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="4" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L5 / K5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L5 / eval("l" + "8")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="4" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J5 / G5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="4" s="24">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Q6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="4" s="25">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="4" s="25">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="4" s="25">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="4" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F5 / P5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="4" s="25">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(W5 < 14, "是", "")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="4" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Q5 / H5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="4" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y5 * M5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="4" s="26">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Z5 * N5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="4" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K5 / H5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="4" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(datedif($统计开始, $统计结束, "D") + 1) * Y5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="5" s="27">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="5" s="27">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="5" s="27">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="5" s="28">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="四级分类名称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.report.web.button.form.TreeNodeToggleButton">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+</Widget>
+<Expand dir="0" leftParentDefault="false" left="C5"/>
+</C>
+<C c="4" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=count(E7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="5" s="30">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L6 / K6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="5" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L6 / eval("l" + "8")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J6 / G6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="5" s="31">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Q7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="5" s="32">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="5" s="32">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="5" s="32">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="5" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F6 / P6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="5" s="32">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(W6 < 14, "是", "")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="5" s="30">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Q6 / H6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Y6 * M6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="5" s="33">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Z6 * N6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="5" s="30">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K6 / H6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="5" s="29">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(datedif($统计开始, $统计结束, "D") + 1) * Y6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="6" s="34">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="6" s="34">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="6" s="34">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="6" s="34">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="6" s="35">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="商品全称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0" leftParentDefault="false" left="D6"/>
+</C>
+<C c="5" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="库存数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="库存sku算量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="库存金额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售sku算量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售金额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售利润"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="6" s="37">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="毛利率"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="6" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L7 / eval("l" + "8")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="6" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J7 / G7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="6" s="38">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月日均销量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售成本"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="17" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="睡眠sku算量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="6" s="36">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="睡眠sku金额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="6" s="39">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="断货"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[1]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[断货]]></O>
+</HighlightAction>
+</Highlight>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性2]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="20" r="6" s="39">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="定位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[1]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[A+]]></O>
+</HighlightAction>
+</Highlight>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性2]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="21" r="6" s="39">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="是否新品"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[1]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[新品]]></O>
+</HighlightAction>
+</Highlight>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性2]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="22" r="6" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="DOS"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="23" r="6" s="39">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(W7 < 14, "是", "")]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="6" s="37">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="资金成本周转天数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="25" r="6" s="6">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="商品贡献率"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="26" r="6" s="40">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=Z7 * N7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="6" s="37">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K7 / H7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="6" s="36">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(datedif($统计开始, $统计结束, "D") + 1) * Y7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="7" s="41">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="7" s="41">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="8">
+<O t="DSColumn">
+<Attributes dsName="未归类商品" columnName="商品全称"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="0" r="9" s="42">
+<O>
+<![CDATA[需更新：]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="9" s="42">
+<O t="DSColumn">
+<Attributes dsName="未归类商品" columnName="需更新"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="100800000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="商品属性"/>
+<LabelName name="商品属性:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="商品属性" viName="商品属性"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[商品属性]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="466" y="39" width="104" height="26"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label商品属性"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[商品属性:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="379" y="39" width="87" height="26"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="沉睡金额小于"/>
+<LabelName name="沉睡金额小于:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="2">
+<watermark>
+<![CDATA[请输入数字]]></watermark>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="657" y="39" width="74" height="26"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label沉睡金额小于"/>
+<LabelName name="商品属性:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[沉睡金额小于:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="570" y="39" width="87" height="26"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="沉睡金额大于"/>
+<LabelName name="沉睡金额大于:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="2">
+<watermark>
+<![CDATA[请输入数字]]></watermark>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="657" y="4" width="74" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label沉睡金额大于"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[沉睡金额大于:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="570" y="1" width="87" height="30"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TreeComboBoxEditor">
+<WidgetName name="商品类型"/>
+<LabelName name="商品类型:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TreeAttr mutiSelect="true" selectLeafOnly="true"/>
+<isLayerBuild isLayerBuild="true"/>
+<LayerConfig layerIndex="1" modelColumn="0" viewColumn="0">
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[商品类型筛选]]></Name>
+</TableData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="一级分类名称" viName="一级分类名称"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[商品类型筛选]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+</LayerConfig>
+<LayerConfig layerIndex="2" modelColumn="1" viewColumn="1">
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[商品类型筛选]]></Name>
+</TableData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="二级分类名称" viName="二级分类名称"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[商品类型筛选]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<LayerDependence layerIndex="1" thisColumnIndex="0"/>
+</LayerConfig>
+<isAutoBuild autoBuild="false"/>
+<isPerformanceFirst performanceFirst="false"/>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="466" y="4" width="104" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label商品类型"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[商品类型:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="379" y="4" width="87" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="单据类型"/>
+<LabelName name="单据类型:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="单据类型" viName="单据类型"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[单据类型]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="286" y="38" width="93" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label单据类型"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[单据类型:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="180" y="38" width="106" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="过滤系统商品"/>
+<LabelName name="过滤系统商品:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="布尔" viName="布尔"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[过滤系统商品]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="286" y="4" width="93" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label过滤系统商品"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[过滤系统商品:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="180" y="4" width="106" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="统计开始"/>
+<LabelName name="销量统计开始:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=datedelta(today(),-day(today)+1)]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="4" width="100" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label统计开始"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[销量统计开始:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="4" width="80" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<LabelName name="沉睡金额大于:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="741" y="4" width="80" height="61"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="统计结束"/>
+<LabelName name="销量统计结束:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=datedelta(today(),-1)]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="38" width="100" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label统计结束"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[销量统计结束:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="38" width="80" height="27"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="统计开始"/>
+<Widget widgetName="过滤系统商品"/>
+<Widget widgetName="商品类型"/>
+<Widget widgetName="沉睡金额大于"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="统计结束"/>
+<Widget widgetName="单据类型"/>
+<Widget widgetName="商品属性"/>
+<Widget widgetName="沉睡金额小于"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="1232"/>
+<NameTagModified>
+<TagModified tag="沉睡金额小于" modified="true"/>
+<TagModified tag="统计结束" modified="true"/>
+<TagModified tag="统计开始" modified="true"/>
+<TagModified tag="商品属性" modified="true"/>
+<TagModified tag="商品类型" modified="true"/>
+<TagModified tag="过滤系统商品" modified="true"/>
+<TagModified tag="单据类型" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="沉睡金额小于" tag="沉睡金额小于:"/>
+<NameTag name="沉睡金额大于" tag="沉睡金额大于:"/>
+<NameTag name="统计结束" tag="销量统计结束:"/>
+<NameTag name="Search" tag="沉睡金额大于:"/>
+<NameTag name="统计开始" tag="销量统计开始:"/>
+<NameTag name="商品属性" tag="商品属性:"/>
+<NameTag name="商品类型" tag="商品类型:"/>
+<NameTag name="过滤系统商品" tag="过滤系统商品:"/>
+<NameTag name="单据类型" tag="单据类型:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="1232" height="67"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2763275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2763275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0#]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2763275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4013374"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0#]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0#]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2829100"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0#]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2039584"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0#]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1184275"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="2"/>
+<TemplateID TemplateID="162bc024-3d12-448c-8074-2b450fc80ad4"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="7fd156b6-e98a-49cb-8e38-3d017dedd7b3"/>
+</TemplateIdAttMark>
+</WorkBook>

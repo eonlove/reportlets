@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[coco]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[	SELECT DATE_FORMAT(出库日期,'%Y-%m') AS 月份,出库门店,出库单号
+	FROM
+	(
+		SELECT tb1.品名,tb1.条码,tb1.单据编号 AS 出库单号,tb1.出库门店,tb1.数量 AS 出库数量,tb1.金额 AS 出库金额,tb1.条码组合,tb1.出库日期,
+		tb2.单据编号 AS 入库单号,tb2.入库门店,tb2.数量 AS 入库数量,tb2.金额 AS 入库金额,tb2.入库日期
+		FROM
+		(
+			SELECT t.*,t1.条码组合,CONCAT("20",LEFT(LEFT(RIGHT(t.单据编号,11),6),2),"-",RIGHT(LEFT(LEFT(RIGHT(t.单据编号,11),6),4),2),"-",RIGHT(LEFT(RIGHT(t.单据编号,11),6),2)) AS 出库日期
+			FROM zl_psmx t
+			LEFT JOIN (
+				SELECT 单据编号,GROUP_CONCAT(条码 ORDER BY 条码 SEPARATOR '') AS 条码组合
+				FROM zl_psmx
+				GROUP BY 单据编号
+			) t1 ON t.单据编号 = t1.单据编号
+			WHERE t.单据类型 = '配送出库'
+		) tb1
+
+		LEFT JOIN
+
+		(
+			SELECT t.*,t1.条码组合,CONCAT("20",LEFT(LEFT(RIGHT(t.单据编号,11),6),2),"-",RIGHT(LEFT(LEFT(RIGHT(t.单据编号,11),6),4),2),"-",RIGHT(LEFT(RIGHT(t.单据编号,11),6),2)) AS 入库日期
+			FROM zl_psmx t
+			LEFT JOIN (
+				SELECT 单据编号,GROUP_CONCAT(条码 ORDER BY 条码 SEPARATOR '') AS 条码组合
+				FROM zl_psmx
+				GROUP BY 单据编号
+			) t1 ON t.单据编号 = t1.单据编号
+			WHERE 单据类型 = '配送入库'
+		) tb2 
+		ON tb1.出库门店 = tb2.出库门店 
+		AND tb1.入库门店 = tb2.入库门店 
+		AND tb1.条码组合 = tb2.条码组合 
+		AND DATEDIFF(入库日期,出库日期)<=5 
+		AND DATEDIFF(入库日期,出库日期)>=0 
+		AND tb1.条码 = tb2.条码
+		AND ABS(tb1.金额) = ABS(tb2.金额)
+		AND ABS(tb1.数量) = ABS(tb2.数量)
+		WHERE tb2.入库门店 IS NULL
+	) a
+	where DATE_FORMAT(出库日期,'%Y-%m') = '${month}'
+	and 出库门店 = '${ckmd}'
+	GROUP BY DATE_FORMAT(出库日期,'%Y-%m'),出库门店,出库单号]]></Query>
+</TableData>
+</TableDataMap>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3276600,3733800,6743700,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[月份]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O>
+<![CDATA[出库门店]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O>
+<![CDATA[出库单号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="月份"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="出库门店"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="出库单号"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting/>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="2a931f51-1109-47c1-af8b-eba02ce14c3c"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="1722a31a-284e-4f48-aa61-72462ceb583c"/>
+</TemplateIdAttMark>
+</WorkBook>

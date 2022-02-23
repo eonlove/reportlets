@@ -1,0 +1,1147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="累计应收" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[--累计现金应收
+SELECT tbbb.*,
+SUM(xjys) over(PARTITION BY department ORDER BY rq) AS ljys
+FROM
+(
+  SELECT rq,department,
+  SUM(case when zffs = '现金' then zfje else 0 end) AS xjys
+  FROM
+  (
+    SELECT tb1.rq,tb1.department,tb2.zffs,tb2.zfje
+    FROM
+    (
+      SELECT *
+      FROM sys_date t
+      ,
+      (
+        SELECT department
+        FROM department_info
+      ) t1
+    ) tb1
+    LEFT JOIN ZL_ZFLS tb2 ON to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.zfsj, 'yyyy-mm-dd') AND tb1.department = tb2.md
+  ) tbb
+  GROUP BY rq,department
+) tbbb
+ORDER BY department,rq]]></Query>
+</TableData>
+<TableData name="累计微信换现金" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[--累计微换现
+SELECT tbbb.*,SUM(whx) over(PARTITION BY department ORDER BY rq) AS ljwhx
+FROM
+(
+  SELECT rq,department,SUM(tbb.ysje) AS whx
+  FROM
+  (
+    SELECT tb1.*,tb2.ysje
+    FROM
+    (
+      SELECT *
+      FROM sys_date t
+      ,
+      (
+        SELECT department
+        FROM department_info
+      ) t1
+    ) tb1
+    LEFT JOIN spls_wechat_to_cash tb2 ON to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jysj,'yyyy-mm-dd') AND tb1.department = tb2.md
+  ) tbb
+  GROUP BY rq,department
+) tbbb
+ORDER BY department,rq]]></Query>
+</TableData>
+<TableData name="累计银行实收" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT tbbb.*,
+SUM(xjje) over(PARTITION BY department ORDER BY rq) AS ljxjje
+FROM
+(
+  SELECT department,rq,SUM(xjje) AS xjje
+  FROM
+  (
+    SELECT department,rq,SUM(srzcje) AS xjje
+    FROM
+    (
+      SELECT *
+      FROM sys_date t
+      ,
+      (
+        SELECT department
+        FROM department_info
+      ) t1
+    ) tb1
+    LEFT JOIN (SELECT t.JYRQ, t.ZH, t.CZ, t.XH, t.BZ, t.CH, t.ZY, t.DQ, t.SRZCJE, t.YE, t.DFHM, t.DFZH, t.QD, t.SD,t1.dw FROM ZL_ghls t left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye WHERE t1.dw IS NOT NULL AND t1.syfs = '现金') tb2 ON tb1.department = tb2.dw AND to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jyrq,'yyyy-mm-dd')
+    GROUP BY department,rq
+
+    UNION ALL
+
+    SELECT department,rq,SUM(srzcje) AS xjje
+    FROM
+    (
+      SELECT *
+      FROM sys_date t
+      ,
+      (
+        SELECT department
+        FROM department_info
+      ) t1
+    ) tb1
+    LEFT JOIN (SELECT t1.dw,t.jyrq,srzcje FROM ZL_ghls t left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye LEFT JOIN zl_dkjl t2 ON t.srzcje = t2.sjdkje WHERE t1.dw IS NULL AND t1.syfs = '现金') tb2 ON tb1.department = tb2.dw AND to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jyrq,'yyyy-mm-dd')
+    GROUP BY department,rq
+  ) tbb
+  GROUP BY department,rq
+) tbbb]]></Query>
+</TableData>
+<TableData name="累计修改" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT tbb.*,SUM(cash) over(PARTITION BY department ORDER BY rq) AS ljxg
+FROM
+(
+  SELECT tb1.rq,department,SUM(cash) AS cash
+  FROM
+  (
+    SELECT *
+    FROM sys_date t
+    ,
+    (
+      SELECT department
+      FROM department_info
+    ) t1
+  ) tb1
+
+  LEFT JOIN custom_cash_modify tb2 ON tb1.rq = tb2."DATE" AND tb1.department = tb2.unit
+  GROUP BY tb1.rq,tb1.department
+) tbb]]></Query>
+</TableData>
+<TableData name="widget_unit" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select department
+from department_info]]></Query>
+</TableData>
+<TableData name="head" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="unit"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="month"/>
+<O>
+<![CDATA[2021-07]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT *
+FROM sys_date t
+,
+(
+  SELECT department
+  FROM department_info
+) t1
+where to_char(rq,'yyyy-mm') = '${month}'
+and 1=1 ${if(len(unit)==0,"","and department = '"+unit+"'")}
+order by t.rq,t1.department]]></Query>
+</TableData>
+<TableData name="期初" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 
+a.*,
+nvl(b.ljwhx,0) AS ljwhx,
+nvl(a.ljzlys,0) - nvl(b.ljwhx,0) AS ljys,
+nvl(c.ljxjss,0) AS ljxjss,
+nvl(d.ljxg,0) AS ljxg,
+nvl(a.ljzlys,0) - nvl(b.ljwhx,0)-nvl(c.ljxjss,0)+nvl(d.ljxg,0) AS ljyj
+
+FROM
+(
+  --累计应收
+  SELECT tbbb.*,
+  SUM(xjys) over(PARTITION BY department ORDER BY rq) AS ljzlys
+  FROM
+  (
+    SELECT rq,department,
+    SUM(CASE WHEN zffs ='现金' THEN zfje ELSE 0 END) AS xjys
+    FROM
+    (
+      SELECT rq,department,zffs,zfje
+      FROM
+      (
+        SELECT *
+        FROM sys_date t
+        ,
+        (
+          SELECT department
+          FROM department_info
+        ) t1
+      ) tb1
+      LEFT JOIN ZL_ZFLS tb2 ON to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.zfsj,'yyyy-mm-dd') AND tb1.department = tb2.md
+    ) tbb
+    GROUP BY rq,department
+  ) tbbb
+) a
+
+LEFT JOIN
+
+(
+    --累计微换现
+    SELECT tbbb.*,SUM(whx) over(PARTITION BY department ORDER BY rq) AS ljwhx
+    FROM
+    (
+      SELECT rq,department,SUM(tbb.ysje) AS whx
+      FROM
+      (
+        SELECT tb1.*,tb2.ysje
+        FROM
+        (
+          SELECT *
+          FROM sys_date t
+          ,
+          (
+            SELECT department
+            FROM department_info
+          ) t1
+        ) tb1
+        LEFT JOIN spls_wechat_to_cash tb2 ON to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jysj,'yyyy-mm-dd') AND tb1.department = tb2.md
+      ) tbb
+      GROUP BY rq,department
+    ) tbbb
+) b ON a.department=b.department AND a.rq = b.rq
+
+LEFT JOIN
+
+(
+  SELECT tbbb.*,
+  SUM(xjje) over(PARTITION BY department ORDER BY rq) AS ljxjss
+  FROM
+  (
+    SELECT department,rq,SUM(xjje) AS xjje
+    FROM
+    (
+      SELECT department,rq,SUM(srzcje) AS xjje
+      FROM
+      (
+        SELECT *
+        FROM sys_date t
+        ,
+        (
+          SELECT department
+          FROM department_info
+        ) t1
+      ) tb1
+      LEFT JOIN (SELECT t.JYRQ, t.ZH, t.CZ, t.XH, t.BZ, t.CH, t.ZY, t.DQ, t.SRZCJE, t.YE, t.DFHM, t.DFZH, t.QD, t.SD,t1.dw FROM ZL_ghls t left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye WHERE t1.dw IS NOT NULL AND t1.syfs = '现金') tb2 ON tb1.department = tb2.dw AND to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jyrq,'yyyy-mm-dd')
+      GROUP BY department,rq
+
+      UNION ALL
+
+      SELECT department,rq,SUM(srzcje) AS xjje
+      FROM
+      (
+        SELECT *
+        FROM sys_date t
+        ,
+        (
+          SELECT department
+          FROM department_info
+        ) t1
+      ) tb1
+      LEFT JOIN (SELECT t1.dw,t.jyrq,srzcje FROM ZL_ghls t left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye LEFT JOIN zl_dkjl t2 ON t.srzcje = t2.sjdkje WHERE t1.dw IS NULL AND t1.syfs = '现金') tb2 ON tb1.department = tb2.dw AND to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2.jyrq,'yyyy-mm-dd')
+      GROUP BY department,rq
+    ) tbb
+    GROUP BY department,rq
+  ) tbbb
+) c ON a.department=c.department AND a.rq = c.rq
+
+LEFT JOIN
+
+(
+  SELECT tbb.*,SUM(cash) over(PARTITION BY department ORDER BY rq) AS ljxg
+  FROM
+  (
+    SELECT tb1.rq,department,SUM(cash) AS cash
+    FROM
+    (
+      SELECT *
+      FROM sys_date t
+      ,
+      (
+        SELECT department
+        FROM department_info
+      ) t1
+    ) tb1
+
+    LEFT JOIN custom_cash_modify tb2 ON to_char(tb1.rq,'yyyy-mm-dd') = to_char(tb2."DATE",'yyyy-mm-dd') AND tb1.department = tb2.unit
+    GROUP BY tb1.rq,department
+  ) tbb
+) d ON a.department=d.department AND to_char(a.rq,'yyyy-mm-dd') = to_char(d.rq,'yyyy-mm-dd')]]></Query>
+</TableData>
+<TableData name="当日中伦应收" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT md,to_char(zfsj,'yyyy-mm-dd') AS rq,SUM(zfje) AS zlys
+FROM  ZL_ZFLS
+WHERE zffs = '现金'
+GROUP BY md,to_char(zfsj,'yyyy-mm-dd')]]></Query>
+</TableData>
+<TableData name="当日微信换现金" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT md,
+to_char(jysj,'yyyy-mm-dd') AS rq,
+SUM(ysje) AS whx
+FROM spls_wechat_to_cash
+GROUP BY md,to_char(jysj,'yyyy-mm-dd')]]></Query>
+</TableData>
+<TableData name="当日现金实收" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT dw,to_char(jyrq,'yyyy-mm-dd') AS rq,SUM(srzcje) AS xjss
+FROM
+(
+	SELECT t1.dw,t.jyrq,srzcje 
+	FROM zl_ghls t
+     left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye
+	WHERE t1.dw IS NOT NULL 
+	AND t1.syfs = '现金'
+
+	UNION ALL
+
+  SELECT t1.dw,t.jyrq,srzcje 
+  FROM zl_ghls t
+  left join zl_ghls_tb t1 on t.jyrq = t1.jyrq and t.ye = t1.ye
+  LEFT JOIN zl_dkjl t2 ON t.srzcje = t2.sjdkje 
+  WHERE t1.dw IS NULL 
+  AND t1.syfs = '现金'
+) tb
+GROUP BY dw,to_char(jyrq,'yyyy-mm-dd')]]></Query>
+</TableData>
+<TableData name="当日手工修改" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT unit,"DATE" as rq,SUM(cash) AS cash_mod
+FROM custom_cash_modify
+GROUP BY unit,"DATE"]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="1" T="1"/>
+<FR/>
+<HC/>
+<FC/>
+<UPFCR COLUMN="false" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1295400,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2933700,4000500,2743200,3086100,2743200,3048000,3124200,3238500,3124200,2743200,3200400,2819400,3352800,3200400,3086100,3200400,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="16" s="0">
+<O>
+<![CDATA[现金对账 (请优先填报银行流水数据)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O>
+<![CDATA[门店]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" s="1">
+<O>
+<![CDATA[期初]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" s="2">
+<O>
+<![CDATA[当日中伦应收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="2">
+<O>
+<![CDATA[当日微换现]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" s="2">
+<O>
+<![CDATA[当日现金应收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" s="2">
+<O>
+<![CDATA[当日银行实收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" s="2">
+<O>
+<![CDATA[当日手工修改]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" s="2">
+<O>
+<![CDATA[当日现金应缴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" s="2">
+<O>
+<![CDATA[当日期初+当日应缴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="1">
+<O>
+<![CDATA[累计中伦应收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="1">
+<O>
+<![CDATA[累计微换现]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="1" s="1">
+<O>
+<![CDATA[累计现金应收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" s="1">
+<O>
+<![CDATA[累计银行实收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="1">
+<O>
+<![CDATA[累计手工修改]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="1">
+<O>
+<![CDATA[累计现金应缴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="head" columnName="RQ"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="head" columnName="department"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="期初" columnName="LJYJ"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=datedelta(A3, -1)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DEPARTMENT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="当日中伦应收" columnName="ZLYS"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[MD]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="当日微信换现金" columnName="WHX"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[MD]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D3 - E3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="当日现金实收" columnName="XJSS"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DW]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="当日手工修改" columnName="cash_mod"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[UNIT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F3 - G3 + H3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=c3+i3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="累计应收" columnName="LJYS"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DEPARTMENT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="累计微信换现金" columnName="LJWHX"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DEPARTMENT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="2" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K3 - L3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="累计银行实收" columnName="LJXJJE"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DEPARTMENT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="累计修改" columnName="ljxg"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[RQ]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[DEPARTMENT]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=M3 - N3 + O3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="57600000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="192" y="4" width="83" height="47"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="unit"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="department" viName="department"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[widget_unit]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="30" width="101" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelunit"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[门店：]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="month"/>
+<LabelName name="month:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请选择月份]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr format="yyyy-MM"/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="4" width="101" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelmonth"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[月份：]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="4" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="month"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="unit"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="unit" modified="true"/>
+<TagModified tag="month" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="unit" tag="unit:"/>
+<NameTag name="month" tag="month:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="52"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1973769"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="204c0d76-7bb8-4cb0-b77f-09bb5bc60801"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="efd5814c-7c9a-460c-a9fc-ba570c12f1a7"/>
+</TemplateIdAttMark>
+</WorkBook>

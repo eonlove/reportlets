@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT tb1.*,tb2.销售毛利,tb3.手工酬金,
+IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0) AS 总毛利,
+IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0) AS 超额毛利,
+tb4.店长姓名,tb5.店长销售毛利,tb6.店长手工酬金,
+IFNULL(tb5.店长销售毛利,0)+IFNULL(tb6.店长手工酬金,0) AS 店长总毛利,
+
+IF(
+IFNULL(tb2.销售毛利,0) + IFNULL(tb3.手工酬金,0) - 盈亏基数 - IFNULL(销售代表提成,0)<=0,
+应缴保证金*0.01,
+	IF
+	(
+		IFNULL(tb5.店长销售毛利,0)+IFNULL(tb6.店长手工酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0))>0,
+		(IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0))*(1-店长提成比例)*分红比例,
+		((IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0)-IFNULL(tb5.店长销售毛利,0)-IFNULL(tb6.店长手工酬金,0))*(1-店员提成比例)+
+		(IFNULL(tb5.店长销售毛利,0)+IFNULL(tb6.店长手工酬金,0))*(1-店长提成比例))*分红比例
+	)
+) AS 分红基数,
+
+
+实缴保证金/应缴保证金 AS 保证金比例,
+
+
+实缴保证金/应缴保证金*
+IF(
+IFNULL(tb2.销售毛利,0) + IFNULL(tb3.手工酬金,0) - 盈亏基数 - IFNULL(销售代表提成,0)<=0,
+应缴保证金*0.01,
+	IF
+	(
+		IFNULL(tb5.店长销售毛利,0)+IFNULL(tb6.店长手工酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0))>0,
+		(IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0))*(1-店长提成比例)*分红比例,
+		((IFNULL(tb2.销售毛利,0)+IFNULL(tb3.手工酬金,0)-盈亏基数-IFNULL(销售代表提成,0)-IFNULL(tb5.店长销售毛利,0)-IFNULL(tb6.店长手工酬金,0))*(1-店员提成比例)+
+		(IFNULL(tb5.店长销售毛利,0)+IFNULL(tb6.店长手工酬金,0))*(1-店长提成比例))*分红比例
+	)
+) AS 分红金额
+
+
+
+FROM
+
+(
+	SELECT *
+	FROM 超额分红政策
+	WHERE 月份 = '2020-08'
+) tb1
+
+LEFT JOIN
+
+(
+	SELECT 核算单位,SUM(单据利润) AS 销售毛利
+	FROM 店员1店员2明细
+	WHERE DATE_FORMAT(日期,'%Y-%m') = '2020-08'
+	GROUP BY 核算单位
+) tb2 ON tb1.单位 = tb2.核算单位
+
+LEFT JOIN
+
+(
+	SELECT 单位,SUM(酬金) AS 手工酬金
+	FROM 手工酬金 t
+	LEFT JOIN 店员字典 t1 ON t.店员1 = t1.店员
+	WHERE DATE_FORMAT(日期,'%Y-%m') = '2020-08'
+	GROUP BY 单位
+) tb3 ON tb1.单位 = tb3.单位
+
+LEFT JOIN
+
+(
+	SELECT 姓名 AS 店长姓名,单位
+	FROM 门店花名册
+	WHERE 月份 = '2020-08'
+	AND 岗位 = '店长'
+) tb4 ON tb1.单位 = tb4.单位
+
+LEFT JOIN
+
+(
+	SELECT 姓名,核算单位,SUM(单据利润) AS 店长销售毛利
+	FROM 店员1店员2明细
+	WHERE DATE_FORMAT(日期,'%Y-%m') = '2020-08'
+	GROUP BY 姓名,核算单位
+) tb5 ON tb4.店长姓名 = tb5.姓名 AND tb4.单位 = tb5.核算单位
+
+LEFT JOIN
+
+(
+	SELECT 姓名,单位,SUM(酬金) AS 店长手工酬金
+	FROM 手工酬金 t
+	LEFT JOIN 店员字典 t1 ON t.店员1 = t1.店员
+	WHERE DATE_FORMAT(日期,'%Y-%m') = '2020-08'
+	GROUP BY 姓名,单位
+) tb6 ON tb4.店长姓名 = tb6.姓名 AND tb4.单位 = tb6.单位
+]]></Query>
+</TableData>
+</TableDataMap>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting/>
+</ReportSettings>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList/>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="9f026ac4-3680-48ef-bee1-74833565ca69"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="2e2f9980-f4c4-443f-96c8-c27c65363f18"/>
+</TemplateIdAttMark>
+</WorkBook>

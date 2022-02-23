@@ -1,0 +1,1987 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="本周开始"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="本周结束"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT tb1.*,
+tb2.手机数量,tb2.手机毛利,tb2.单机均价,tb2.单机毛利,tb2.单机贡献,tb2.配件数量,tb2.配件毛利,
+tb2.D手机,tb2.D配件,tb2.增值,tb2.增值毛利,tb2.贴膜卡,tb2.贴膜卡毛利,tb2.营销毛利,tb2.融合产品,tb2.新合约,tb2.路由器,
+tb2.门锁数量,tb2.门锁毛利,
+tb3.回收,
+tb4.营销毛利 AS 营销毛利任务,tb4.酬金 AS 酬金任务,tb4.智能机 AS 智能机任务,tb4.手机毛利 AS 手机毛利任务,tb4.单机毛利 AS 单机毛利任务,
+tb4.单机贡献 AS 单机贡献任务,tb4.配件毛利 AS 配件毛利任务,tb4.增值 AS 增值任务,tb4.增值毛利 AS 增值毛利任务,tb4.贴膜卡 AS 贴膜卡任务,
+tb4.贴膜卡毛利 AS 贴膜卡毛利任务,tb4.D手机 AS D手机任务,tb4.D配件 AS D配件任务,tb4.回收 AS 回收任务,tb4.新合约 AS 新合约任务,tb4.门锁 AS 门锁任务,tb4.门锁毛利 AS 门锁毛利任务,
+tb4.路由器 AS 路由器任务,
+tb5.手机数量 AS 月手机数量,tb5.手机毛利 AS 月手机毛利,tb5.单机均价 AS 月单机均价,tb5.单机毛利 AS 月单机毛利,tb5.单机贡献 AS 月单机贡献,tb5.配件数量 AS 月配件数量,
+tb5.配件毛利 AS 月配件毛利,tb5.D手机 AS 月D手机,tb5.D配件 AS 月D配件,tb5.增值 AS 月增值,tb5.增值毛利 AS 月增值毛利,tb5.贴膜卡 AS 月贴膜卡,tb5.贴膜卡毛利 AS 月贴膜卡毛利,
+tb5.营销毛利 AS 月营销毛利,tb5.融合产品 AS 月融合产品,tb5.新合约 AS 月新合约,tb5.门锁数量 AS 月门锁完成,tb5.门锁毛利 AS 月门锁毛利,tb5.路由器 AS 月路由器
+
+
+FROM
+
+(
+	SELECT 部门,运营部分类,单位
+	FROM 新单位信息
+	WHERE 营业状态 = '营业'
+	AND 部门 = '渠道部'
+) tb1
+
+LEFT JOIN
+
+(
+	SELECT t1.单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D配件,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.数量,0)) AS 增值,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.利润,0)) AS 增值毛利,
+	SUM(IF(t.金额>=98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.数量,0)) AS 贴膜卡,
+	SUM(IF(t.金额>= 98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.利润,0)) AS 贴膜卡毛利,
+	SUM(利润) AS 营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 融合产品,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 路由器
+	
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE 姓名 NOT IN ('敬冉','杨科','夏振辉')
+	AND 姓名 NOT IN (SELECT 姓名 FROM 电渠名单_tmp WHERE 算量模式 = '单算')
+	GROUP BY t1.单位
+) tb2 ON tb1.单位 = tb2.单位
+
+LEFT JOIN
+
+(
+	SELECT 公司,SUM(数量) AS 回收
+	FROM 旧机回收明细
+	WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+	GROUP BY 公司
+) tb3  ON tb1.单位 = tb3.公司
+
+LEFT JOIN
+
+(
+	SELECT *
+	FROM 单位任务
+	WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')
+) tb4 ON tb1.单位 = tb4.单位
+
+LEFT JOIN
+
+(
+	SELECT t1.单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D配件,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.数量,0)) AS 增值,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.利润,0)) AS 增值毛利,
+	SUM(IF(t.金额>=98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.数量,0)) AS 贴膜卡,
+	SUM(IF(t.金额>= 98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.利润,0)) AS 贴膜卡毛利,
+	SUM(利润) AS 营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 融合产品,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 路由器
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t`
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE 姓名 NOT IN ('敬冉','杨科','夏振辉')
+	AND 姓名 NOT IN (SELECT 姓名 FROM 电渠名单_tmp WHERE 算量模式 = '单算')
+	GROUP BY t1.单位
+) tb5 ON tb1.单位 = tb5.单位
+
+WHERE tb1.运营部分类 NOT IN ('综合门店','体验店')
+
+
+UNION ALL
+
+
+
+
+SELECT IF(1,"渠道部","渠道部") AS 部门,IF(1,"政企部","政企部") AS 运营部分类,IF(1,"项目组","项目组") AS 单位,
+tb2.手机数量,tb2.手机毛利,tb2.单机均价,tb2.单机毛利,tb2.单机贡献,tb2.配件数量,tb2.配件毛利,
+tb2.D手机,tb2.D配件,tb2.增值,tb2.增值毛利,tb2.贴膜卡,tb2.贴膜卡毛利,tb2.营销毛利,tb2.融合产品,tb2.新合约,tb2.路由器,
+tb2.门锁数量,tb2.门锁毛利,
+tb3.回收,
+tb4.营销毛利 AS 营销毛利任务,tb4.酬金 AS 酬金任务,tb4.智能机 AS 智能机任务,tb4.手机毛利 AS 手机毛利任务,tb4.单机毛利 AS 单机毛利任务,
+tb4.单机贡献 AS 单机贡献任务,tb4.配件毛利 AS 配件毛利任务,tb4.增值 AS 增值任务,tb4.增值毛利 AS 增值毛利任务,tb4.贴膜卡 AS 贴膜卡任务,
+tb4.贴膜卡毛利 AS 贴膜卡毛利任务,tb4.D手机 AS D手机任务,tb4.D配件 AS D配件任务,tb4.回收 AS 回收任务,tb4.新合约 AS 新合约任务,tb4.门锁 AS 门锁任务,tb4.门锁毛利 AS 门锁毛利任务,
+tb4.路由器 AS 路由器任务,
+tb5.手机数量 AS 月手机数量,tb5.手机毛利 AS 月手机毛利,tb5.单机均价 AS 月单机均价,tb5.单机毛利 AS 月单机毛利,tb5.单机贡献 AS 月单机贡献,tb5.配件数量 AS 月配件数量,
+tb5.配件毛利 AS 月配件毛利,tb5.D手机 AS 月D手机,tb5.D配件 AS 月D配件,tb5.增值 AS 月增值,tb5.增值毛利 AS 月增值毛利,tb5.贴膜卡 AS 月贴膜卡,tb5.贴膜卡毛利 AS 月贴膜卡毛利,
+tb5.营销毛利 AS 月营销毛利,tb5.融合产品 AS 月融合产品,tb5.新合约 AS 月新合约,tb5.门锁数量 AS 月门锁完成,tb5.门锁毛利 AS 月门锁毛利,tb5.路由器 AS 月路由器
+
+
+FROM
+
+
+(
+	SELECT IF(1,"项目组","项目组") AS 单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D配件,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.数量,0)) AS 增值,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.利润,0)) AS 增值毛利,
+	SUM(IF(t.金额>=98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.数量,0)) AS 贴膜卡,
+	SUM(IF(t.金额>= 98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.利润,0)) AS 贴膜卡毛利,
+	SUM(利润) AS 营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 融合产品,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 路由器
+	
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t
+			WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE 姓名  IN ('敬冉','杨科','夏振辉')
+) tb2
+
+
+
+
+
+LEFT JOIN
+
+(
+	SELECT 公司,SUM(数量) AS 回收
+	FROM 旧机回收明细
+	WHERE 日期 BETWEEN '${本周开始}' AND '${本周结束}'
+	GROUP BY 公司
+) tb3  ON tb2.单位 = tb3.公司
+
+LEFT JOIN
+
+(
+	SELECT *
+	FROM 单位任务
+	WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')
+) tb4 ON tb2.单位 = tb4.单位
+
+LEFT JOIN
+
+(
+	SELECT IF(1,"项目组","项目组") AS 单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${本周开始}','%Y-%m')),t.数量,0)) AS D配件,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.数量,0)) AS 增值,
+	SUM(IF(t.商品分类 LIKE '%碎屏保%',t.利润,0)) AS 增值毛利,
+	SUM(IF(t.金额>=98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.数量,0)) AS 贴膜卡,
+	SUM(IF(t.金额>= 98 AND (t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%'),t.利润,0)) AS 贴膜卡毛利,
+	SUM(利润) AS 营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 融合产品,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 路由器
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t
+			WHERE DATE_FORMAT(日期,'%Y-%m') = DATE_FORMAT('${本周开始}','%Y-%m')
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE 姓名 IN ('敬冉','杨科','夏振辉')
+) tb5 ON tb2.单位 = tb5.单位
+]]></Query>
+</TableData>
+<TableData name="上周" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="上周开始"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="上周结束"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[	
+SELECT tb1.*,IF(1,0,0) AS 上周回收
+FROM
+
+(
+	SELECT t1.单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 上周手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 上周配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 上周配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${上周开始}','%Y-%m')),t.数量,0)) AS 上周D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${上周开始}','%Y-%m')),t.数量,0)) AS 上周D配件,
+	SUM(IF(t.商品分类 LIKE '碎屏保%',t.数量,0)) AS 上周增值,
+	SUM(IF(t.商品分类 LIKE '碎屏保%',t.利润,0)) AS 上周增值毛利,
+	SUM(IF(t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%',t.数量,0)) AS 上周贴膜卡,
+	SUM(IF(t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%',t.利润,0)) AS 上周贴膜卡毛利,
+	SUM(利润) AS 上周营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 上周融合,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 上周新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 上周门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 上周门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 上周路由器
+	
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员1 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员1 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员2 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE t1.姓名 NOT IN ('敬冉','杨科','夏振辉')
+	GROUP BY t1.单位
+) tb1
+
+
+
+
+UNION ALL
+
+
+
+	
+SELECT tb1.*,IF(1,0,0) AS 上周回收
+FROM
+
+(
+	SELECT IF(1,"项目组","项目组") AS 单位,
+	SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周手机数量,
+	SUM(IF(t2.分类2 = '手机',t.利润,0)) AS 上周手机毛利,
+	SUM(IF(t2.分类2 = '手机',t.金额,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机均价,
+	SUM(IF(t2.分类2 = '手机',t.利润,0))/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机毛利,
+	SUM(利润)/SUM(IF(t2.分类2 = '手机',t.数量,0)) AS 上周单机贡献,
+	SUM(IF(t2.分类2 = '配件',t.数量,0)) AS 上周配件数量,
+	SUM(IF(t2.分类2 = '配件',t.利润,0)) AS 上周配件毛利,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D手机 WHERE 月份 = DATE_FORMAT('${上周开始}','%Y-%m')),t.数量,0)) AS 上周D手机,
+	SUM(IF(t.商品类型 = '实物商品' AND t.串号 IN  (SELECT 串号 FROM D配件 WHERE 月份 = DATE_FORMAT('${上周开始}','%Y-%m')),t.数量,0)) AS 上周D配件,
+	SUM(IF(t.商品分类 LIKE '碎屏保%',t.数量,0)) AS 上周增值,
+	SUM(IF(t.商品分类 LIKE '碎屏保%',t.利润,0)) AS 上周增值毛利,
+	SUM(IF(t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%',t.数量,0)) AS 上周贴膜卡,
+	SUM(IF(t.商品属性 ='贴膜套餐备选' OR t.备注 LIKE '%膜套餐%',t.利润,0)) AS 上周贴膜卡毛利,
+	SUM(利润) AS 上周营销毛利,
+	SUM(IF(t.商品属性 = '华为FD融合',t.数量,0)) AS 上周融合,
+	SUM(IF(t.商品类型 = '分期',t.数量,0)) AS 上周新合约,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.数量,0)) AS 上周门锁数量,
+	SUM(IF(t.商品分类 = '智喔喔门锁-面板',t.利润,0)) AS 上周门锁毛利,
+	SUM(IF(t.商品全称 LIKE '%路由器%' AND 商品类型 = '实物商品',t.数量,0)) AS 上周路由器
+	
+	FROM (
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润,金额,数量,店员1
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员1 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 = ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员1
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员1 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+
+			UNION ALL
+
+			SELECT 单据类型,单据号,串号,商品全称,商品分类,商品类型,商品属性,备注,利润/2,金额/2,数量/2,店员2
+			FROM 利润明细 t LEFT JOIN 店员字典 t1 ON t.店员2 =t1.`店员`
+			WHERE 日期 BETWEEN '${上周开始}' AND '${上周结束}'
+			AND 单据类型 IN ('零售','零售退货','零售换机')
+			AND 店员2 != ''
+	     ) t
+	LEFT JOIN 多算店员字典 t1 ON t.店员1 = t1.店员
+	LEFT JOIN 商品分类 t2 USING(商品全称)
+	WHERE 姓名  IN ('敬冉','杨科','夏振辉')
+) tb1]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="4"/>
+<FR/>
+<HC F="0" T="1"/>
+<FC/>
+<UPFCR COLUMN="true" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1676400,1152000,1152000,1152000,1152000,1152000,1152000,1152000,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3048000,6286500,2743200,2743200,2743200,3162300,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="32" s="0">
+<O>
+<![CDATA[渠道销售数据周/月报]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="本周："]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$本周开始 + " 至 " + $本周结束]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" cs="30" rs="2" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="上周："]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$上周开始 + " 至 " + $上周结束]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" rs="2" s="3">
+<O>
+<![CDATA[单位类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" rs="2" s="3">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="3" cs="6" s="3">
+<O>
+<![CDATA[销售毛利环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" cs="6" s="3">
+<O>
+<![CDATA[手机终端销售环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="3" cs="6" s="3">
+<O>
+<![CDATA[智能门锁销售环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="3" cs="6" s="3">
+<O>
+<![CDATA[路由器销售环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="3" cs="6" s="3">
+<O>
+<![CDATA[清库配件销售环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="3">
+<O>
+<![CDATA[上周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="4" s="3">
+<O>
+<![CDATA[本周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="3">
+<O>
+<![CDATA[涨幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="3">
+<O>
+<![CDATA[月完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="4" s="3">
+<O>
+<![CDATA[月任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="4" s="3">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="3">
+<O>
+<![CDATA[上周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="4" s="3">
+<O>
+<![CDATA[本周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="4" s="3">
+<O>
+<![CDATA[涨幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="4" s="3">
+<O>
+<![CDATA[月完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="4" s="3">
+<O>
+<![CDATA[月任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="4" s="3">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="4" s="3">
+<O>
+<![CDATA[上周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="4" s="3">
+<O>
+<![CDATA[本周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="4" s="3">
+<O>
+<![CDATA[涨幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="4" s="3">
+<O>
+<![CDATA[月完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="4" s="3">
+<O>
+<![CDATA[月任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="4" s="3">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="4" s="3">
+<O>
+<![CDATA[上周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="4" s="3">
+<O>
+<![CDATA[本周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="4" s="3">
+<O>
+<![CDATA[涨幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="4" s="3">
+<O>
+<![CDATA[月完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="4" s="3">
+<O>
+<![CDATA[月任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="4" s="3">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="4" s="3">
+<O>
+<![CDATA[上周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="4" s="3">
+<O>
+<![CDATA[本周/月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="4" s="3">
+<O>
+<![CDATA[涨幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="4" s="3">
+<O>
+<![CDATA[月完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="4" s="3">
+<O>
+<![CDATA[月任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="4" s="3">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="运营部分类"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="5" s="5">
+<O t="DSColumn">
+<Attributes dsName="上周" columnName="上周营销毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="5"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="5" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="营销毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(D6 - C6) / C6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月营销毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="营销毛利任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F6 / G6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="上周" columnName="上周手机数量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="5"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="手机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(J6 - I6) / I6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月手机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="智能机任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L6 / M6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="上周" columnName="上周门锁数量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="5"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="门锁数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(P6 - O6) / O6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月门锁完成"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="门锁任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R6 / S6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="上周" columnName="上周路由器"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="5"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="21" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="路由器"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="22" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(V6 - U6) / U6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月路由器"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="24" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="路由器任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="25" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=X6 / Y6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="上周" columnName="上周D配件"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="5"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="27" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="D配件"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="28" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(AB6 - AA6) / AA6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="5" s="7">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="月D配件"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="30" r="5" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="D配件任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="31" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AD6 / AE6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="6" cs="2" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=A6 + " 汇总"]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="2" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(C6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="3" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="4" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(D7 - C7) / C7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="5" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="6" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="7" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F7 / G7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="8" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="9" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="10" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(J7 - I7) / I7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="11" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="12" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="13" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L7 / M7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="14" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(O6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="15" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="16" r="6" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(P7 - O7) / O7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="17" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="18" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="19" r="6" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R7 / S7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="20" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="6" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(V7 - U7) / U7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(X6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Y6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="6" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=X7 / Y7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AA6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A6"/>
+</C>
+<C c="27" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(AB7 - AA7) / AA7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AD6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AE6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AD7 / AE7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="7" cs="2" s="12">
+<O>
+<![CDATA[渠道汇总]]></O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="2" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(C6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="3" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="4" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(D8 - C8) / C8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="5" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="6" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="7" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F8 / G8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="8" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="9" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(J6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="10" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(J8 - I8) / I8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="11" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="12" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(M6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="13" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=L8 / M8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="14" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(O6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="15" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="16" r="7" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(P8 - O8) / O8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="17" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(R6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="18" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="19" r="7" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=R8 / S8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="20" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(U6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="21" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="7" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(V8 - U8) / U8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(X6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Y6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="7" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=X8 / Y8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AA6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=(AB8 - AA8) / AA8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AD6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="30" r="7" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AE6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="31" r="7" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AD8 / AE8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="316800000" height="144000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="label0"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[清库串号池以周/月开始时间为准]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="1" size="96" foreground="-10092544"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="583" y="14" width="265" height="52"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="上周结束"/>
+<LabelName name="上周/月结束:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="318" y="45" width="99" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label上周结束"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[上周/月结束:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="238" y="45" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="上周开始"/>
+<LabelName name="上周/月开始:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="318" y="14" width="99" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label上周开始"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[上周/月开始:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="238" y="14" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="本周结束"/>
+<LabelName name="本周/月结束:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="45" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label本周结束"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[本周/月结束:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="45" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="457" y="14" width="80" height="52"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="本周开始"/>
+<LabelName name="本周/月开始:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="14" width="97" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label本周开始"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[本周/月开始:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="14" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="本周开始"/>
+<Widget widgetName="上周开始"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="本周结束"/>
+<Widget widgetName="上周结束"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified/>
+<WidgetNameTagMap>
+<NameTag name="本周开始" tag="本周/月开始:"/>
+<NameTag name="本周结束" tag="本周/月结束:"/>
+<NameTag name="上周开始" tag="上周/月开始:"/>
+<NameTag name="上周结束" tag="上周/月结束:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="80"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72" foreground="-10092544"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2171170"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2171170"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2171170"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2171170"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2171170"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80" foreground="-10092544"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72" foreground="-10092544"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72" foreground="-10092544"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="724a40fe-b852-4b51-abf9-a3b176b408b5"/>
+</TemplateIdAttMark>
+</WorkBook>

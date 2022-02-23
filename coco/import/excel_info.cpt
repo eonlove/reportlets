@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT *
+FROM
+
+(
+  SELECT '出入库明细' AS bm,COUNT(*) AS hs
+  FROM ZL_CRKMX_import
+
+  UNION
+
+  SELECT '订单流水' AS bm,COUNT(*) AS ddls
+  FROM ZL_ddls_import
+
+  UNION
+
+  SELECT '工行流水' AS bm,COUNT(*) AS ghls
+  FROM ZL_ghls_import
+
+  UNION
+
+  SELECT '实时库存' AS bm,COUNT(*) AS kucun
+  FROM ZL_kucun_import
+
+  UNION
+
+  SELECT '商品流水' AS bm,COUNT(*) AS spls
+  FROM ZL_spls_import
+
+  UNION
+
+  SELECT '销售汇总_盐市口' AS bm,COUNT(*) AS xshz_ysk
+  FROM ZL_xshz_ysk_import
+  
+  UNION
+  
+  SELECT '销售汇总_南桥视窗' AS bm,COUNT(*) AS xshz_nqsc
+  FROM ZL_xshz_nqsc_import
+  
+  UNION
+  
+  SELECT '销售汇总_天府三街' AS bm,COUNT(*) AS xshz_tfsj
+  FROM ZL_xshz_tfsj_import  
+  
+  UNION
+  
+  SELECT '销售汇总_应龙路' AS bm,COUNT(*) AS xshz_yll
+  FROM ZL_xshz_yll_import 
+  
+  UNION
+  
+  SELECT '销售汇总_盐市口' AS bm,COUNT(*) AS xshz_ysk
+  FROM ZL_xshz_ysk_import 
+  
+  UNION
+  
+  SELECT '销售汇总_锦华馆' AS bm,COUNT(*) AS xshz_jhg
+  FROM ZL_xshz_jhg_import
+  
+  UNION
+  
+  SELECT '销售汇总_总部总库' AS bm,COUNT(*) AS xshz_zbzk
+  FROM ZL_xshz_zbzk_import
+
+  UNION
+  
+  SELECT '销售汇总_光华中心' AS bm,COUNT(*) AS xshz_ghzx
+  FROM ZL_xshz_ghzx_import
+
+  UNION
+  
+  SELECT '销售汇总_万佳友邻' AS bm,COUNT(*) AS xshz_wjyl
+  FROM ZL_xshz_wjyl_import  
+
+  UNION
+  
+  SELECT '销售汇总_天府红' AS bm,COUNT(*) AS xshz_tfh
+  FROM ZL_xshz_tfh_import
+
+  UNION
+  
+  SELECT '销售汇总_滨江天樾' AS bm,COUNT(*) AS xshz_bjty
+  FROM ZL_xshz_bjty_import  
+
+  UNION
+  
+  SELECT '销售汇总_远大美岸店' AS bm,COUNT(*) AS xshz_ydma
+  FROM ZL_xshz_ydma_import  
+
+  UNION
+
+  SELECT '支付流水' AS bm,COUNT(*) AS zfls
+  FROM ZL_zfls_import
+
+  UNION
+
+  SELECT '商品档案大小包装' AS bm,COUNT(*) AS spdadxbz
+  FROM zl_spdadxbz_import
+
+  UNION
+
+  SELECT '商品档案明细' AS bm,COUNT(*) AS spdamx
+  FROM zl_spdamx_import
+
+  UNION
+
+  SELECT '商品分类' AS bm,COUNT(*) AS spfl
+  FROM zl_spfl_import
+  
+  UNION
+  
+  SELECT '采购明细' AS bm,COUNT(*) AS cgmx
+  FROM zl_cgmx_import
+
+  UNION
+  
+  SELECT '打款记录' AS bm,COUNT(*) AS dkjl
+  FROM zl_dkjl_import
+
+  UNION
+  
+  SELECT '供应商已付款明细' AS bm,COUNT(*) AS gysyfkmx
+  FROM zl_gysyfkmx_import
+
+  union
+  
+  SELECT '微信流水' AS bm,COUNT(*) AS wxls
+  FROM wxls_import
+
+  union
+
+  SELECT '配送明细' AS bm,COUNT(*) AS psmx
+  FROM zl_psmx_import
+) tb
+WHERE hs != 0]]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebPageContent>
+<ToolBars/>
+<WebPage isPage="false" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
+</WebPageContent>
+<WebWriteContent>
+<ToolBars/>
+<SelectedColor/>
+<WebWrite SheetPosition="3"/>
+<RptLocation isShowAtLeft="true"/>
+<UnloadCheck/>
+<ShowWidgets/>
+<OtherAttr isAutoStash="false"/>
+</WebWriteContent>
+</ReportWebAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1676400,1152000,1562100,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[5715000,4953000,5715000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="2" s="0">
+<O>
+<![CDATA[上传信息]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[上传表名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O>
+<![CDATA[行数(不含标题)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="bm"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="hs"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2">
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.FreeButton">
+<Listener event="click">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters>
+<Parameter>
+<Attributes name="lempid"/>
+<O t="Formula" class="Formula">
+<Attributes reserveInWeb="false">
+<![CDATA[=$fr_username]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<Content>
+<![CDATA[var cf = confirm("是否确认提交")
+if(cf = 1){
+	var  msg = FR.remoteEvaluate("sql(\"oracle\",\"select pkg_coco_import.f_batch_main('"+lempid+"') from dual\",1,1)");
+	     
+	alert(msg);
+	}
+else
+{
+ alert('导入失败')	
+	}]]></Content>
+</JavaScript>
+</Listener>
+<Listener event="afterinit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[setInterval("location.reload();",3000); ]]></Content>
+</JavaScript>
+</Listener>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[提交入库]]></Text>
+</Widget>
+<Expand leftParentDefault="false"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting/>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-1"/>
+<Bottom style="1" color="-1"/>
+<Left style="1" color="-1"/>
+<Right style="1" color="-1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="96"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-1"/>
+<Bottom style="1" color="-1"/>
+<Left style="1" color="-1"/>
+<Right style="1" color="-1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="96"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-1"/>
+<Bottom style="1" color="-1"/>
+<Left style="1" color="-1"/>
+<Right style="1" color="-1"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="1"/>
+<TemplateID TemplateID="e4b3af1e-ea22-4e71-8c32-3b0f61597548"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="ca62506a-fd78-4254-beea-28b3f9a63e53"/>
+</TemplateIdAttMark>
+</WorkBook>

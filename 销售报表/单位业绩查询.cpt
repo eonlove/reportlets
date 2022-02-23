@@ -1,0 +1,6528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="data" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="统计结束"/>
+<O>
+<![CDATA[2021-01-02]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="电渠显示"/>
+<O>
+<![CDATA[独立]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="统计开始"/>
+<O>
+<![CDATA[2021-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call unit_achivement('${统计开始}','${统计结束}','${电渠显示}')]]></Query>
+</TableData>
+<TableData name="head" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="电渠显示"/>
+<O>
+<![CDATA[独立]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 自定义分类2,自定义分类3,单位
+from 新单位信息
+where 营业状态 = '营业'
+and 1=1 ${if(电渠显示=="合并","and 部门 !='电渠部'","")}
+order by 部门,运营部分类,单位]]></Query>
+</TableData>
+<TableData name="goal" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="电渠显示"/>
+<O>
+<![CDATA[独立]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="统计开始"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call 单位任务('${统计开始}','${电渠显示}')]]></Query>
+</TableData>
+<TableData name="widget_电渠" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[电渠显示]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[HeuHuq<Dk#V\;+_mbA!H~
+]]></RowData>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebPageContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[contentPane.makeHighlight('silver','mouseover',true);  ]]></Content>
+</JavaScript>
+</Listener>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.page.First">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('ReportServerP-First')}]]></Text>
+<IconName>
+<![CDATA[first]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Previous">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('ReportServerP-Previous')}]]></Text>
+<IconName>
+<![CDATA[previous]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.PageNavi">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Next">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('ReportServerP-Next')}]]></Text>
+<IconName>
+<![CDATA[next]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.page.Last">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('ReportServerP-Last')}]]></Text>
+<IconName>
+<![CDATA[last]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.FlashPrint">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('FR-Engine_Utils_Flash_Print[Client]A')}]]></Text>
+<IconName>
+<![CDATA[flashprint]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.Print">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Print')}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+<PrintButtons/>
+</Widget>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+<Widget class="com.fr.report.web.button.Email">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Email')}]]></Text>
+<IconName>
+<![CDATA[email]]></IconName>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<WebPage isPage="false" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
+</WebPageContent>
+</ReportWebAttr>
+<ReportExportAttr>
+<ExcelExportAttr/>
+<PDFExportAttr/>
+<HTMLExportAttr/>
+<WordExportAttr/>
+</ReportExportAttr>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="2"/>
+<FR/>
+<HC F="0" T="2"/>
+<FC/>
+<UPFCR COLUMN="true" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1295400,1152000,1152000,1152000,1152000,0,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2880000,2880000,4991100,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="3" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="统计周期：" + $统计开始 + " 至 " + $统计结束]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" cs="125" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" rs="2" s="2">
+<O>
+<![CDATA[部门]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" rs="2" s="2">
+<O>
+<![CDATA[分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" rs="2" s="2">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" s="2">
+<O>
+<![CDATA[产品毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="2">
+<O>
+<![CDATA[业务毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" cs="2" s="2">
+<O>
+<![CDATA[产品毛利+业务毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" cs="3" s="2">
+<O>
+<![CDATA[酬金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" cs="3" s="2">
+<O>
+<![CDATA[总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" rs="2" s="2">
+<O>
+<![CDATA[企业组网利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" cs="4" s="2">
+<O>
+<![CDATA[手机数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="1" cs="3" s="2">
+<O>
+<![CDATA[手机毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="1" cs="3" s="2">
+<O>
+<![CDATA[融合产品]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="1" cs="3" s="2">
+<O>
+<![CDATA[融合毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="1" cs="5" s="1">
+<O>
+<![CDATA[重点融合]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="1" cs="4" s="2">
+<O>
+<![CDATA[门锁]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="1" cs="3" s="2">
+<O>
+<![CDATA[门锁毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="1" s="2">
+<O>
+<![CDATA[配件]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="1" s="2">
+<O>
+<![CDATA[配件毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="1" cs="5" s="2">
+<O>
+<![CDATA[vivo手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="1" cs="3" s="2">
+<O>
+<![CDATA[华为FD]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="1" cs="3" s="2">
+<O>
+<![CDATA[贴膜卡]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="1" cs="3" s="2">
+<O>
+<![CDATA[贴膜卡毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="1" cs="3" s="2">
+<O>
+<![CDATA[增值]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="1" rs="2" s="2">
+<O>
+<![CDATA[增值毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="59" r="1" cs="3" s="2">
+<O>
+<![CDATA[回收]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="1" cs="3" s="2">
+<O>
+<![CDATA[回收毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="1" cs="3" s="2">
+<O>
+<![CDATA[收费会员]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="68" r="1" rs="2" s="2">
+<O>
+<![CDATA[收费会员毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="69" r="1" cs="4" s="2">
+<O>
+<![CDATA[D手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="1" cs="4" s="2">
+<O>
+<![CDATA[D配件]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="1" cs="3" s="2">
+<O>
+<![CDATA[升级新合约]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="80" r="1" cs="3" s="2">
+<O>
+<![CDATA[5G套餐]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="83" r="1" cs="3" s="2">
+<O>
+<![CDATA[幸福全家]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="86" r="1" cs="3" s="2">
+<O>
+<![CDATA[视频彩铃]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="89" r="1" cs="3" s="2">
+<O>
+<![CDATA[小合约]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="92" r="1" cs="3" s="2">
+<O>
+<![CDATA[千兆宽带]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="95" r="1" cs="3" s="2">
+<O>
+<![CDATA[智慧屏]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="98" r="1" cs="3" s="2">
+<O>
+<![CDATA[荣耀手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="101" r="1" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="102" r="1" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="103" r="1" cs="5" s="1">
+<O>
+<![CDATA[鸿蒙机合作机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="108" r="1" cs="3" s="2">
+<O>
+<![CDATA[学生证]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="111" r="1" s="2">
+<O>
+<![CDATA[智慧屏]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="112" r="1" s="2">
+<O>
+<![CDATA[mateivew]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="113" r="1" cs="3" s="2">
+<O>
+<![CDATA[wjs手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="116" r="1" cs="3" s="2">
+<O>
+<![CDATA[华为融合]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="119" r="1" cs="3" s="2">
+<O>
+<![CDATA[matepadpro108]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="122" r="1" cs="3" s="2">
+<O>
+<![CDATA[H6路由器]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="125" r="1" cs="3" s="2">
+<O>
+<![CDATA[苹果]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="2" s="4">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="2" s="1">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="2" s="1">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="2" s="1">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="2" s="1">
+<O>
+<![CDATA[激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="2" s="1">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="2" s="4">
+<O>
+<![CDATA[激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="2" s="4">
+<O>
+<![CDATA[激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="2" s="4">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="47" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="48" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="50" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="53" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="54" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="56" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="57" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="59" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="60" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="61" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="63" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="64" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="66" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="67" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="69" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="70" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="71" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="2" s="4">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="75" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="76" r="2" s="4">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="78" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="79" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="80" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="81" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="82" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="83" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="84" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="85" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="86" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="87" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="88" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="89" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="90" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="91" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="92" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="93" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="94" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="95" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="96" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="97" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="98" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="99" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="100" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="101" r="2" s="3">
+<O>
+<![CDATA[鸿蒙机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="102" r="2" s="3">
+<O>
+<![CDATA[合作机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="103" r="2" s="1">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="104" r="2" s="1">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="105" r="2" s="1">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="106" r="2" s="5">
+<O>
+<![CDATA[激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="107" r="2" s="5">
+<O>
+<![CDATA[考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="108" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="109" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="110" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="111" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="112" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="113" r="2" s="2">
+<O>
+<![CDATA[数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="114" r="2" s="2">
+<O>
+<![CDATA[金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="115" r="2" s="2">
+<O>
+<![CDATA[利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="116" r="2" s="2">
+<O>
+<![CDATA[数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="117" r="2" s="2">
+<O>
+<![CDATA[金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="118" r="2" s="2">
+<O>
+<![CDATA[利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="119" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="120" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="121" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="122" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="123" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="124" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="125" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="126" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="127" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" rs="3" s="6">
+<O t="DSColumn">
+<Attributes dsName="head" columnName="自定义分类2"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len($unit) = 0, nofilter, $unit)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="3" rs="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="head" columnName="自定义分类3"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="3" s="6">
+<O t="DSColumn">
+<Attributes dsName="head" columnName="单位"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="销售毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="纯毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="销售毛利任务"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=(D4 + E4) / F4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="C4"/>
+</C>
+<C c="7" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="酬金"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="酬金任务"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=H4 / I4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="C4"/>
+</C>
+<C c="10" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D4 + H4 + E4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="总毛任务"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=K4 / L4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="C4"/>
+</C>
+<C c="13" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="企业组网利润"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="手机数量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="智能机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=O4 / P4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(A4 = "渠道部", if(len(P4) = 0, 0, if(Q4 < 1, (P4 - O4) * 50 * 0.95, 0)), 0)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="手机毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="手机毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="20" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=S4 / T4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="融合产品"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="22" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="融合"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="23" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=V4 / W4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="融合毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="25" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="融合毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="26" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=Y4 / Z4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="重点融合"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="28" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="重点融合"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="29" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB4 / AC4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(AC4) = 0, 0, if(AD4 >= 1, (AB4 - AC4) * 20 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(AC4) = 0, 0, if(AD4 < 0.9, -(AB4 - AC4) * 40 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="门锁"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="33" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="门锁"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="34" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AG4 / AH4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(AH4) = 0, 0, if(AI4 >= 1, (AH4 * 40 + (AG4 - AH4) * 50) * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="门锁毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="37" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="门锁毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="38" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AK4 / AL4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="配件数量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="40" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="配件毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="41" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="ov小红"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="42" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="ov小红"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="43" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AP4 / AQ4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(AQ4) = 0, 0, if(AR4 >= 1, (AP4 - AQ4) * 50 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(AQ4) = 0, 0, if(AR4 < 0.9, -(AP4 - AQ4) * 50 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="华为FD"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="47" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="华为FD"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="48" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AU4 / AV4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="贴膜卡"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="50" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="贴膜卡"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="51" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AX4 / AY4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="贴膜卡毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="53" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="贴膜卡毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="54" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BA4 / BB4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="增值"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="56" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="增值"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="57" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BD4 / BE4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="增值毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="59" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="回收"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="60" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="回收"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="61" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BH4 / BI4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="回收毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="63" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="回收毛利"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="64" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BK4 / BL4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="收费会员数量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="66" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="收费会员"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="67" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BN4 / BO4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="68" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="收费会员利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="69" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="D手机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="70" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="D手机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="71" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BR4 / BS4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(BS4) = 0, 0, if(BT4 < 1, (BS4 - BR4) * 60 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="D配件"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="74" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="D配件"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="75" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BV4 / BW4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="76" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(len(BW4) = 0, 0, if(BX4 < 1, (BW4 - BV4) * 45 * 0.95, 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="升级新合约"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="78" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="新合约"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="79" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BZ4 / CA4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="80" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="5G套餐"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="81" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="5G套餐"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="82" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CC4 / CD4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="83" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="幸福全家总量"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="84" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="幸福全家"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="85" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CF4 / CG4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="86" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="视频彩铃"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="87" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="视频彩铃"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="88" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CI4 / CJ4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="89" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="小合约"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="90" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="小合约"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="91" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CL4 / CM4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="92" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="千兆宽带"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="93" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="千兆宽带"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="94" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CO4 / CP4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="95" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="智慧屏"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="96" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="智慧屏"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="97" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CR4 / CS4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="98" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="荣耀"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="99" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="荣耀手机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="100" r="3" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CU4 / CV4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="101" r="3" s="11">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="鸿蒙机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="102" r="3" s="11">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="合作机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="103" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="重点机型"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="104" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="重点机型"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="105" r="3" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CZ4 / DA4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="106" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(B4 = "体验店", if(len(DA4) = 0, 0, if(DB4 >= 1, (CZ4 - DA4) * 50 * 0.95, 0)), if(B4 = "综合门店", if(len(DA4) = 0, 0, if(DB4 >= 1, (CZ4 - DA4) * 20 * 0.95, 0)), 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="107" r="3" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(B4 = "体验店", if(len(DA4) = 0, 0, if(DB4 < 0.9, -(CZ4 - DA4) * 50 * 0.95, 0)), if(B4 = "综合门店", if(len(DA4) = 0, 0, if(DB4 < 1, -(CZ4 - DA4) * 50 * 0.95, 0)), 0))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="108" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="学生证"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="109" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="学生证"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="110" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DE4 / DF4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="111" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="智慧屏"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="112" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="mateview"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="113" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="wjs手机"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="114" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="wjs手机销售额"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="115" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="wjs手机利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="116" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="华为融合"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="117" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="华为融合销售额"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="118" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="华为融合利润"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="119" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="matepadpro108"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="120" r="3" s="7">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="matepadpro108"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="2" row="3"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="121" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DP4 / DQ4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="122" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="H6路由器"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="123" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="路由器"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="124" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DS4 / DT4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="125" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="苹果数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="126" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="苹果"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="127" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DV4 / DW4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=A4 + B4 + " 合计"]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="3" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="4" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="5" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="6" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=(D5 + E5) / F5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="7" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="8" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="9" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=H5 / I5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="10" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="11" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="12" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K5 / L5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="13" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="14" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(O4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="15" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="16" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=O5 / P5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="17" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="19" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="20" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=S5 / T5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="21" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="22" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="23" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=V5 / W5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="24" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Y4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="25" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Z4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="26" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=Y5 / Z5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB5 / AC5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="33" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="34" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AG5 / AH5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="35" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="37" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="38" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AK5 / AL5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="39" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="40" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="41" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="42" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="43" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AP5 / AQ5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="44" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="47" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="48" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AU5 / AV5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="49" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AX4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="50" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AY4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="51" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AX5 / AY5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="52" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="53" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BB4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="54" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA5 / BB5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="55" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BD4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="56" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BE4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="57" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BD5 / BE5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="58" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="59" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="60" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="61" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH5 / BI5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="62" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="63" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="64" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BK5 / BL5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="65" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="66" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="67" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BN5 / BO5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="68" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="69" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BR4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="70" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="71" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BR5 / BS5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="72" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="74" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BW4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="75" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BV5 / BW5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="76" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="78" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="79" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BZ5 / CA5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="80" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CC4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="81" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CD4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="82" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CC5 / CD5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="83" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CF4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="84" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="85" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CF5 / CG5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="86" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="87" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CJ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="88" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CI5 / CJ5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="89" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="90" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CM4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="91" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CL5 / CM5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="92" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="93" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="94" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CO5 / CP5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="95" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CR4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="96" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="97" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CR5 / CS5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="98" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CU4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="99" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="100" r="4" s="16">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CU5 / CV5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="101" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="102" r="4" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="103" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="104" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="105" r="4" s="16">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CZ5 / DA5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="106" r="4" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="107" r="4" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="108" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DE4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="109" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DF4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="110" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DE5 / DF5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="111" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="112" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="113" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DJ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="114" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="115" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="116" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DM4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="117" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="118" r="4" s="13">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="119" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="120" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="121" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DP5 / DQ5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="122" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="123" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DT4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="124" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DS5 / DT5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="125" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="126" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DW4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="127" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DV5 / DW5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="1" r="5" cs="2" s="17">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=A4 + " 合计"]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="3" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="4" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(E4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="5" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="6" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=(D6 + E6) / F6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="7" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="8" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="9" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=H6 / I6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="10" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="11" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="12" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K6 / L6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="13" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="14" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(O4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="15" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="16" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=O6 / P6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="17" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="19" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="20" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=S6 / T6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="21" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="22" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="23" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=V6 / W6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="24" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Y4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="25" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Z4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="26" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=Y6 / Z6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB6 / AC6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="33" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="34" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AG6 / AH6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="35" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="37" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="38" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AK6 / AL6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="39" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="40" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="41" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="42" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="43" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AP6 / AQ6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="44" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="47" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="48" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AU6 / AV6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="49" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AX4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="50" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AY4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="51" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AX6 / AY6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="52" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="53" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BB4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="54" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA6 / BB6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="55" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BD4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="56" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BE4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="57" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BD6 / BE6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="58" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="59" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="60" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="61" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH6 / BI6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="62" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="63" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="64" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BK6 / BL6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="65" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="66" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="67" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BN6 / BO6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="68" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="69" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BR4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="70" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="71" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BR6 / BS6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="72" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="74" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BW4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="75" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BV6 / BW6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="76" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="78" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="79" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BZ6 / CA6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="80" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CC4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="81" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CD4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="82" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CC6 / CD6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="83" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CF4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="84" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CG4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="85" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CF6 / CG6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="86" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="87" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CJ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="88" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CI6 / CJ6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="89" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="90" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CM4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="91" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CL6 / CM6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="92" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="93" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="94" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CO6 / CP6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="95" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CR4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="96" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="97" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CR6 / CS6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="98" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CU4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="99" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="100" r="5" s="21">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CU6 / CV6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="101" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="102" r="5" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="103" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="104" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DA4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="105" r="5" s="21">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CZ6 / DA6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="106" r="5" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="107" r="5" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="108" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DE4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="109" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DF4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="110" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DE6 / DF6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="111" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DH4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="112" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DI4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="113" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DJ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="114" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="115" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="116" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DM4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="117" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DN4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="118" r="5" s="18">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DO4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="119" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DP4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="120" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DQ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="121" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DP6 / DQ6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="122" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DS4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="123" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DT4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="124" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DS6 / DT6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="125" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DV4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="126" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DW4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="127" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DV6 / DW6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="0" r="6" cs="3" s="2">
+<O>
+<![CDATA[电渠合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(D4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(F4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D7 / F7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(H4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(I4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=H7 / I7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(K4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(L4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K7 / L7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="6" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(N6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(O4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=O7 / P7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(S4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(T4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=S7 / T7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(V4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=V7 / W7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Y4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(Z4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=Y7 / Z7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="6" s="11">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="6" s="11">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="6" s="24">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB7 / AC7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AG4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AH4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AG7 / AH7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AL4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AK7 / AL7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AN4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AO4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AP4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AQ4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AP7 / AQ7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="6" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="6" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="48" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=AU7 / AV7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AX4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="50" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AY4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AX7 / AY7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BA4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="53" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BB4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="54" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BA7 / BB7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BD4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="56" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BE4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="57" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BD7 / BE7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="59" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BH4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="60" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BI4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="61" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH7 / BI7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="6" s="22">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="63" r="6" s="22">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="64" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BK7 / BL7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BN4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="66" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BO4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="67" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=BN7 / BO7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="68" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="69" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BR4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="70" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BS4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="71" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BR7 / BS7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BV4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BW4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="75" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BV7 / BW7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="76" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BZ4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="78" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CA4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="79" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BZ7 / CA7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="80" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CC4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="81" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CD4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="82" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CC7 / CD7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="83" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CF4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="84" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CG4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="85" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CF7 / CG7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="86" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CI4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="87" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CJ4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="88" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CI7 / CJ7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="89" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CL4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="90" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CM4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="91" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CL7 / CM7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="92" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CO4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="93" r="6" s="22">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(CP4[!0;!0]A{eval("a" + "5") = "电渠部"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="94" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=CO7 / CP7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="95" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="96" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="97" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CR7 / CS7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="98" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="99" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="100" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CU7 / CV7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="101" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="102" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="103" r="6" s="25">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="104" r="6" s="25">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="105" r="6" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CZ7 / DA7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="106" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="107" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="108" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="109" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="110" r="6" s="23">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DE7 / DF7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="111" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="112" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="113" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="114" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="115" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="116" r="6" s="26">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="119" r="6" s="11">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="120" r="6" s="11">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="121" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DP7 / DQ7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="122" r="6" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="123" r="6" s="3">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="124" r="6" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DS7 / DT7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="125" r="6">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="126" r="6">
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="127" r="6" s="24">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DV7 / DW7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="345600000" height="72000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="1" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="电渠显示"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请选择电渠显示方式]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="电渠显示" viName="电渠显示"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[widget_电渠]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="256" y="6" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label电渠显示"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[电渠显示:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="176" y="6" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.FreeButton">
+<Listener event="click">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var sql = 'call dateBreak()'
+var result = FR.remoteEvaluate('sql("JDBC2","'+sql+'",1,1)')
+if(result == "no break"){
+	_g().parameterCommit();
+	}
+	else {
+		if(confirm(result)){
+			_g().parameterCommit();
+			}
+			else{
+				}
+		}]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="button0"/>
+<LabelName name="单位查询:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+</InnerWidget>
+<BoundsAttr x="361" y="4" width="89" height="47"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TextEditor">
+<WidgetName name="unit"/>
+<LabelName name="单位查询:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="256" y="30" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="LabelNAME"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[单位查询:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="176" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="统计结束"/>
+<LabelName name="统计结束:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请选择时间]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="30" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label统计结束"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[统计结束:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="统计开始"/>
+<LabelName name="统计开始:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请选择时间]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="4" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label统计开始"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[统计开始:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="4" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="统计开始"/>
+<Widget widgetName="button0"/>
+<Widget widgetName="电渠显示"/>
+<Widget widgetName="统计结束"/>
+<Widget widgetName="unit"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="1"/>
+<Design_Width design_width="1301"/>
+<NameTagModified>
+<TagModified tag="unit" modified="true"/>
+<TagModified tag="统计结束" modified="true"/>
+<TagModified tag="电渠显示" modified="true"/>
+<TagModified tag="统计开始" modified="true"/>
+<TagModified tag="button0" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="unit" tag="单位查询:"/>
+<NameTag name="统计结束" tag="统计结束:"/>
+<NameTag name="电渠显示" tag="电渠显示:"/>
+<NameTag name="统计开始" tag="统计开始:"/>
+<NameTag name="button0" tag="单位查询:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="1301" height="52"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72" foreground="-10092544"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2500135"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2500135"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2500135"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2500135"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2500135"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3355444"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0%]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="08bac5c5-6ad1-407c-bbdd-729ab990e57e"/>
+</TemplateIdAttMark>
+</WorkBook>

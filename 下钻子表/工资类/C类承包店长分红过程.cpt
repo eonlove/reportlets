@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="单位"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT tb1.*,tb2.销售毛利,tb2.手工酬金,tb7.永兴酬金,
+IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0) AS 总毛利,
+IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0) AS 永兴总毛利,
+(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0))*0.1 AS 平台费,
+(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0))*0.15 AS 永兴平台费,
+IF(1,2200,2200) AS 区域管理费,
+tb5.可控成本,tb6.店员税前工资,tb6.店员店奖,tb6.单位部分社保,tb4.分红比例,
+tb6.录单提成,
+IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0))*0.1-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2200 AS 核算毛利,
+###永兴含2400房租
+IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0))*0.15-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2400-2200 AS 永兴核算毛利,
+
+(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0))*0.1-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2200)*分红比例 AS 分红金额,
+
+(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0))*0.15-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2400-2200)*分红比例 AS 永兴分红金额,
+
+IF(
+	tb1.单位 = '永兴电信店',
+	(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(tb7.永兴酬金,0))*0.15-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2400-2200)*分红比例,
+	(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0)-(IFNULL(tb2.销售毛利,0)+IFNULL(手工酬金,0))*0.1-IFNULL(tb5.可控成本,0)-IFNULL(店员税前工资,0)-IFNULL(tb6.单位部分社保,0)+IFNULL(tb6.店员店奖,0)+IFNULL(tb6.录单提成,0)-2200)*分红比例
+) AS 综合分红金额
+
+
+FROM
+(
+SELECT 部门,单位,分类,经营属性
+FROM 单位信息表
+WHERE 经营属性 = '承包'
+) tb1
+
+LEFT JOIN
+
+(
+SELECT 核算单位,SUM(单据利润) AS 销售毛利,SUM(手工酬金) AS 手工酬金
+FROM 店员1店员2明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+GROUP BY 核算单位
+) tb2 ON tb1.单位 = tb2.核算单位
+
+
+LEFT JOIN
+
+(
+	SELECT 单位,酬金 AS 永兴酬金
+	FROM 工资计算_永兴酬金
+	WHERE 月份 = '${月份}'
+) tb7 ON tb1.单位 = tb7.单位
+
+LEFT JOIN
+
+(
+	SELECT 单位,分红比例
+	FROM C类承包分红政策
+	WHERE 月份 = '${月份}'
+) tb4 ON tb1.单位 = tb4.单位
+
+LEFT JOIN
+
+(
+	SELECT 单位,金额 AS 可控成本
+	FROM 可控成本
+	WHERE 月份 = '${月份}'
+) tb5 ON tb1.单位 = tb5.单位
+
+LEFT JOIN
+
+(
+	SELECT 单位,
+	SUM(应发工资) AS 店员税前工资,
+	SUM(店奖_店激励分解) AS 店员店奖,
+	SUM(录单提成) AS 录单提成,
+	SUM(单位合计) AS 单位部分社保
+	FROM 店员工资_调整 t
+	LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),"-",RIGHT(费款所属期,2))
+	WHERE 月份 = '${月份}'
+	GROUP BY 单位
+) tb6 ON tb1.单位 = tb6.单位
+
+WHERE tb1.单位 = '${单位}']]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="3"/>
+<FR/>
+<HC F="0" T="1"/>
+<FC/>
+<UPFCR COLUMN="true" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1728000,1152000,1104900,1524000,1152000,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,5067300,2743200,2743200,2743200,2743200,2743200,2743200,2743200,3314700,2743200,2743200,2743200,2743200,2743200,2743200,2743200,3238500,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="25" s="0">
+<O>
+<![CDATA[承包人分红过程]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[当前月份]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" cs="23" s="2">
+<O>
+<![CDATA[计算过程]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" rs="2" s="2">
+<O>
+<![CDATA[部门]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" rs="2" s="2">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" rs="2" s="2">
+<O>
+<![CDATA[分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" rs="2" s="2">
+<O>
+<![CDATA[经营属性]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" rs="2" s="2">
+<O>
+<![CDATA[销售毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" cs="2" s="3">
+<O>
+<![CDATA[酬金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" rs="2" s="3">
+<O>
+<![CDATA[其他收入]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" cs="2" s="3">
+<O>
+<![CDATA[总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" cs="2" s="3">
+<O>
+<![CDATA[平台费]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" rs="2" s="3">
+<O>
+<![CDATA[可控成本]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" cs="5" s="3">
+<O>
+<![CDATA[人工成本]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="2" rs="2" s="2">
+<O>
+<![CDATA[区域管理费]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" cs="2" s="3">
+<O>
+<![CDATA[房租]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="2" cs="4" s="3">
+<O>
+<![CDATA[分红计算]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="3" s="2">
+<O>
+<![CDATA[手工酬金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="2">
+<O>
+<![CDATA[永兴看这里]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="2">
+<O>
+<![CDATA[总毛利(手工酬金版)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="3" s="2">
+<O>
+<![CDATA[永兴看这里]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="3" s="3">
+<O>
+<![CDATA[博雅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="3" s="3">
+<O>
+<![CDATA[永兴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="3" s="2">
+<O>
+<![CDATA[店员工资]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="3" s="2">
+<O>
+<![CDATA[社保公司部分]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="3" s="2">
+<O>
+<![CDATA[店员店奖]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="3" s="2">
+<O>
+<![CDATA[录单提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="3" s="2">
+<O>
+<![CDATA[人工成本合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="3" s="2">
+<O>
+<![CDATA[其他单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="3" s="2">
+<O>
+<![CDATA[仅永兴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="3" s="2">
+<O>
+<![CDATA[核算毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="3" s="2">
+<O>
+<![CDATA[永兴核算毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="3" s="2">
+<O>
+<![CDATA[分红比例]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="3" s="2">
+<O>
+<![CDATA[分红金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="部门"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="分类"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="经营属性"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="销售毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="手工酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$单位 = "永兴电信店"]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="6" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="永兴酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="4" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="总毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$单位 = "永兴电信店"]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="9" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="永兴总毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="平台费"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$单位 = "永兴电信店"]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="11" r="4" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="永兴平台费"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="可控成本"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="店员税前工资"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="4" s="6">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="单位部分社保"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="店员店奖"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="录单提成"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="17" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=N5 + O5 - P5 - Q5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="4" s="6">
+<O t="I">
+<![CDATA[2200]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="4" s="4">
+<O t="I">
+<![CDATA[0]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="4" s="4">
+<O t="I">
+<![CDATA[2400]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="核算毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$单位 = "永兴电信店"]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="22" r="4" s="6">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="永兴核算毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="23" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="分红比例"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="24" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="综合分红金额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="79200000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72" foreground="-10092493"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="1"/>
+<TemplateID TemplateID="98a933d2-d747-474b-80c6-aa8802f9189d"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="be02506a-623c-4e6a-bfd5-e688d5785065"/>
+</TemplateIdAttMark>
+</WorkBook>

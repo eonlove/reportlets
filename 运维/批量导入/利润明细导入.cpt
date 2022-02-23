@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<ReportWebAttr>
+<ServerPrinter/>
+<WebWriteContent>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.write.Submit">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Utils-Submit')}]]></Text>
+<IconName>
+<![CDATA[submit]]></IconName>
+<Verify failVerifySubmit="true" value="true"/>
+<Sheet onlySubmitSelect="false"/>
+</Widget>
+<Widget class="com.fr.report.web.button.Print">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Print')}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+<PrintButtons/>
+</Widget>
+<Widget class="com.fr.report.web.button.write.ImportExcelData">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Utils-Import_Excel_Data')}]]></Text>
+<IconName>
+<![CDATA[excel]]></IconName>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<SelectedColor/>
+<WebWrite SheetPosition="3"/>
+<RptLocation isShowAtLeft="false"/>
+<UnloadCheck/>
+<ShowWidgets/>
+<OtherAttr isAutoStash="false"/>
+</WebWriteContent>
+</ReportWebAttr>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="Sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1257300,723900,1152000,1152000,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[4267200,4000500,4267200,4000500,4343400,4648200,2590800,2590800,3086100,2590800,2667000,2209800,2590800,2819400,3009900,2209800,2857500,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2590800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2209800,2590800,2209800,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="50" s="0">
+<O>
+<![CDATA[利润明细]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[制表日期：]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" cs="2" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" s="1">
+<O>
+<![CDATA[查询日期：]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" cs="2" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="1" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="2">
+<O>
+<![CDATA[日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="2">
+<O>
+<![CDATA[单据类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="2">
+<O>
+<![CDATA[公司]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="2">
+<O>
+<![CDATA[单据号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="2">
+<O>
+<![CDATA[商品全称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="2">
+<O>
+<![CDATA[串号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="2">
+<O>
+<![CDATA[数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="2">
+<O>
+<![CDATA[金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="2">
+<O>
+<![CDATA[成本单价]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="2">
+<O>
+<![CDATA[利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="2">
+<O>
+<![CDATA[商品分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="2">
+<O>
+<![CDATA[品牌]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="2">
+<O>
+<![CDATA[班次]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="2">
+<O>
+<![CDATA[毛利率%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="2">
+<O>
+<![CDATA[特权申请类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="2">
+<O>
+<![CDATA[客户名称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="2" s="2">
+<O>
+<![CDATA[店员1]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="2" s="2">
+<O>
+<![CDATA[店员2]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="2" s="2">
+<O>
+<![CDATA[串号状态]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" s="2">
+<O>
+<![CDATA[手工单号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="2" s="2">
+<O>
+<![CDATA[头备注]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="2" s="2">
+<O>
+<![CDATA[客户级别]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="2" s="2">
+<O>
+<![CDATA[出库方式]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="2" s="2">
+<O>
+<![CDATA[备注]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="24" r="2" s="2">
+<O>
+<![CDATA[制单人]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="2" s="2">
+<O>
+<![CDATA[修改人]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="2" s="2">
+<O>
+<![CDATA[供应商]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="2" s="2">
+<O>
+<![CDATA[商品原价]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="2" s="2">
+<O>
+<![CDATA[商品属性]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="2" s="2">
+<O>
+<![CDATA[商品类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="2" s="2">
+<O>
+<![CDATA[业务单号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="2" s="2">
+<O>
+<![CDATA[公司类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="2" s="2">
+<O>
+<![CDATA[制单时间]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="2" s="2">
+<O>
+<![CDATA[修改时间]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="2" s="2">
+<O>
+<![CDATA[公司代码]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="2" s="2">
+<O>
+<![CDATA[串号标记]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="2" s="2">
+<O>
+<![CDATA[商品颜色]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="2" s="2">
+<O>
+<![CDATA[商品内存]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="2" s="2">
+<O>
+<![CDATA[仓库]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="2" s="2">
+<O>
+<![CDATA[原始供应商]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="2" s="2">
+<O>
+<![CDATA[最低限价]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="2" s="2">
+<O>
+<![CDATA[销售类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="2" s="2">
+<O>
+<![CDATA[采购日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="2" s="3">
+<O>
+<![CDATA[总库龄]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="2" s="3">
+<O>
+<![CDATA[当前库龄]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="2" s="3">
+<O>
+<![CDATA[柜组]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="2" s="3">
+<O>
+<![CDATA[结算金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="47" r="2" s="3">
+<O>
+<![CDATA[公司属性]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="48" r="2" s="3">
+<O>
+<![CDATA[公司编码]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="2" s="3">
+<O>
+<![CDATA[商品编码]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="3" s="5">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="3" s="6">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="17" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="20" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="21" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="22" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="23" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="24" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="25" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="26" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="27" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="28" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="29" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="30" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="31" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="32" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="33" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="34" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="35" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="36" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="37" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="38" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="39" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="40" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="41" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="42" r="3" s="4">
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="43" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="47" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="48" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="3" s="7">
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="1828800" footerHeight="1828800">
+<PaperSetting>
+<PaperSize width="144000000" height="42768000"/>
+<Margin top="3657600" left="2743200" bottom="3657600" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<ReportWriteAttr>
+<SubmitVisitor class="com.fr.report.write.BuiltInSQLSubmiter">
+<Name>
+<![CDATA[内置SQL1]]></Name>
+<Attributes dsName="JDBC2"/>
+<DMLConfig class="com.fr.write.config.IntelliDMLConfig">
+<Table schema="" name="利润明细_import"/>
+<ColumnConfig name="日期" isKey="false" skipUnmodified="false">
+<ColumnRow column="0" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="单据类型" isKey="false" skipUnmodified="false">
+<ColumnRow column="1" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="公司" isKey="false" skipUnmodified="false">
+<ColumnRow column="2" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="单据号" isKey="false" skipUnmodified="false">
+<ColumnRow column="3" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品全称" isKey="false" skipUnmodified="false">
+<ColumnRow column="4" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="串号" isKey="false" skipUnmodified="false">
+<ColumnRow column="5" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="6" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="金额" isKey="false" skipUnmodified="false">
+<ColumnRow column="7" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="成本单价" isKey="false" skipUnmodified="false">
+<ColumnRow column="8" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="利润" isKey="false" skipUnmodified="false">
+<ColumnRow column="9" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品分类" isKey="false" skipUnmodified="false">
+<ColumnRow column="10" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="品牌" isKey="false" skipUnmodified="false">
+<ColumnRow column="11" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="毛利率%" isKey="false" skipUnmodified="false">
+<ColumnRow column="13" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="客户名称" isKey="false" skipUnmodified="false">
+<ColumnRow column="15" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="店员1" isKey="false" skipUnmodified="false">
+<ColumnRow column="16" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="店员2" isKey="false" skipUnmodified="false">
+<ColumnRow column="17" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="串号状态" isKey="false" skipUnmodified="false">
+<ColumnRow column="18" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="手工单号" isKey="false" skipUnmodified="false">
+<ColumnRow column="19" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="头备注" isKey="false" skipUnmodified="false">
+<ColumnRow column="20" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="客户级别" isKey="false" skipUnmodified="false">
+<ColumnRow column="21" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="备注" isKey="false" skipUnmodified="false">
+<ColumnRow column="23" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="出库方式" isKey="false" skipUnmodified="false">
+<ColumnRow column="22" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="制单人" isKey="false" skipUnmodified="false">
+<ColumnRow column="24" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="修改人" isKey="false" skipUnmodified="false">
+<ColumnRow column="25" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="供应商" isKey="false" skipUnmodified="false">
+<ColumnRow column="26" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品原价" isKey="false" skipUnmodified="false">
+<ColumnRow column="27" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品属性" isKey="false" skipUnmodified="false">
+<ColumnRow column="28" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品类型" isKey="false" skipUnmodified="false">
+<ColumnRow column="29" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="业务单号" isKey="false" skipUnmodified="false">
+<ColumnRow column="30" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="公司类型" isKey="false" skipUnmodified="false">
+<ColumnRow column="31" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="制单时间" isKey="false" skipUnmodified="false">
+<ColumnRow column="32" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="修改时间" isKey="false" skipUnmodified="false">
+<ColumnRow column="33" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="公司代码" isKey="false" skipUnmodified="false">
+<ColumnRow column="34" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="串号标记" isKey="false" skipUnmodified="false">
+<ColumnRow column="35" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品颜色" isKey="false" skipUnmodified="false">
+<ColumnRow column="36" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="仓库" isKey="false" skipUnmodified="false">
+<ColumnRow column="38" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品内存" isKey="false" skipUnmodified="false">
+<ColumnRow column="37" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="销售类型" isKey="false" skipUnmodified="false">
+<ColumnRow column="41" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="采购日期" isKey="false" skipUnmodified="false">
+<ColumnRow column="42" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="总库龄" isKey="false" skipUnmodified="false">
+<ColumnRow column="43" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="当前库龄" isKey="false" skipUnmodified="false">
+<ColumnRow column="44" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="柜组" isKey="false" skipUnmodified="false">
+<ColumnRow column="45" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="结算金额" isKey="false" skipUnmodified="false">
+<ColumnRow column="46" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="班次" isKey="false" skipUnmodified="false">
+<ColumnRow column="12" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="商品编码" isKey="false" skipUnmodified="false">
+<ColumnRow column="49" row="3"/>
+</ColumnConfig>
+</DMLConfig>
+</SubmitVisitor>
+</ReportWriteAttr>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" vertical_alignment="3" textStyle="1" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="1"/>
+<TemplateID TemplateID="bda74ff0-6015-456f-9960-65c6c018356d"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="1898ad77-bc64-4246-b352-b804c8841ef1"/>
+</TemplateIdAttMark>
+</WorkBook>

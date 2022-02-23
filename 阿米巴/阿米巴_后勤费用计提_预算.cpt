@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="后勤费用总表-计提" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单位,0级分类,1级分类,项目,tb.序号,月份,SUM(金额) AS 金额
+FROM
+
+(
+SELECT 单位,序号,
+IF(1,'2020-08',1) AS 月份,IF(1,`2020-08`,0) AS 金额
+FROM 阿米巴_预算数据
+WHERE 单位 NOT LIKE '%渠道部' AND 单位 NOT LIKE '%店'
+AND 0级分类 IN ('变动费用','固定费用')
+
+UNION ALL
+
+
+SELECT 单位,序号,
+IF(1,'2020-09',1) AS 月份,IF(1,`2020-09`,0) AS 金额
+FROM 阿米巴_预算数据
+WHERE 单位 NOT LIKE '%渠道部' AND 单位 NOT LIKE '%店'
+AND 0级分类 IN ('变动费用','固定费用')
+
+UNION ALL
+
+SELECT 单位,序号,
+IF(1,'2020-10',1) AS 月份,IF(1,`2020-10`,0) AS 金额
+FROM 阿米巴_预算数据
+WHERE 单位 NOT LIKE '%渠道部' AND 单位 NOT LIKE '%店'
+AND 0级分类 IN ('变动费用','固定费用')
+
+UNION ALL
+
+SELECT 单位,序号,
+IF(1,'2020-11',1) AS 月份,IF(1,`2020-11`,0) AS 金额
+FROM 阿米巴_预算数据
+WHERE 单位 NOT LIKE '%渠道部' AND 单位 NOT LIKE '%店'
+AND 0级分类 IN ('变动费用','固定费用')
+
+UNION ALL
+
+SELECT 单位,序号,
+IF(1,'2020-12',1) AS 月份,IF(1,`2020-12`,0) AS 金额
+FROM 阿米巴_预算数据
+WHERE 单位 NOT LIKE '%渠道部' AND 单位 NOT LIKE '%店'
+AND 0级分类 IN ('变动费用','固定费用')
+
+UNION ALL
+
+SELECT 后勤挂账单位,阿米巴项目序号,IF(1,'2020-08','') AS 月份,金额
+FROM 阿米巴_部分后勤人员成本
+WHERE 后勤挂账单位 !='无'
+
+UNION ALL
+
+SELECT 后勤挂账单位,阿米巴项目序号,IF(1,'2020-09','') AS 月份,金额
+FROM 阿米巴_部分后勤人员成本
+WHERE 后勤挂账单位 !='无'
+
+UNION ALL
+
+
+SELECT 后勤挂账单位,阿米巴项目序号,IF(1,'2020-10','') AS 月份,金额
+FROM 阿米巴_部分后勤人员成本
+WHERE 后勤挂账单位 !='无'
+
+
+UNION ALL
+
+
+SELECT 后勤挂账单位,阿米巴项目序号,IF(1,'2020-11','') AS 月份,金额
+FROM 阿米巴_部分后勤人员成本
+WHERE 后勤挂账单位 !='无'
+
+UNION ALL
+
+SELECT 后勤挂账单位,阿米巴项目序号,IF(1,'2020-12','') AS 月份,金额
+FROM 阿米巴_部分后勤人员成本
+WHERE 后勤挂账单位 !='无'
+) tb LEFT JOIN 阿米巴_预算_表头 tb2 ON tb.序号 = tb2.`序号`
+GROUP BY 单位,序号,月份
+]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="1"/>
+<FR/>
+<HC/>
+<FC/>
+<UPFCR COLUMN="false" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1728000,1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[5105400,3390900,4648200,4495800,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="6" s="0">
+<O>
+<![CDATA[后勤费用总表-计提]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="1">
+<O>
+<![CDATA[0级分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" s="1">
+<O>
+<![CDATA[1级分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" s="1">
+<O>
+<![CDATA[项目]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="1">
+<O>
+<![CDATA[序号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="月份"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="1"/>
+</C>
+<C c="0" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="0级分类"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="1级分类"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="项目"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="2">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="序号"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="后勤费用总表-计提" columnName="金额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="144000000" height="360000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="d78a5494-c37f-4b8b-b44d-03b16f7acf9b"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="6a0e086b-6d1a-4e23-b7d8-b962e5fa35f2"/>
+</TemplateIdAttMark>
+</WorkBook>

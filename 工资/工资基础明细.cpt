@@ -1,0 +1,1647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT tbb.*,tbb1.手工酬金
+FROM
+(
+	SELECT 店员1,姓名,日期,下账单位,核算单位,单据号,单据类型,SUM(利润) AS 利润
+	FROM
+	(
+		SELECT 店员1,姓名,日期,公司 AS 下账单位,t1.单位 AS 核算单位,单据号,单据类型,SUM(利润) AS 利润
+		FROM 利润明细 t FORCE INDEX(利润明细_日期_单据类型) 
+		LEFT JOIN 店员字典 t1 ON t.店员1=t1.`店员`
+		WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		AND 单据类型 IN ('零售','零售退货','零售换机')
+		AND 店员2 = ''
+		AND 单据号 NOT IN
+		(
+			SELECT DISTINCT 单据号
+			FROM 利润明细
+			WHERE 单据类型 IN ('零售','零售退货','零售换机')
+			AND 单据号 IN (SELECT 单据号 FROM 跨月单据)
+			AND DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		)
+		AND 商品全称 NOT IN
+		(
+			SELECT 商品名称
+			FROM 博远虚拟商品
+			WHERE 佣金比例 = 0
+		)
+		AND 商品全称 NOT IN ('企业组网-毛利亏损','企业组网利润')
+		GROUP BY 单据号,店员1
+
+
+
+		UNION ALL
+
+
+		SELECT 店员1,姓名,日期,公司 AS 下账单位,t1.单位 AS 核算单位,单据号,单据类型,SUM(利润)/2 AS 利润
+		FROM 利润明细 t FORCE INDEX(利润明细_日期_单据类型) 
+		LEFT JOIN 店员字典 t1 ON t.店员1=t1.`店员`
+		WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		AND 单据类型 IN ('零售','零售退货','零售换机')
+		AND 店员2 != ''
+		AND 单据号 NOT IN
+		(
+			SELECT DISTINCT 单据号
+			FROM 利润明细
+			WHERE 单据类型 IN ('零售','零售退货','零售换机')
+			AND 单据号 IN (SELECT 单据号 FROM 跨月单据)
+			AND DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		)
+		AND 商品全称 NOT IN
+		(
+			SELECT 商品名称
+			FROM 博远虚拟商品
+			WHERE 佣金比例 = 0
+		)
+		AND 商品全称 NOT IN ('企业组网-毛利亏损','企业组网利润')
+		GROUP BY 单据号,店员1
+
+
+		UNION ALL
+
+
+		SELECT 店员2,姓名,日期,公司 AS 下账单位,t1.单位 AS 核算单位,单据号,单据类型,SUM(利润)/2
+		FROM 利润明细 t FORCE INDEX(利润明细_日期_单据类型) 
+		LEFT JOIN 店员字典 t1 ON t.店员2=t1.`店员`
+		WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		AND 单据类型 IN ('零售','零售退货','零售换机')
+		AND 店员2 != ''
+		AND 单据号 NOT IN
+		(
+			SELECT DISTINCT 单据号
+			FROM 利润明细
+			WHERE 单据类型 IN ('零售','零售退货','零售换机')
+			AND 单据号 IN (SELECT 单据号 FROM 跨月单据)
+			AND DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		)
+		AND 商品全称 NOT IN
+		(
+			SELECT 商品名称
+			FROM 博远虚拟商品
+			WHERE 佣金比例 = 0
+		)
+		AND 商品全称 NOT IN ('企业组网-毛利亏损','企业组网利润')
+		GROUP BY 单据号,店员2
+	) tb
+	GROUP BY 单据号,店员1
+
+
+	UNION ALL
+
+
+
+	SELECT 店员1,姓名,CONCAT('${月份}','-01') AS 日期,公司 AS 下账单位,t1.单位 AS 核算单位,单据号,单据类型,SUM(利润) AS 利润
+	FROM 利润明细 t 
+	LEFT JOIN 店员字典 t1 ON t.店员1 = t1.店员
+	WHERE 单据号 IN
+	(
+		SELECT 单据号
+		FROM 跨月单据
+		WHERE 调至 = '${月份}'
+	)
+	AND 商品全称 NOT IN
+	(
+		SELECT 商品名称
+		FROM 博远虚拟商品
+		WHERE 佣金比例 = 0
+	)
+	GROUP BY 单据号,店员1
+) tbb
+
+
+LEFT JOIN
+
+
+(
+	SELECT 单据号,店员1,SUM(酬金) AS 手工酬金
+	FROM 手工酬金 t
+	WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+	GROUP BY 单据号,店员1
+) tbb1 ON tbb.单据号 = tbb1.单据号 AND tbb.店员1 = tbb1.店员1]]></Query>
+</TableData>
+<TableData name="D手机返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 单据号,店员1,SUM(D手机返款) AS D手机返款
+FROM
+
+(
+	SELECT tb1.*,tb2.标价,tb2.限价,tb2.标价毛利,tb2.限价毛利,
+	
+	CASE
+		WHEN tb1.数量>0 AND tb1.金额>=标价 THEN 标价激励
+		WHEN tb1.数量>0 AND tb1.金额>=限价 THEN 限价激励
+		WHEN tb1.数量>0 AND tb1.利润>=标价毛利 THEN 限价激励
+		WHEN tb1.数量>0 AND tb1.利润>=限价毛利 THEN 限价激励
+	ELSE 0 END AS D手机返款
+	
+	
+	FROM
+	(	##D手机按串号分组
+		SELECT 单据号,店员1,商品全称,串号,金额,利润,SUM(数量) AS 数量
+		FROM
+		(
+			##倒序D手机销售记录
+			SELECT 单据号,店员1,商品全称,串号,数量,金额,利润
+			FROM 利润明细
+			WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+			AND 单据类型 IN ('零售','零售换机','零售退货')
+			AND 商品类型 = '实物商品'
+			AND 串号 IN
+				(
+					SELECT 串号
+					FROM d手机
+					WHERE 月份 ='${月份}'
+				)
+			ORDER BY 单据号 DESC 
+			LIMIT 99999
+		) t1
+		GROUP BY 串号
+	) tb1 
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM d手机
+		WHERE 月份 = '${月份}'
+	) tb2 ON tb1.串号 = tb2.串号
+) tbb
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="D配件返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 单据号,店员1,SUM(D配件返款) AS D配件返款
+FROM
+
+(
+	SELECT tb1.*,tb2.返款售价,
+	IF(tb1.数量>0 AND tb1.金额>=返款售价,tb2.激励金额,0) AS D配件返款
+	FROM
+	(
+		SELECT 单据号,店员1,商品全称,串号,金额,SUM(数量) AS 数量
+		FROM
+		(
+			SELECT 单据号,店员1,商品全称,串号,数量,金额
+			FROM 利润明细
+			WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+			AND 单据类型 IN ('零售','零售换机','零售退货')
+			AND 商品类型 = '实物商品'
+			AND 串号 IN
+				(
+					SELECT 串号
+					FROM d配件
+					WHERE 月份 ='${月份}'
+				)
+			ORDER BY 单据号 DESC 
+			LIMIT 99999
+		) t1
+		GROUP BY 串号
+	) tb1 
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM d配件
+		WHERE 月份 = '${月份}'
+	) tb2 ON tb1.串号 = tb2.串号
+) tbb
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="贴膜卡返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(贴膜卡返款) AS 贴膜卡返款
+FROM
+
+(
+	SELECT 单据号,串号,店员1,金额,SUM(数量) AS 数量,
+	CASE 
+		WHEN SUM(数量)>0 AND 金额>=398 THEN 55
+		WHEN SUM(数量)>0 AND 金额>=298 THEN 40
+		WHEN SUM(数量)>0 AND 金额>=198 THEN 30
+		WHEN SUM(数量)>0 AND 金额>=98  THEN 20
+		ELSE 0 END AS 贴膜卡返款
+		
+	FROM
+	(
+		SELECT 单据号,串号,店员1,金额,数量
+		FROM 利润明细
+		WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		AND 单据类型 IN ('零售','零售换机','零售退货')
+		AND 商品类型 = '实物商品'
+		AND (商品属性 ='贴膜套餐备选' OR 备注 LIKE '%膜套餐%')
+		ORDER BY 单据号 DESC
+		LIMIT 9999
+	) t1
+	GROUP BY 串号
+) tbb
+GROUP  BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="增值返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(增值返款) AS 增值返款
+FROM
+(
+	SELECT *,
+	
+	CASE
+		WHEN 金额 >= 返款售价3 THEN 激励金额3
+		WHEN 金额 >= 返款售价2 THEN 激励金额2
+		WHEN 金额 >= 返款售价 THEN 激励金额
+		ELSE 0
+		END AS 增值返款
+
+	FROM
+	(
+		SELECT 单据号,店员1,串号,商品全称,SUM(数量) AS 数量,金额
+
+		FROM
+		(
+			SELECT 单据号,店员1,串号,商品全称,数量,金额
+			FROM 利润明细
+			WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+			AND 单据类型 IN ('零售','零售换机','零售退货')
+			AND 商品全称 IN
+			(
+				SELECT 商品全称
+				FROM 增值政策
+			)
+			ORDER BY 单据号 DESC
+			LIMIT 9999
+		) t1
+		GROUP BY 串号
+	) tb1 
+
+	LEFT JOIN
+
+	增值政策 tb2 USING(商品全称)
+) tbb
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="重点产品返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(重点产品返款) AS 重点产品返款
+FROM
+(
+	SELECT tb.*,tb1.标价,tb1.限价,tb1.标价激励,tb1.限价激励,
+	
+	
+	IF(返款标准="毛利",IF(利润>=标价,标价激励,IF(利润>=限价,限价激励,0)),IF(tb.金额>=标价,标价激励,IF(tb.金额>=限价,限价激励,0))) AS 重点产品返款
+	FROM
+
+	(
+		SELECT 单据号,店员1,t1.商品全称,串号,金额,利润,SUM(数量) AS 数量
+		FROM
+		(
+			SELECT 单据号,店员1,商品全称,串号,数量,利润,金额
+			FROM 利润明细
+			WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+			AND 单据类型 IN ('零售','零售换机','零售退货')
+			AND 商品类型 = '实物商品'
+			AND 商品全称 IN
+				(
+					SELECT 商品全称
+					FROM 重点产品
+					WHERE 月份 ='${月份}'
+				)
+			OR 商品全称 IN ('金卡会员198','钻卡会员398','至尊会员598','苹果至尊会员888')
+			ORDER BY 单据号 DESC 
+			LIMIT 99999
+		) t1
+
+		GROUP BY 串号
+	) tb
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM 重点产品
+		WHERE 月份 = '${月份}'
+	) tb1 ON tb.商品全称 = tb1.商品全称
+) tbb
+
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="产品晒单" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT 单据号,店员1,SUM(晒单激励) AS 晒单激励
+FROM
+(
+	SELECT tb.*,tb1.激励金额,
+	IF(tb.数量>0,激励金额,0) AS 晒单激励
+
+	FROM
+
+	(
+		SELECT 单据号,串号,店员1,SUM(数量) AS 数量
+		FROM
+		(
+			SELECT 单据号,串号,店员1,数量
+			FROM 利润明细
+			WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+			AND 商品类型 = '实物商品'
+			AND 单据类型 IN ('零售','零售换机','零售退货')
+			AND 串号 IN
+			(
+				SELECT 串号
+				FROM 产品晒单
+				WHERE 月份 = '${月份}'
+			)
+			ORDER BY 单据号 DESC
+			LIMIT 9999
+		) t1
+		GROUP BY 串号
+	) tb 
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM 产品晒单
+		WHERE 月份 = '${月份}'
+	) tb1 ON tb.串号 = tb1.串号
+) tbb 
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="靓号返款" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2020-09]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(店员提成) AS 店员提成,SUM(店长提成) AS 店长提成
+FROM
+(
+	SELECT 单据号,店员1,串号,商品全称,利润,
+	SUM(数量) AS 数量,
+	SUM(IF(商品全称 in ('电信手机靓号成本','靓号移动靓号白卡-写卡','靓号移动69网靓号'),利润*0.1,利润*0.06)) AS 店员提成,
+	SUM(IF(商品全称 in ('电信手机靓号成本','靓号移动靓号白卡-写卡','靓号移动69网靓号'),利润*0.05*0.7,利润*0.04*0.7)) AS 店长提成,
+	SUM(IF(商品全称 in ('电信手机靓号成本','靓号移动靓号白卡-写卡','靓号移动69网靓号'),利润*0.05*0.3,利润*0.04*0.3)) AS 区域提成
+	FROM
+	(
+		SELECT 单据号,串号,商品全称,店员1,利润,数量
+		FROM 利润明细
+		WHERE 商品全称 IN ('座机靓号成本','电信手机靓号成本','靓号电信手机靓号成本','靓号座机靓号成本','靓号移动靓号白卡-写卡','靓号移动69网靓号')
+		AND 单据类型 IN ('零售退货','零售换机','零售')
+		AND DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+		ORDER BY 单据号 DESC
+		LIMIT 9999
+	) t1
+	GROUP BY 串号
+) tbb
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="D配件数量" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(数量) AS 数量
+FROM 利润明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+AND 单据类型 IN ('零售','零售换机','零售退货')
+AND 商品类型 = '实物商品'
+AND 串号 IN
+	(
+		SELECT 串号
+		FROM d配件
+		WHERE 月份 ='${月份}'
+	)
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="D手机数量" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(数量) AS 数量
+FROM 利润明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+AND 单据类型 IN ('零售','零售换机','零售退货')
+AND 商品类型 = '实物商品'
+AND 串号 IN
+	(
+		SELECT 串号
+		FROM d手机
+		WHERE 月份 ='${月份}'
+	)
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="新合约" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(数量) AS 新合约
+FROM 利润明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+AND 商品类型 = '分期'
+AND 商品全称 != '捷信分期'
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="增值" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(数量) AS 增值
+FROM 利润明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+AND 商品分类 LIKE '%碎屏保%'
+AND 单据类型 IN ('零售','零售退货','零售换机')
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="贴膜卡数量" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 单据号,店员1,SUM(数量) AS 贴膜卡
+FROM 利润明细
+WHERE DATE_FORMAT(日期,'%Y-%m') = '${月份}'
+AND 单据类型 IN ('零售','零售换机','零售退货')
+AND 商品类型 = '实物商品'
+AND (商品属性 ='贴膜套餐备选' OR 备注 LIKE '%膜套餐%')
+AND 金额 != 0
+GROUP BY 单据号,店员1]]></Query>
+</TableData>
+<TableData name="手机数量" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2020-10]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 单据号,店员1,sum(if(t1.分类2 = '手机',t.数量,0)) as 手机数量
+from 利润明细 t
+left join 商品分类 t1 on t.商品全称 = t1.商品全称
+where t.单据类型 in ('零售','零售换机','零售退货')
+and 商品类型 = '实物商品'
+and date_format(日期,'%Y-%m') = '${月份}'
+group by 单据号,店员1]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1440000,1152000,1295400,1152000,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,3162300,3124200,3200400,3200400,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="23" s="0">
+<O>
+<![CDATA[工资基础明细]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" rs="2" s="1">
+<O>
+<![CDATA[下账名称]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" rs="2" s="1">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="1" rs="2" s="1">
+<O>
+<![CDATA[日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="1" rs="2" s="1">
+<O>
+<![CDATA[下账单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" rs="2" s="1">
+<O>
+<![CDATA[核算单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" rs="2" s="1">
+<O>
+<![CDATA[单据号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" rs="2" s="1">
+<O>
+<![CDATA[单据类型]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" rs="2" s="1">
+<O>
+<![CDATA[单据利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" rs="2" s="1">
+<O>
+<![CDATA[手工酬金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" cs="8" s="1">
+<O>
+<![CDATA[单项激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="1" cs="6" s="1">
+<O>
+<![CDATA[单项完成数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="1">
+<O>
+<![CDATA[D手机返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="1">
+<O>
+<![CDATA[D配件返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="1">
+<O>
+<![CDATA[贴膜卡返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="1">
+<O>
+<![CDATA[增值返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="1">
+<O>
+<![CDATA[重点产品返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="1">
+<O>
+<![CDATA[店员靓号返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="1">
+<O>
+<![CDATA[店长靓号返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="2" s="1">
+<O>
+<![CDATA[产品晒单返款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="2" s="1">
+<O>
+<![CDATA[D手机数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="2" s="1">
+<O>
+<![CDATA[D配件数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" s="1">
+<O>
+<![CDATA[新合约数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="2" s="1">
+<O>
+<![CDATA[增值数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="2" s="1">
+<O>
+<![CDATA[贴膜卡数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="22" r="2" s="1">
+<O>
+<![CDATA[手机数量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="店员1"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="姓名"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="日期"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="下账单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="核算单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="单据号"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="单据类型"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="3" s="3">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="利润"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="手工酬金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="D手机返款" columnName="D手机返款"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="D配件返款" columnName="D配件返款"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="贴膜卡返款" columnName="贴膜卡返款"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="增值返款" columnName="增值返款"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="重点产品返款" columnName="重点产品返款"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="靓号返款" columnName="店员提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="靓号返款" columnName="店长提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="产品晒单" columnName="晒单激励"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="17" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="D手机数量" columnName="数量"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="D配件数量" columnName="数量"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="新合约" columnName="新合约"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="20" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="增值" columnName="增值"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="21" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="贴膜卡数量" columnName="贴膜卡"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="22" r="3" s="2">
+<O t="DSColumn">
+<Attributes dsName="手机数量" columnName="手机数量"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单据号]]></CNAME>
+<Compare op="0">
+<ColumnRow column="5" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[店员1]]></CNAME>
+<Compare op="0">
+<ColumnRow column="0" row="3"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="86400000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<ReportWriteAttr>
+<SubmitVisitor class="com.fr.report.write.BuiltInSQLSubmiter">
+<Name>
+<![CDATA[内置SQL1]]></Name>
+<Attributes dsName="JDBC2"/>
+<DMLConfig class="com.fr.write.config.IntelliDMLConfig">
+<Table schema="" name="店员1店员2明细"/>
+<ColumnConfig name="下账名称" isKey="true" skipUnmodified="false">
+<ColumnRow column="0" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="姓名" isKey="false" skipUnmodified="false">
+<ColumnRow column="1" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="日期" isKey="false" skipUnmodified="false">
+<ColumnRow column="2" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="下账单位" isKey="false" skipUnmodified="false">
+<ColumnRow column="3" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="核算单位" isKey="false" skipUnmodified="false">
+<ColumnRow column="4" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="单据号" isKey="true" skipUnmodified="false">
+<ColumnRow column="5" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="单据类型" isKey="false" skipUnmodified="false">
+<ColumnRow column="6" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="单据利润" isKey="false" skipUnmodified="false">
+<ColumnRow column="7" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="手工酬金" isKey="false" skipUnmodified="false">
+<ColumnRow column="8" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="D手机返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="9" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="D配件返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="10" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="贴膜卡返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="11" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="增值返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="12" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="重点产品返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="13" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="店员靓号返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="14" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="店长靓号返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="15" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="产品晒单返款" isKey="false" skipUnmodified="false">
+<ColumnRow column="16" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="D手机数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="17" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="D配件数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="18" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="新合约数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="19" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="增值数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="20" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="贴膜卡数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="21" row="3"/>
+</ColumnConfig>
+<ColumnConfig name="手机数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="22" row="3"/>
+</ColumnConfig>
+<Condition class="com.fr.data.condition.ListCondition"/>
+</DMLConfig>
+</SubmitVisitor>
+</ReportWriteAttr>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="229" y="25" width="80" height="30"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="月份"/>
+<LabelName name="月份:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr format="yyyy-MM"/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="83" y="25" width="100" height="30"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label月份"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[月份:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="3" y="25" width="80" height="30"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="月份"/>
+<Widget widgetName="Search"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified/>
+<WidgetNameTagMap>
+<NameTag name="月份" tag="月份:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="80"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-6697729"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-3677185"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="3"/>
+<TemplateID TemplateID="bcdcf92a-5e77-4cbb-ade0-7840e0149abc"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="ef7d279d-362e-45a1-8058-b17420cac74e"/>
+</TemplateIdAttMark>
+</WorkBook>

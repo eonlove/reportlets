@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="month"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[	SELECT tb1.*,IF(IFNULL(tb3.kpi,60)>60,IFNULL(tb3.kpi,60),60) AS 综合绩效得分,
+	CASE 
+	WHEN DATE_FORMAT(入职日期,'%Y-%m') = DATE_FORMAT(离职日期,'%Y-%m') THEN
+	(DAY(离职日期)-DAY(入职日期)-FLOOR((DAY(离职日期)-DAY(入职日期))/7)+1)/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+	WHEN DATE_FORMAT(入职日期,'%Y-%m') = '${month}' THEN 
+	(DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1 - FLOOR((DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1)/7))/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+	WHEN DATE_FORMAT(离职日期,'%Y-%m') = '${month}' THEN 
+	(DAY(离职日期)-FLOOR(DAY(离职日期)/7))/(DAY(LAST_DAY(离职日期))-4)*tb2.试用绩效
+	ELSE tb2.试用绩效 END *
+	IF(IFNULL(tb3.kpi,60)>60,IFNULL(tb3.kpi,60),60)/100 AS 试用绩效,
+	
+	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END AS 目标,
+		
+	
+	tb4.总毛利 AS 完成毛利,
+	
+	IFNULL(IF(tb4.总毛利>	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END,1000,tb4.总毛利/CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END*1000),0) AS 试用提成,
+
+	CASE 
+
+		WHEN DATE_FORMAT(入职日期,'%Y-%m') = DATE_FORMAT(离职日期,'%Y-%m') THEN
+		(DAY(离职日期)-DAY(入职日期)-FLOOR((DAY(离职日期)-DAY(入职日期))/7)+1)/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+		WHEN DATE_FORMAT(入职日期,'%Y-%m') = '${月份}' THEN 
+		(DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1 - FLOOR((DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1)/7))/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+		WHEN DATE_FORMAT(离职日期,'%Y-%m') = '${月份}' THEN 
+		(DAY(离职日期)-FLOOR(DAY(离职日期)/7))/(DAY(LAST_DAY(离职日期))-4)*tb2.试用绩效
+		ELSE tb2.试用绩效 END *
+		IF(IFNULL(tb3.kpi,60)>60,IFNULL(tb3.kpi,60),60)/100 +
+		IFNULL(IF(tb4.总毛利>	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END,1000,tb4.总毛利/CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END*1000),0) AS 应发试用绩效
+			
+	FROM
+
+	(
+		SELECT department_trans AS 单位,name_in_company AS 姓名,status_trans AS 状态,entry_date AS 入职日期,leave_date AS 离职日期,position_trans AS 岗位
+		FROM selectroster_tmp
+		WHERE `month` = '${month}'
+		AND status_trans = '试用期'
+		AND department_trans NOT IN ('东方华大小米专卖店','益州国际小米专卖店')
+	) tb1
+
+	LEFT JOIN
+
+	基本工资表 tb2 ON tb1.岗位 = tb2.岗位 AND tb1.状态 = tb2.状态
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM kpi_crew
+		WHERE ym = '${month}'
+		AND class = '试用期'
+	) tb3 ON tb1.姓名 = tb3.nickname
+	
+	LEFT JOIN
+	
+	(
+		SELECT 姓名,SUM(总毛利) AS 总毛利
+		FROM 店员月结_tmp
+		WHERE 月份 = '${month}'
+		GROUP BY 姓名
+	) tb4 ON tb1.姓名 = tb4.姓名
+	
+	LEFT JOIN 新单位信息 tb5 ON tb1.单位 = tb5.单位]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1296000,1296000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3600000,3600000,3600000,3600000,3600000,3600000,3600000,2743200,2743200,2743200,2743200,2743200,3600000,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O>
+<![CDATA[状态]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<O>
+<![CDATA[入职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" s="0">
+<O>
+<![CDATA[离职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="0" s="0">
+<O>
+<![CDATA[岗位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="0" s="0">
+<O>
+<![CDATA[综合得分]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="0" s="1">
+<O>
+<![CDATA[试用绩效]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="0" s="0">
+<O>
+<![CDATA[完成毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" s="0">
+<O>
+<![CDATA[目标]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="0" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="0" s="1">
+<O>
+<![CDATA[试用提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="0" s="1">
+<O>
+<![CDATA[应发总绩效]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="姓名"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<Parameter>
+<Attributes name="name"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="单位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="状态"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="入职日期"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="离职日期"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="岗位"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="综合绩效得分"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="试用绩效"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="完成毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="1" s="0">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="目标"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="1" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=i2/j2]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="试用提成"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="应发试用绩效"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="48960000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="4f4c8f85-de56-486f-ae95-192fcf5982d7"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="34fa5eb0-37cd-4df1-9816-f504dcff4dc2"/>
+</TemplateIdAttMark>
+</WorkBook>

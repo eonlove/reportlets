@@ -1,0 +1,4710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="main" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="姓名"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="单位"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="fr_authority"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="状态"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2021-04]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="fr_username"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="发放状态"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="岗位"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT s.*,
+
+CASE 
+	WHEN s.status_trans IN ('试用期','实习生') AND DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') AND (DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)<=3 THEN 0
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.base_wage
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.base_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.base_wage
+	ELSE b.base_wage END * IFNULL(qdkpi.kpi,1) AS base_wage,
+
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`post_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.post_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.post_wage
+	ELSE b.post_wage END * IFNULL(qdkpi.kpi,1)  AS post_wage,
+
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`confidential_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.confidential_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.confidential_wage
+	ELSE b.confidential_wage END  AS confidential_wage,
+	
+CASE 
+	WHEN s.status_trans IN ('试用期','实习生') AND DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') AND (DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)<=3 THEN 0
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`fulltime_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.fulltime_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.fulltime_wage
+	ELSE b.fulltime_wage END  AS fulltime_wage,
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`overtime_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.overtime_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.overtime_wage
+	ELSE b.overtime_wage END  AS overtime_wage,
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`traffical_subsidy`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.traffical_subsidy
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.traffical_subsidy
+	ELSE b.traffical_subsidy END  AS traffical_subsidy,
+
+
+
+IF(s.status_trans = '三益' OR s.position_trans IN ('承包人','装维工程师','机动工程师','学徒工程师','DICT组员','客户经理','实习工程师','客户工程师','售前工程师'),0,
+	IF(
+		IF(
+			DATEDIFF(CONCAT('${月份}','-01'),s.entry_date)<=0,
+			0,
+			FLOOR(DATEDIFF(CONCAT('${月份}','-01'),s.entry_date)/365)*50
+		 ) >300,
+		300,
+		IF(
+			DATEDIFF(CONCAT('${月份}','-01'),s.entry_date)<=0,
+			0,
+			FLOOR(DATEDIFF(CONCAT('${月份}','-01'),s.entry_date)/365)*50
+		)
+	)
+) AS seniority_wages,
+
+IF(s.position_trans = '营销副总',
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`performance_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.performance_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.performance_wage
+	ELSE b.performance_wage 
+	END*(IFNULL(kpihq.kpi,100)/100 + kv.kpi)/2,
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*b.`performance_wage`
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*b.performance_wage
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*b.performance_wage
+	ELSE b.performance_wage 
+	END*IF(s.name_in_company IN ('柏亮','罗丽娜','刘江南','王韬','周跃海','刘雪梅','陈晓慧','范彬'),IFNULL(kpihq.kpi,100)/100,IF(IFNULL(kpihq.kpi,100)/100>=0.95,1,IFNULL(kpihq.kpi,100)/100))	
+	)
+	
+	AS performance_wage,
+
+	
+CASE 
+
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') THEN
+	(DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)/(DAY(LAST_DAY(s.entry_date))-4)*sp.发放金额
+	WHEN DATE_FORMAT(s.entry_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1 - FLOOR((DAY(LAST_DAY(s.entry_date)) - DAY(s.entry_date) +1)/7))/(DAY(LAST_DAY(s.entry_date))-4)*sp.发放金额
+	WHEN DATE_FORMAT(s.leave_date,'%Y-%m') = '${月份}' THEN 
+	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)*sp.发放金额
+	ELSE sp.发放金额 
+	END  AS sp_rmb,
+
+sp.发放模式 AS sp_mode,
+sb.人员归属 AS belong,
+pk.金额 AS loss,
+sb.个人合计 AS personal_ss,
+gs.当月应补 AS personal_tax,
+gsqs.清算金额 AS gsqs,
+dmsb.金额 AS dmsb,
+gjj.合计 AS gjj,
+br.金额 AS debt,
+cl.金额 AS cloth,
+cs.金额 AS commercial_security,
+rjj.金额 AS rjj,
+szxf.金额 AS szxf,
+yyk.金额 AS yyk,
+kq.考勤扣款 AS kqkk,
+qs.金额 AS qs,
+fj.激励合计 AS fjjl,
+fj.考核合计 AS fjkh,
+dxjs.基础绩效 AS dxjx,
+dxjs.激励考核 AS dxjlkh,
+bp.business_penalty,
+ywjl.ywjl,
+reward.reward,
+sbd.amount,
+
+IF(s.status_trans IN ('试用期','实习生')
+AND DATE_FORMAT(s.entry_date,'%Y-%m') = DATE_FORMAT(s.leave_date,'%Y-%m') 
+AND (DAY(s.leave_date)-DAY(s.entry_date)-FLOOR((DAY(s.leave_date)-DAY(s.entry_date))/7)+1)<=3,0,
+ghjj.缴款金额) AS ghjj,
+
+IF(s.department_trans IN ('东方华大小米专卖店','益州国际小米专卖店') AND xm.销售额>=80000 AND s.position_trans IN ('店员','储备店长'),300,0) AS mxfddx
+
+
+
+FROM selectroster_tmp s
+
+LEFT JOIN 后勤kpi kpihq ON s.`month` = kpihq.月份 AND kpihq.姓名 = s.name_in_company
+LEFT JOIN 渠道管理人员KPI qdkpi ON s.month = qdkpi.月份 AND  s.name_in_company = qdkpi.姓名
+LEFT JOIN kpi_vp kv ON s.`month` = kv.月份 AND s.name_in_company = kv.姓名
+LEFT JOIN 个税表 gs ON s.id = gs.身份证 AND s.month = gs.月份
+LEFT JOIN 工会基金缴费标准 ghjj ON  ghjj.编制 = s.position_trans
+LEFT JOIN 公积金 gjj ON s.id = gjj.证件号码 AND s.month = gjj.月份
+LEFT JOIN 
+(
+	SELECT 月份,姓名,IFNULL(SUM(事假),0)+IFNULL(SUM(病假),0)+IFNULL(SUM(旷工),0)+IFNULL(SUM(迟到早退),0)+IFNULL(SUM(未打卡),0)+IFNULL(SUM(全勤),0) AS 考勤扣款
+	FROM 考勤
+	GROUP BY 月份,姓名
+) kq ON s.name_in_company = kq.姓名 AND s.month = kq.月份
+LEFT JOIN 特殊薪资规则 sp ON s.name_in_company = sp.姓名 AND s.month = sp.月份
+LEFT JOIN 个税清算 gsqs ON s.id = gsqs.身份证 AND s.month = gsqs.月份
+LEFT JOIN 单位激励考核分解 fj ON s.name_in_company = fj.姓名 AND s.month = fj.月份
+
+LEFT JOIN 社保 sb ON s.id = sb.社会保障号码 AND s.month = CONCAT(LEFT(费款所属期,4),"-",RIGHT(费款所属期,2))
+LEFT JOIN basicSalary b ON s.status = b.`status`  AND s.`position` = b.`position` AND s.`grade` = b.`grade`
+LEFT JOIN (SELECT `month`,`name_in_company`,SUM(amount) AS amount FROM subsidy GROUP BY `month`,`name_in_company`) sbd ON s.`month` = sbd.`month` AND s.name_in_company = sbd.name_in_company
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 工资清算 GROUP BY 月份,姓名) qs ON s.name_in_company = qs.姓名 AND s.month = qs.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 代买社保清单 GROUP BY 月份,姓名) dmsb ON s.name_in_company = dmsb.姓名 AND s.month = dmsb.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 盘亏 GROUP BY 月份,姓名) pk ON s.name_in_company = pk.姓名 AND s.month = pk.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 借支款 GROUP BY 月份,姓名) br ON s.name_in_company = br.姓名 AND s.month = br.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 服装费 GROUP BY 月份,姓名) cl ON s.name_in_company = cl.姓名 AND s.month = cl.月份
+LEFT JOIN (SELECT 月份,标的姓名,SUM(金额) AS 金额 FROM 商业险 GROUP BY 月份,标的姓名) cs ON s.name_in_company = cs.标的姓名 AND s.month = cs.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 渠道工资_熔接机押金 GROUP BY 月份,姓名) rjj ON s.name_in_company = rjj.姓名 AND s.month = rjj.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 渠道工资_双证学费 GROUP BY 月份,姓名) szxf ON s.name_in_company = szxf.姓名 AND s.month = szxf.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS 金额 FROM 渠道工资_扣营业款 GROUP BY 月份,姓名) yyk ON s.name_in_company = yyk.姓名 AND s.month = yyk.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(基础绩效) AS 基础绩效,SUM(激励考核) AS 激励考核 FROM 渠道工资_电信结算 GROUP BY 月份,姓名) dxjs ON s.name_in_company = dxjs.姓名 AND s.month = dxjs.月份
+LEFT JOIN (SELECT `month`,`name`,SUM(reward_apply) AS reward FROM reward_total GROUP BY `month`,`name`) reward ON s.`month` = reward.month AND s.name_in_company = reward.name
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS ywjl FROM business_reward GROUP BY 月份,姓名) ywjl ON s.name_in_company = ywjl.`姓名` AND s.`month` = ywjl.月份
+LEFT JOIN (SELECT 月份,姓名,SUM(金额) AS business_penalty FROM business_penalty GROUP BY 月份,姓名) bp ON s.`month` = bp.月份 AND s.name_in_company = bp.姓名
+LEFT JOIN
+(
+	SELECT 月份,姓名,SUM(销售额) AS 销售额
+	FROM
+	(
+		SELECT 月份,姓名,销售额
+		FROM 小米人员业绩
+
+		UNION ALL
+
+		SELECT DATE_FORMAT(日期,'%Y-%m') AS 月份,t1.姓名,SUM(金额) AS 销售额
+		FROM 利润明细 t
+		LEFT JOIN 店员字典 t1 ON t.店员1 = t1.店员
+		WHERE  t.公司 IN ('东方华大小米专卖店','益州国际小米专卖店')
+		GROUP BY DATE_FORMAT(日期,'%Y-%m'),t1.姓名
+		
+		
+		
+	) u
+	GROUP BY 月份,姓名
+) xm ON s.`month` = xm.月份 AND s.name_in_company = xm.姓名
+
+WHERE s.`month` = '${月份}'
+
+###控件过滤
+AND 1=1 ${IF(len(岗位)==0,"","and s.position_trans like '%"+岗位+"%'")}
+AND 1=1 ${IF(len(单位)==0,"","and (s.department in ('"+SUBSTITUTE(单位,",","','")+"') or s.department like '"+LEFT(单位,2)+"%')")}
+AND 1=1 ${IF(len(状态)==0,"","and s.status_trans like '%"+状态+"%'")}
+AND 1=1 ${IF(len(姓名)==0,"","and s.name_in_company like '%"+姓名+"%'")}
+AND 1=1 ${IF(len(发放状态)==0,"","and s.pay_status ='暂停发放'")}
+###权限控制
+AND 1=1 ${IF(fr_authority = '副总',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '区域经理',"and left(s.department,4) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '装维主管',"and left(s.department,6) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '督察部经理',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '产品部经理',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '市场部经理',"and s.department in ('09','10','11')","")}
+AND 1=1 ${IF(fr_authority = '财务部经理',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '店长',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
+AND 1=1 ${IF(fr_authority = '班长',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
+AND 1=1 ${IF(fr_authority = '运营区经',"and left(s.department,4) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '运营商经理',"and s.department like '03%'","")}
+AND 1=1 ${IF(fr_authority = '承包人',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
+
+ORDER BY s.department_trans,s.position_trans,s.status_trans]]></Query>
+</TableData>
+<TableData name="commission_ab_salesman" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_ab_salesman('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_ab_unitmanager" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_ab_unitmanager('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_c" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_c('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_c_special" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_c_special('${月份}')]]></Query>
+</TableData>
+<TableData name="试用期" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2021-04]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[	SELECT tb1.*,IF(IFNULL(tb3.综合绩效得分,60)>60,IFNULL(tb3.综合绩效得分,60),60) AS 综合绩效得分,
+	CASE 
+	WHEN DATE_FORMAT(入职日期,'%Y-%m') = DATE_FORMAT(离职日期,'%Y-%m') THEN
+	(DAY(离职日期)-DAY(入职日期)-FLOOR((DAY(离职日期)-DAY(入职日期))/7)+1)/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+	WHEN DATE_FORMAT(入职日期,'%Y-%m') = '${月份}' THEN 
+	(DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1 - FLOOR((DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1)/7))/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+	WHEN DATE_FORMAT(离职日期,'%Y-%m') = '${月份}' THEN 
+	(DAY(离职日期)-FLOOR(DAY(离职日期)/7))/(DAY(LAST_DAY(离职日期))-4)*tb2.试用绩效
+	ELSE tb2.试用绩效 END *
+	IF(IFNULL(tb3.综合绩效得分,60)>60,IFNULL(tb3.综合绩效得分,60),60)/100 AS 试用绩效,
+	
+	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END AS 目标,
+		
+	
+	tb4.总毛利 AS 完成毛利,
+	
+	IFNULL(IF(tb4.总毛利>	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END,1000,tb4.总毛利/CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END*1000),0) AS 试用提成,
+
+	CASE 
+
+		WHEN DATE_FORMAT(入职日期,'%Y-%m') = DATE_FORMAT(离职日期,'%Y-%m') THEN
+		(DAY(离职日期)-DAY(入职日期)-FLOOR((DAY(离职日期)-DAY(入职日期))/7)+1)/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+		WHEN DATE_FORMAT(入职日期,'%Y-%m') = '${月份}' THEN 
+		(DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1 - FLOOR((DAY(LAST_DAY(入职日期)) - DAY(入职日期) +1)/7))/(DAY(LAST_DAY(入职日期))-4)*tb2.试用绩效
+		WHEN DATE_FORMAT(离职日期,'%Y-%m') = '${月份}' THEN 
+		(DAY(离职日期)-FLOOR(DAY(离职日期)/7))/(DAY(LAST_DAY(离职日期))-4)*tb2.试用绩效
+		ELSE tb2.试用绩效 END *
+		IF(IFNULL(tb3.综合绩效得分,60)>60,IFNULL(tb3.综合绩效得分,60),60)/100 +
+		IFNULL(IF(tb4.总毛利>	CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END,1000,tb4.总毛利/CASE
+		WHEN tb5.显示分类 = "A" THEN 5000
+		WHEN tb5.显示分类 = "B" THEN 3000
+		WHEN tb5.显示分类 = "C" THEN 2000
+		ELSE 2000
+		END*1000),0) AS 应发试用绩效
+			
+	FROM
+
+	(
+		SELECT department_trans AS 单位,name_in_company AS 姓名,status_trans AS 状态,entry_date AS 入职日期,leave_date AS 离职日期,position_trans AS 岗位
+		FROM selectroster_tmp
+		WHERE `month` = '${月份}'
+		AND status_trans = '试用期'
+		AND department_trans NOT IN ('东方华大小米专卖店','益州国际小米专卖店')
+	) tb1
+
+	LEFT JOIN
+
+	基本工资表 tb2 ON tb1.岗位 = tb2.岗位 AND tb1.状态 = tb2.状态
+
+	LEFT JOIN
+
+	(
+		SELECT *
+		FROM 试用期kpi
+		WHERE 月份 = '${月份}'
+	) tb3 ON tb1.姓名 = tb3.姓名
+	
+	LEFT JOIN
+	
+	(
+		SELECT 姓名,SUM(总毛利) AS 总毛利
+		FROM 店员月结_tmp
+		WHERE 月份 = '${月份}'
+		GROUP BY 姓名
+	) tb4 ON tb1.姓名 = tb4.姓名
+	
+	LEFT JOIN 新单位信息 tb5 ON tb1.单位 = tb5.单位]]></Query>
+</TableData>
+<TableData name="commission_qd_personal" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2021-04]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_qd_personal('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_supervision" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_supervision('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_dq_personal" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_dq_personal('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_qd_teamleader" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2021-06]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_qd_teamleader('${月份}')]]></Query>
+</TableData>
+<TableData name="门店区经提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 门店区经提成
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="渠道高新区域经理提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 渠道高新区域经理提成
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="运营经理提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 运营经理提成
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="渠道装维主管提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 渠道装维主管提成
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="渠道数据专员提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 渠道数据专员提成 
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="commission_dq_teamleader" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[call commission_dq_teamleader('${月份}')]]></Query>
+</TableData>
+<TableData name="commission_dividends" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[CALL commission_dividends('${月份}')]]></Query>
+</TableData>
+<TableData name="门店岗位绩效" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[2021-04]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT md.单位,IFNULL(gw.kpi,1) AS 岗位绩效KPI,
+md.店长绩效*IFNULL(gw.kpi,1) AS 店长岗位绩效,
+md.`副店长绩效`*IFNULL(gw.kpi,1) AS 副店长岗位绩效
+
+FROM 门店管理绩效 md
+LEFT JOIN (select * from 岗位工资KPI where 月份 = '${月份}') gw ON md.单位 = gw.`单位`]]></Query>
+</TableData>
+<TableData name="下拉单位" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from code_dict
+where codetypeid = '000001']]></Query>
+</TableData>
+<TableData name="下拉岗位" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="单位"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select distinct position_trans
+from selectroster_tmp
+where `month` = '${月份}'
+and 1=1 ${if(len(单位)==0,"","and department like '"+left(单位,2)+"%'")}]]></Query>
+</TableData>
+<TableData name="下拉状态" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select distinct status_trans
+from selectroster_tmp
+where `month` = '${月份}']]></Query>
+</TableData>
+<TableData name="下拉单位树" class="com.fr.data.impl.RecursionTableData">
+<markFields>
+<![CDATA[2]]></markFields>
+<markFieldsName>
+<![CDATA[codeid]]></markFieldsName>
+<originalTableDataName>
+<![CDATA[下拉单位]]></originalTableDataName>
+</TableData>
+<TableData name="备注" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 身份证,调整备注
+from salary_list
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="发放状态" class="com.fr.data.impl.EmbeddedTableData">
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[发放状态]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[java.lang.String]]></ColumnTypes>
+<RowData>
+<![CDATA[HT%qhC#b_]Ar=betf`qK~
+]]></RowData>
+</TableData>
+<TableData name="dyfh" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from dyfh
+where 月份 = '${月份}']]></Query>
+</TableData>
+<TableData name="commission_mi" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from xmtc
+where `month` = '${月份}']]></Query>
+</TableData>
+<TableData name="政企营销组长团队提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 政企营销组长团队提成
+where `month` = '${月份}']]></Query>
+</TableData>
+<TableData name="政企督导提成" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *
+from 政企督导提成
+where `month` = '${月份}']]></Query>
+</TableData>
+</TableDataMap>
+<ReportWebAttr>
+<ServerPrinter/>
+<WebWriteContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var rq = new Date();
+m = rq.getMonth();
+if(m.length>1) {
+	m = m
+	}
+	else{
+	m = "0"+m
+	};
+y = rq.getFullYear();
+ym = y+"-"+m;
+sql = "call selectroster("+ym+")";
+FR.remoteEvaluate('sql("JDBC2","'+sql+'",1,1)');]]></Content>
+</JavaScript>
+</Listener>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<SelectedColor/>
+<WebWrite SheetPosition="3"/>
+<RptLocation isShowAtLeft="true"/>
+<UnloadCheck check="false"/>
+<ShowWidgets/>
+<OtherAttr isAutoStash="false"/>
+</WebWriteContent>
+</ReportWebAttr>
+<ReportExportAttr>
+<ExcelExportAttr pwd="___0069003f00700067005200e3001d"/>
+<PDFExportAttr/>
+<HTMLExportAttr/>
+<WordExportAttr/>
+</ReportExportAttr>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR F="0" T="1"/>
+<FR/>
+<HC F="0" T="7"/>
+<FC/>
+<UPFCR COLUMN="true" ROW="true"/>
+</ReportPageAttr>
+<ColumnPrivilegeControl>
+<PrivilegeControl/>
+</ColumnPrivilegeControl>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1409700,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2880000,2880000,0,2880000,2880000,2880000,2880000,4267200,2743200,2743200,3168000,3048000,0,0,0,0,0,0,0,0,0,0,3086100,0,0,0,3162300,0,0,0,0,0,0,0,0,0,3657600,0,0,0,0,0,0,0,0,0,0,0,0,3619500,2743200,2743200,2880000,3695700,2880000,2857500,3390900,2743200,2743200,2743200,2743200,3086100,2743200,2743200,2743200,2743200,2743200,2743200,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2743200,2743200,2743200,5791200,4320000,3124200,4320000,0,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" rs="2" s="0">
+<O>
+<![CDATA[月份]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" rs="2" s="0">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" rs="2" s="0">
+<O>
+<![CDATA[身份证]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" rs="2" s="0">
+<O>
+<![CDATA[社保归属]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" rs="2" s="0">
+<O>
+<![CDATA[状态]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="0" rs="2" s="0">
+<O>
+<![CDATA[级别]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="0" rs="2" s="0">
+<O>
+<![CDATA[岗位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="0" rs="2" s="0">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="0" rs="2" s="0">
+<O>
+<![CDATA[兼职单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" rs="2" s="0">
+<O>
+<![CDATA[兼职岗位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="0" rs="2" s="0">
+<O>
+<![CDATA[入职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="0" rs="2" s="0">
+<O>
+<![CDATA[离职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="0" rs="2" s="1">
+<O>
+<![CDATA[工作天数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="0" cs="10" rs="2" s="0">
+<O>
+<![CDATA[基本工资]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="23" r="0" cs="4" rs="2" s="0">
+<O>
+<![CDATA[绩效]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="0" cs="24" s="0">
+<O>
+<![CDATA[毛利/酬金提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="0" rs="2" s="0">
+<O>
+<![CDATA[补贴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="0" cs="2" s="0">
+<O>
+<![CDATA[装维结算]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="54" r="0" rs="2" s="0">
+<O>
+<![CDATA[产品激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="55" r="0" rs="2" s="0">
+<O>
+<![CDATA[业务激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="56" r="0" rs="2" s="0">
+<O>
+<![CDATA[团队激励分解]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="57" r="0" rs="2" s="2">
+<O>
+<![CDATA[应发(特殊前)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="0" cs="2" rs="2" s="3">
+<O>
+<![CDATA[特殊模式]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="60" r="0" rs="2" s="4">
+<O>
+<![CDATA[应发合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="61" r="0" rs="2" s="0">
+<O>
+<![CDATA[团队考核分解]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="0" rs="2" s="0">
+<O>
+<![CDATA[业务考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="63" r="0" rs="2" s="0">
+<O>
+<![CDATA[考勤考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="64" r="0" rs="2" s="4">
+<O>
+<![CDATA[应扣合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="0" rs="2" s="0">
+<O>
+<![CDATA[工资清算(多退少补)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="66" r="0" rs="2" s="4">
+<O>
+<![CDATA[税前工资]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="67" r="0" cs="14" s="0">
+<O>
+<![CDATA[代扣代缴]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="81" r="0" cs="3" s="0">
+<O>
+<![CDATA[发放金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="84" r="0" cs="4" s="0">
+<O>
+<![CDATA[附加信息]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="88" r="0" rs="2" s="5">
+<O>
+<![CDATA[department]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="1" s="6">
+<O>
+<![CDATA[AB店员]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="28" r="1" s="6">
+<O>
+<![CDATA[C类提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="29" r="1" s="6">
+<O>
+<![CDATA[特殊C类提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="30" r="1" s="7">
+<O>
+<![CDATA[ab店长个人提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="31" r="1" s="7">
+<O>
+<![CDATA[小米店员]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="32" r="1" s="6">
+<O>
+<![CDATA[试用期绩效]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="33" r="1" s="6">
+<O>
+<![CDATA[渠道个人提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="34" r="1" s="6">
+<O>
+<![CDATA[业务督导提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="1" s="6">
+<O>
+<![CDATA[电渠个人提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="36" r="1" s="0">
+<O>
+<![CDATA[个人提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="37" r="1" s="6">
+<O>
+<![CDATA[AB店长]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="38" r="1" s="7">
+<O>
+<![CDATA[小米店长]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="39" r="1" s="6">
+<O>
+<![CDATA[班长]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="40" r="1" s="8">
+<O>
+<![CDATA[副班长]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="41" r="1" s="6">
+<O>
+<![CDATA[门店区经]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="42" r="1" s="6">
+<O>
+<![CDATA[渠道区经]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="1" s="6">
+<O>
+<![CDATA[渠道数据专员]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="44" r="1" s="6">
+<O>
+<![CDATA[运营区经]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="45" r="1" s="6">
+<O>
+<![CDATA[装维主管]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="46" r="1" s="7">
+<O>
+<![CDATA[政企营销组长团队提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="47" r="1" s="1">
+<O>
+<![CDATA[政企督导提成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="48" r="1" s="6">
+<O>
+<![CDATA[电渠主管]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="49" r="1" s="0">
+<O>
+<![CDATA[团队提成(合计)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="50" r="1" s="0">
+<O>
+<![CDATA[分红]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="52" r="1" s="0">
+<O>
+<![CDATA[基础佣金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="53" r="1" s="0">
+<O>
+<![CDATA[激励考核(比武)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="67" r="1" s="0">
+<O>
+<![CDATA[盘亏]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="68" r="1" s="0">
+<O>
+<![CDATA[个税]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="69" r="1" s="0">
+<O>
+<![CDATA[个税清算]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="70" r="1" s="0">
+<O>
+<![CDATA[社保]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="71" r="1" s="0">
+<O>
+<![CDATA[代买社保]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="1" s="0">
+<O>
+<![CDATA[公积金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="1" s="0">
+<O>
+<![CDATA[借支款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="1" s="0">
+<O>
+<![CDATA[服装费]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="75" r="1" s="0">
+<O>
+<![CDATA[温暖基金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="76" r="1" s="0">
+<O>
+<![CDATA[商业险]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="77" r="1" s="0">
+<O>
+<![CDATA[熔接机押金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="78" r="1" s="0">
+<O>
+<![CDATA[双证学费]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="79" r="1" s="0">
+<O>
+<![CDATA[营业款]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="80" r="1" s="0">
+<O>
+<![CDATA[代扣缴合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="81" r="1" s="0">
+<O>
+<![CDATA[其中银行]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="82" r="1" s="0">
+<O>
+<![CDATA[其中现金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="83" r="1" s="0">
+<O>
+<![CDATA[实发汇总]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="84" r="1" s="0">
+<O>
+<![CDATA[收款账户]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="85" r="1" s="0">
+<O>
+<![CDATA[账户备注]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="86" r="1" s="0">
+<O>
+<![CDATA[发放状态]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="87" r="1" s="0">
+<O>
+<![CDATA[发放备注]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="month"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Scope val="1"/>
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="name_in_company"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="id"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="belong"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="status_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="grade_trans"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="position_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="department_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="2nd_department_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="2nd_position_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="entry_date"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="leave_date"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="2" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=datedif(K3, L3, 'D')]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="10">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="base_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="14" r="2" s="10">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="mxfddx"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="15" r="2" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=N3 + O3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="16" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="post_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="17" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="confidential_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="18" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="fulltime_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="19" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="overtime_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="20" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="traffical_subsidy"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="21" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="seniority_wages"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="22" r="2" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(P3:V3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/basicsalary.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand/>
+</C>
+<C c="23" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="performance_wage"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="24" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="门店岗位绩效" columnName="店长岗位绩效"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="7" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "店长"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="25" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="门店岗位绩效" columnName="副店长岗位绩效"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="7" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "副店长"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex reselect="true"/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="26" r="2" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(M3 <= 3, 0, sum(X3:Z3))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/performance_wage.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="27" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_ab_salesman" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="28" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_c" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="29" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_c_special" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="30" r="2" s="7">
+<O t="DSColumn">
+<Attributes dsName="commission_ab_unitmanager" columnName="店长个人提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="31" r="2" s="7">
+<O t="DSColumn">
+<Attributes dsName="commission_mi" columnName="个人提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="32" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="试用期" columnName="应发试用绩效"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="33" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_qd_personal" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="34" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_supervision" columnName="业务督导提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="35" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_dq_personal" columnName="业绩提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="36" r="2" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(M3 <= 3, 0, sum(AB3:AJ3))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="JavaScript脚本1">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters>
+<Parameter>
+<Attributes name="row"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=row() - 1]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<Content>
+<![CDATA[var name = contentPane.getCellValue(0, 1, row);
+var month = contentPane.getCellValue(0, 0, row);
+var position = contentPane.getCellValue(0, 6, row);
+var unit = contentPane.getCellValue(0,7, row);
+var status = contentPane.getCellValue(0,4, row);
+
+var sortsql = "select 分类 from 新单位信息 where 单位='"+unit+"'"
+var cssql = "select count(*) from 特殊c类门店提成表 where 单位 = '"+unit+"' and 月份='"+month+"'"
+var desortsql="select department from selectroster_tmp where name_in_company = '"+name+"' and month='"+month+"'"
+
+var sort = FR.remoteEvaluate('sql("JDBC2","'+sortsql+'",1,1)');
+var cs = FR.remoteEvaluate('sql("JDBC2","'+cssql+'",1,1)');
+var desort0 = FR.remoteEvaluate('sql("JDBC2","'+desortsql+'",1,1)');
+var desort = desort0.substring(0,2)
+
+var urlabdy = '${servletURL}?reportlet=salary/drill/abdy.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlc = '${servletURL}?reportlet=salary/drill/c.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlcs = '${servletURL}?reportlet=salary/drill/cs.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlsy = '${servletURL}?reportlet=salary/drill/sy.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlqdp = '${servletURL}?reportlet=salary/drill/qdp.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlywdd = '${servletURL}?reportlet=salary/drill/ywdd.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urldqp = '${servletURL}?reportlet=salary/drill/dqp.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlxm = '${servletURL}?reportlet=salary/drill/xmtc.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+
+var $iframe = $("<iframe width='100%'height='100%'scrolling='yes'frameborder='0'></frame>");
+var o = {title:"提成过程",width:1200,height:500};
+
+
+if(position=="装维工程师"||position=="售前工程师"||position=="客户工程师"||position=="DICT组员"||position=="客户经理"||position=="学徒工程师"||((position=="店员"||position=="店长")&&(unit=="新怡华庭电信店"||unit=="永安电信店"||unit=="正兴电信店"))){
+	$iframe.attr('src',urlqdp);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+
+else if(unit=="东方华大小米专卖店"||unit=="益州国际小米专卖店"){
+	$iframe.attr('src',urlxm);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+
+else if(status=="试用期"&&(position=="店员"||position=="储备店长")){
+	$iframe.attr('src',urlsy);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if((position=="店员"||position=="副店长"||position=="专职台席")&&(sort=="A"||sort=="B")){
+	$iframe.attr('src',urlabdy);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if((position=="店员"||position=="店长"||position=="副店长")&&sort=="C"&&cs>0){
+	$iframe.attr('src',urlcs);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+	}
+else if((position=="店员"||position=="店长"||position=="副店长")&&sort=="C"){
+	$iframe.attr('src',urlc);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+	}
+else if(position=="业务督导"){
+	$iframe.attr('src',urlywdd);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="收单员"||position=="电渠主管"){
+	$iframe.attr('src',urldqp);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else{};]]></Content>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand/>
+</C>
+<C c="37" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_ab_unitmanager" columnName="店长团队提成金额"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[姓名]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="38" r="2" s="7">
+<O t="DSColumn">
+<Attributes dsName="commission_mi" columnName="团队提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="39" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_qd_teamleader" columnName="班长提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "装维班长"]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[E3 != "试用期"]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="7" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex reselect="true"/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="40" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_qd_teamleader" columnName="副班长提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="8" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[J3 = "副班长"]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[E3 != "试用期"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex reselect="true"/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="41" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="门店区经提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[部门]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=right(H3, 2)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "区域经理"]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[left(H3, 2) = "门店"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="42" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="渠道高新区域经理提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[区县]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=right(H3, 2)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "区域经理"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="43" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="渠道数据专员提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[部门]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=concatenate(H3, "部")]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "部门专员"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="44" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="运营经理提成" columnName="提成金额"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[部门]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=H3]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "区域经理"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="45" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="渠道装维主管提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[部门]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=concatenate(left(H3, 2), "部")]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[区县]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=right(left(H3, 4), 2)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[单位属性]]></CNAME>
+<Compare op="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=right(H3, 2)]]></Attributes>
+</O>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "装维主管"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="46" r="2" s="7">
+<O t="DSColumn">
+<Attributes dsName="政企营销组长团队提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="47" r="2" s="1">
+<O t="DSColumn">
+<Attributes dsName="政企督导提成" columnName="提成"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[name_in_company]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="2"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="48" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="commission_dq_teamleader" columnName="电渠主管提成"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[结算单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="7" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = "电渠主管"]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="49" r="2" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(M3 <= 3, 0, sum(AL3:AW3))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="JavaScript脚本1">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters>
+<Parameter>
+<Attributes name="row"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=row() - 1]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<Content>
+<![CDATA[var name = contentPane.getCellValue(0, 1, row);
+var month = contentPane.getCellValue(0, 0, row);
+var position = contentPane.getCellValue(0, 6, row);
+var unit = contentPane.getCellValue(0,7, row);
+var status = contentPane.getCellValue(0,4, row);
+var qx = unit.substring(2,4)
+var atr = unit.substring(4,6)
+var seconnd_position = contentPane.getCellValue(0,9,row);
+
+var desortsql="select department from selectroster_tmp where name_in_company = '"+name+"' and month='"+month+"'"
+var abcsortsql = "select 分类 from 新单位信息 where 单位 = '"+unit+"'"
+
+var desort0 = FR.remoteEvaluate('sql("JDBC2","'+desortsql+'",1,1)');
+var desort = desort0.substring(0,2)
+var abcsort = FR.remoteEvaluate('sql("JDBC2","'+abcsortsql+'",1,1)')
+
+var urlzwbz = '${servletURL}?reportlet=salary/drill/zwbz.cpt&unit='+FR.cjkEncode(unit)+'&month='+month+'';
+var urldz = '${servletURL}?reportlet=salary/drill/abdz.cpt&name='+FR.cjkEncode(name)+'&month='+month+'';
+var urlqdqj = '${servletURL}?reportlet=salary/drill/qdqj.cpt&month='+month+'&qx='+FR.cjkEncode(qx)+'';
+var urlmdqj = '${servletURL}?reportlet=salary/drill/mdqj.cpt&month='+month+'&qx='+FR.cjkEncode(qx)+'';
+var urlsjzy = '${servletURL}?reportlet=salary/drill/sjzy.cpt&month='+month+'';
+var urlyyqj = '${servletURL}?reportlet=salary/drill/yyqj.cpt&month='+month+'&unit='+FR.cjkEncode(unit)+'';
+var urlzwzg = '${servletURL}?reportlet=salary/drill/zwzg.cpt&month='+month+'&atr='+FR.cjkEncode(atr)+'&qx='+FR.cjkEncode(qx)+'';
+var urldqzg = '${servletURL}?reportlet=salary/drill/dqzg.cpt&month='+month+'&name='+FR.cjkEncode(name)+'';
+var urlxm = '${servletURL}?reportlet=salary/drill/xmtc.cpt&month='+month+'&name='+FR.cjkEncode(name)+'';
+
+var $iframe = $("<iframe width='100%'height='100%'scrolling='yes'frameborder='0'></frame>");
+var o = {title:"提成过程",width:1200,height:500};
+
+if(position=="装维班长"||seconnd_position=="副班长"){
+	$iframe.attr('src',urlzwbz);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(unit=="东方华大小米专卖店"||unit =='益州国际小米专卖店'){
+	$iframe.attr('src',urlxm);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="店长"&&(abcsort == "A"||abcsort=="B")){
+	$iframe.attr('src',urldz);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="区域经理"&&unit=="渠道高新"){
+	$iframe.attr('src',urlqdqj);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="区域经理"&&(unit=="门店1部"||unit=="门店2部")){
+	$iframe.attr('src',urlmdqj);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="部门专员"&&unit=="渠道"){
+	$iframe.attr('src',urlsjzy);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="区域经理"&&(unit=="运营1部"||unit=="运营2部")){
+	$iframe.attr('src',urlyyqj);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="装维主管"){
+	$iframe.attr('src',urlzwzg);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else if(position=="电渠主管"){
+	$iframe.attr('src',urldqzg);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+else{};]]></Content>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand/>
+</C>
+<C c="50" r="2" s="13">
+<O t="DSColumn">
+<Attributes dsName="dyfh" columnName="分红金额"/>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
+<CNAME>
+<![CDATA[结算单位]]></CNAME>
+<Compare op="0">
+<ColumnRow column="7" row="2"/>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[G3 = '承包人']]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="400"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/dyfh.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="51" r="2" s="13">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="amount"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="month"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/subsidy.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="52" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="dxjx"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="53" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="dxjlkh"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="54" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="reward"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="month"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/reward_total.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="55" r="2" s="13">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="ywjl"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="month"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/business_reward.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="56" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="fjjl"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/激励分解.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="57" r="2" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=W3 + AA3 + AK3 + sum(AX3:BA3) + sum(BC3:BE3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="58" r="2" s="14">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="sp_mode"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="59" r="2" s="15">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="sp_rmb"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="60" r="2" s="16">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(M3 <= 3, 0, if(BG3 = "固定", BH3, if(BG3 = "保底", if(BF3 + BB3 > BH3, BF3, BH3), BF3)))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="61" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="fjkh"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/考核分解.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="62" r="2" s="13">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="business_penalty"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="month"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/business_penalty.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="63" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="kqkk"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="month"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="name"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="400"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/kq.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="64" r="2" s="16">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=if(M3 <= 3, 0, sum(BJ3:BL3))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="65" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="qs"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1200" height="800"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/工资清算清单.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="66" r="2" s="16">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(M3 <= 3, 0, BI3 - BM3 + BN3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="67" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="loss"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="800" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/盘亏.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="68" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="personal_tax"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="69" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="gsqs"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="70" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="personal_ss"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="71" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="dmsb"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="72" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="gjj"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="73" r="2" s="12">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="debt"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="月份"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$月份]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="800" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/salary/drill/借支款.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="74" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="cloth"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="75" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="ghjj"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="76" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="commercial_security"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="77" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="rjj"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="78" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="szxf"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="79" r="2" s="11">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="yyk"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="80" r="2" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BP3:CB3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="81" r="2" s="17">
+<O t="Formula" class="Formula">
+<Attributes reserveExecute="true">
+<![CDATA[=if(M3 <= 3, 0, BO3 - CC3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="82" r="2" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BB3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ObjectCondition">
+<Compare op="0">
+<O t="I">
+<![CDATA[0]]></O>
+</Compare>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand/>
+</C>
+<C c="83" r="2" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=CD3 + CE3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="84" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="bank_account"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="85" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="ba_notes"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="86" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="pay_status"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="87" r="2" s="9">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="pay_notes"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="88" r="2" s="1">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="department"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="K3"/>
+<PaperSetting>
+<PaperSize width="360000000" height="144000000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<ReportWriteAttr/>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="发放状态"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="发放状态" viName="发放状态"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[发放状态]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="263" y="30" width="105" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label发放状态"/>
+<LabelName name="单位:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[发放状态:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="183" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TreeComboBoxEditor">
+<WidgetName name="单位"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DirectEdit>
+<![CDATA[false]]></DirectEdit>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<TreeAttr mutiSelect="true" selectLeafOnly="true"/>
+<isLayerBuild isLayerBuild="false"/>
+<isAutoBuild autoBuild="false"/>
+<isPerformanceFirst performanceFirst="false"/>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="codeid" viName="codename"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[下拉单位树]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="30" width="103" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label单位"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[单位:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TextEditor">
+<WidgetName name="姓名"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
+<watermark>
+<![CDATA[模糊查找]]></watermark>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="448" y="30" width="98" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label姓名"/>
+<LabelName name="单位:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[姓名:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="368" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="状态"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="status_trans" viName="status_trans"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[下拉状态]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="448" y="3" width="98" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label状态"/>
+<LabelName name="岗位:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[人员状态:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="368" y="3" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="岗位"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="position_trans" viName="position_trans"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[下拉岗位]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="263" y="3" width="105" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label岗位"/>
+<LabelName name="月份:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[岗位:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="183" y="3" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<Listener event="click">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var w = this.options.form.getWidgetByName("月份");
+var m = w.getValue();
+var sql1 = "call selectroster('"+m+"')";
+FR.remoteEvaluate('sql("JDBC2","'+sql1+'",1,1)');]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="Search"/>
+<LabelName name="状态:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="556" y="3" width="80" height="48"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="月份"/>
+<LabelName name="月份:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请选择月份]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DirectEdit>
+<![CDATA[false]]></DirectEdit>
+<DateAttr format="yyyy-MM" start="04/01/2021"/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=monthdelta(today(),-1)]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="3" width="103" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label月份"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[月份:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="3" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="月份"/>
+<Widget widgetName="岗位"/>
+<Widget widgetName="状态"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="单位"/>
+<Widget widgetName="发放状态"/>
+<Widget widgetName="姓名"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="姓名" modified="true"/>
+<TagModified tag="单位" modified="true"/>
+<TagModified tag="状态" modified="true"/>
+<TagModified tag="Search" modified="true"/>
+<TagModified tag="月份" modified="true"/>
+<TagModified tag="发放状态" modified="true"/>
+<TagModified tag="岗位" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="姓名" tag="单位:"/>
+<NameTag name="单位" tag="单位:"/>
+<NameTag name="状态" tag="状态:"/>
+<NameTag name="Search" tag="状态:"/>
+<NameTag name="月份" tag="月份:"/>
+<NameTag name="发放状态" tag="发放状态:"/>
+<NameTag name="岗位" tag="岗位:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="52"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80" foreground="-6750208"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80" foreground="-65536"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="80"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="80"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72" foreground="-16776961" underline="1"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72" foreground="-16776961" underline="1"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72" foreground="-6750208"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72" foreground="-6750208"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72" foreground="-65536"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="1"/>
+<TemplateID/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="22c47d57-8f09-46e2-84b7-31348e9e0ef6"/>
+</TemplateIdAttMark>
+</WorkBook>

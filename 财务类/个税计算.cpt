@@ -1,0 +1,1156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="MB" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="劳动月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="姓名"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="人员归属"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT tbb.*,
+
+CASE 
+	WHEN 应纳税所得额 <= 36000  THEN 0.03
+	WHEN 应纳税所得额 <= 144000 THEN 0.1
+	WHEN 应纳税所得额 <= 300000 THEN 0.2
+	WHEN 应纳税所得额 <= 420000 THEN 0.25
+	WHEN 应纳税所得额 <= 660000 THEN 0.30
+	WHEN 应纳税所得额 <= 960000 THEN 0.35
+	ELSE 应纳税所得额*0.45
+	END AS 税率,
+
+CASE 
+	WHEN 应纳税所得额 <= 36000  THEN 0
+	WHEN 应纳税所得额 <= 144000 THEN 2520
+	WHEN 应纳税所得额 <= 300000 THEN 16920
+	WHEN 应纳税所得额 <= 420000 THEN 31920
+	WHEN 应纳税所得额 <= 660000 THEN 52920
+	WHEN 应纳税所得额 <= 960000 THEN 85920
+	ELSE 181920
+	END AS 速算数,
+
+
+CASE
+WHEN 应纳税所得额<=0 THEN 0
+WHEN 应纳税所得额 <= 36000  THEN 应纳税所得额*0.03
+WHEN 应纳税所得额 <= 144000 THEN 应纳税所得额*0.1-2520
+WHEN 应纳税所得额 <= 300000 THEN 应纳税所得额*0.2-16920
+WHEN 应纳税所得额 <= 420000 THEN 应纳税所得额*0.25-31920
+WHEN 应纳税所得额 <= 660000 THEN 应纳税所得额*0.30-52920
+WHEN 应纳税所得额 <= 960000 THEN 应纳税所得额*0.35-85920
+ELSE 应纳税所得额*0.45-181920
+END AS 本月应纳税,
+
+IF(
+CASE
+WHEN 应纳税所得额<=0 THEN 0
+WHEN 应纳税所得额 <= 36000  THEN 应纳税所得额*0.03
+WHEN 应纳税所得额 <= 144000 THEN 应纳税所得额*0.1-2520
+WHEN 应纳税所得额 <= 300000 THEN 应纳税所得额*0.2-16920
+WHEN 应纳税所得额 <= 420000 THEN 应纳税所得额*0.25-31920
+WHEN 应纳税所得额 <= 660000 THEN 应纳税所得额*0.30-52920
+WHEN 应纳税所得额 <= 960000 THEN 应纳税所得额*0.35-85920
+ELSE 应纳税所得额*0.45-181920
+END - tbb.已纳税 <0,
+
+0,
+
+CASE
+WHEN 应纳税所得额<=0 THEN 0
+WHEN 应纳税所得额 <= 36000  THEN 应纳税所得额*0.03
+WHEN 应纳税所得额 <= 144000 THEN 应纳税所得额*0.1-2520
+WHEN 应纳税所得额 <= 300000 THEN 应纳税所得额*0.2-16920
+WHEN 应纳税所得额 <= 420000 THEN 应纳税所得额*0.25-31920
+WHEN 应纳税所得额 <= 660000 THEN 应纳税所得额*0.30-52920
+WHEN 应纳税所得额 <= 960000 THEN 应纳税所得额*0.35-85920
+ELSE 应纳税所得额*0.45-181920
+END - tbb.已纳税
+) AS 当月应补
+
+FROM
+
+(
+	###方便引用，单独成表
+	SELECT tb1.*,
+	tb2.年度累计社保,tb2.年度累计基本减除费用,
+	tb3.当月公积金,
+	tb4.年度累计公积金,
+	tb5.当月税前收入,
+	tb6.年度累计收入,
+	tb7.年度累计专项附加,
+	tb9.当月渠道年度激励,
+	tb10.累计渠道年度激励,
+	
+
+	IFNULL(tb2.年度累计社保,0) + 
+	IFNULL(tb2.年度累计基本减除费用,0) + 
+	IFNULL(tb4.年度累计公积金,0) + 
+	IFNULL(tb7.年度累计专项附加,0) AS 减免总额,
+
+	IFNULL(tb6.年度累计收入,0)+IFNULL(tb10.累计渠道年度激励,0) -
+	(
+		IFNULL(tb2.年度累计社保,0) + 
+		IFNULL(tb2.年度累计基本减除费用,0) + 
+		IFNULL(tb4.年度累计公积金,0) + 
+		IFNULL(tb7.年度累计专项附加,0)
+	) AS 应纳税所得额,
+
+	IFNULL(tb8.已纳税,0) AS 已纳税
+
+
+	FROM
+	(
+		###纳税人范围
+		SELECT 姓名,费款所属期,社会保障号码 AS 身份证,人员归属,个人合计 AS 当月社保,自定义认定收入 AS 本月基本减除费用
+		FROM 社保
+		WHERE 人员归属 IN ('众和','开元','绿地之窗','翔域')
+		AND CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2)) = '${劳动月份}'
+	) tb1
+
+	LEFT JOIN
+
+	(
+		###年度累计社保
+		SELECT 姓名,费款所属期,社会保障号码 AS 身份证,人员归属,SUM(个人合计) 年度累计社保,SUM(自定义认定收入) AS 年度累计基本减除费用
+		FROM 社保
+		WHERE 人员归属 IN ('众和','开元','绿地之窗','翔域')
+		AND CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2),'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+																	WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+																	ELSE MONTH(CONCAT('${劳动月份}','-01'))
+																	END MONTH) 
+										AND CONCAT('${劳动月份}','-01')
+		GROUP BY 社会保障号码,人员归属
+	) tb2 ON tb1.身份证 = tb2.身份证 AND tb1.人员归属 = tb2.人员归属
+
+	LEFT JOIN
+
+	(
+		###当月公积金		
+		SELECT 姓名,证件号码 AS 身份证,个人缴存额 AS 当月公积金
+		FROM 公积金
+		WHERE 月份 = '${劳动月份}'
+	) tb3 ON tb1.身份证 = tb3.身份证
+
+	LEFT JOIN
+
+	(
+		###年度累计公积金	
+		SELECT t.姓名,t.证件号码 AS 身份证,t1.人员归属,SUM(个人缴存额) AS 年度累计公积金
+		FROM 公积金 t
+		LEFT JOIN 社保 t1 ON t.证件号码 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					AND CONCAT('${劳动月份}','-01')
+		AND 证件号码 != ''
+		GROUP BY t.证件号码,t1.人员归属	
+	) tb4 ON tb1.身份证 = tb4.身份证 AND tb1.人员归属 = tb4.人员归属
+
+	LEFT JOIN
+
+	(
+		###当月工资
+		SELECT t.姓名,t.身份证,t.应发工资 AS 当月税前收入
+		FROM 店员工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND t.身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.应发工资
+		FROM 店长工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.应发工资
+		FROM 承包店长工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.应发工资
+		FROM 区经工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.税前工资
+		FROM 后勤工资 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.税前工资
+		FROM 开元工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.税前工资
+		FROM 渠道工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.税前工资
+		FROM 运营商部工资 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND 身份证 != ''
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+
+		UNION ALL
+
+		SELECT t.姓名,t.身份证,t.税前工资
+		FROM 电渠工资_调整 t
+		LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+		WHERE 月份 = '${劳动月份}'
+		AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+		
+		UNION ALL
+		
+		SELECT 姓名,身份证,税前工资
+		FROM salary_list
+		WHERE 月份 = '${劳动月份}'
+		AND 社保归属 IN ('众和','开元','绿地之窗','翔域')
+	) tb5 ON tb1.身份证 = tb5.身份证
+
+	LEFT JOIN
+
+	(
+		###年度累计收入
+		SELECT 姓名,身份证,人员归属,SUM(年度累计收入) AS 年度累计收入
+		FROM
+		(
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.应发工资) AS 年度累计收入
+			FROM 店员工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND t.身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY 身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(应发工资)
+			FROM 店长工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,身份证,t1.人员归属,SUM(应发工资)
+			FROM 承包店长工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.应发工资)
+			FROM 区经工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.税前工资)
+			FROM 后勤工资 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.税前工资)
+			FROM 开元工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.税前工资)
+			FROM 渠道工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.税前工资)
+			FROM 运营商部工资 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 身份证 != ''
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+
+			UNION ALL
+
+			SELECT t.姓名,t.身份证,t1.人员归属,SUM(t.税前工资)
+			FROM 电渠工资_调整 t
+			LEFT JOIN 社保 t1 ON t.身份证 = t1.社会保障号码 AND t.月份 = CONCAT(LEFT(费款所属期,4),'-',RIGHT(费款所属期,2))
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND t1.人员归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY t.身份证,t1.人员归属
+			
+			UNION ALL
+			
+			SELECT 姓名,身份证,社保归属,SUM(税前工资)
+			FROM salary_list
+			WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+			AND 社保归属 IN ('众和','开元','绿地之窗','翔域')
+			GROUP BY 身份证,社保归属
+		) ta
+		GROUP BY 身份证,人员归属
+	) tb6 ON tb1.身份证 = tb6.身份证 AND tb1.人员归属 = tb6.人员归属
+
+	LEFT JOIN
+
+	(
+		###年度累计专项附加扣除
+		SELECT 姓名,人员归属,证件号码 AS 身份证,
+		IFNULL(累计子女教育,0)+IFNULL(累计继续教育,0)+
+		IFNULL(累计住房贷款利息,0)+IFNULL(累计赡养老人,0)+
+		IFNULL(累计住房租金,0) AS 年度累计专项附加
+		FROM 个税专项附加扣除
+		WHERE 所得期间起 = DATE_ADD(CONCAT('${劳动月份}','-01'),INTERVAL 1 MONTH)
+	) tb7 ON tb1.身份证 = tb7.身份证 AND tb1.人员归属 = tb7.人员归属
+
+	LEFT JOIN
+
+	(
+		###个税表
+		SELECT 身份证,人员归属,CASE WHEN RIGHT('${劳动月份}',2)=12 THEN 0 ELSE 已纳税+当月应补 END AS 已纳税
+		FROM 个税表
+		WHERE 月份 = DATE_FORMAT(DATE_ADD(CONCAT('${劳动月份}','-01'),INTERVAL -1 MONTH),'%Y-%m')
+	) tb8 ON tb1.身份证 = tb8.身份证 AND tb1.人员归属 = tb8.人员归属
+	
+	LEFT JOIN
+	
+	(
+		###当月渠道年度激励
+		SELECT 姓名,金额 AS 当月渠道年度激励
+		FROM 渠道年度激励
+		WHERE 月份 = '${劳动月份}'
+	) tb9 ON tb1.姓名 = tb9.姓名
+	
+	LEFT JOIN
+	
+	(
+		SELECT 姓名,SUM(金额) AS 累计渠道年度激励
+		FROM 渠道年度激励
+		WHERE CONCAT(月份,'-01') BETWEEN DATE_SUB(CONCAT('${劳动月份}','-01'),INTERVAL CASE 
+													WHEN MONTH(CONCAT('${劳动月份}','-01')) = 12 THEN 0
+													ELSE MONTH(CONCAT('${劳动月份}','-01'))
+													END MONTH) 
+					          AND CONCAT('${劳动月份}','-01')
+		GROUP BY 姓名
+	) tb10 ON tb1.姓名 = tb10.姓名
+	
+	
+) tbb
+
+WHERE 1=1 ${IF(len(姓名)==0,"","and tbb.姓名 like '%"+ 姓名 +"%'")}
+AND 1=1 ${IF(len(人员归属)==0,"","and tbb.人员归属 like '%"+ 人员归属 +"%'")}]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1295400,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,2743200,3505200,6400800,2743200,2743200,2743200,2743200,3124200,2743200,2743200,2743200,3009900,2743200,3619500,4419600,3352800,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" rs="2" s="0">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" rs="2" s="0">
+<O>
+<![CDATA[劳动月份]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" rs="2" s="0">
+<O>
+<![CDATA[人员归属]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" rs="2" s="0">
+<O>
+<![CDATA[身份证]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" cs="5" s="0">
+<O>
+<![CDATA[当月]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" cs="7" s="0">
+<O>
+<![CDATA[年度累计（含当月）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="0" cs="6" s="0">
+<O>
+<![CDATA[计算]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="0">
+<O>
+<![CDATA[税前收入]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="1" s="0">
+<O>
+<![CDATA[社保]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="1" s="0">
+<O>
+<![CDATA[基本减除]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="1" s="0">
+<O>
+<![CDATA[公积金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="1" s="0">
+<O>
+<![CDATA[渠道年度激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" s="1">
+<O>
+<![CDATA[累计收入]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="1">
+<O>
+<![CDATA[累计渠道年度激励]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" s="0">
+<O>
+<![CDATA[累计社保]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="1" s="0">
+<O>
+<![CDATA[累计基本减除]]></O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="1" s="0">
+<O>
+<![CDATA[累计公积金]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="2">
+<O>
+<![CDATA[累计附加扣除]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="1">
+<O>
+<![CDATA[累计减免总额(合计)]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="16" r="1" s="1">
+<O>
+<![CDATA[应纳税所得额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="17" r="1" s="0">
+<O>
+<![CDATA[税率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="18" r="1" s="0">
+<O>
+<![CDATA[速算数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="1" s="0">
+<O>
+<![CDATA[应纳税]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="20" r="1" s="0">
+<O>
+<![CDATA[已纳税]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="21" r="1" s="1">
+<O>
+<![CDATA[应补税]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="姓名"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Scope val="1"/>
+<Background name="ColorBackground" color="-2500135"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="1" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$劳动月份]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="人员归属"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="身份证"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="当月税前收入"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="当月社保"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="本月基本减除费用"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="当月公积金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="当月渠道年度激励"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="9" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="年度累计收入"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="10" r="2" s="6">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="累计渠道年度激励"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="11" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="年度累计社保"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="12" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="年度累计基本减除费用"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="13" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="年度累计公积金"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="14" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="年度累计专项附加"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="15" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="减免总额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="16" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="应纳税所得额"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="17" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="税率"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="18" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="速算数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="19" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="本月应纳税"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="20" r="2" s="4">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="已纳税"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="21" r="2" s="5">
+<O t="DSColumn">
+<Attributes dsName="MB" columnName="当月应补"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="86400000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<ReportWriteAttr>
+<SubmitVisitor class="com.fr.report.write.BuiltInSQLSubmiter">
+<Name>
+<![CDATA[内置SQL1]]></Name>
+<Attributes dsName="JDBC2"/>
+<DMLConfig class="com.fr.write.config.IntelliDMLConfig">
+<Table schema="" name="个税表"/>
+<ColumnConfig name="月份" isKey="true" skipUnmodified="false">
+<ColumnRow column="1" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="姓名" isKey="false" skipUnmodified="false">
+<ColumnRow column="0" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="身份证" isKey="true" skipUnmodified="false">
+<ColumnRow column="3" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="人员归属" isKey="false" skipUnmodified="false">
+<ColumnRow column="2" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="应纳税" isKey="false" skipUnmodified="false">
+<ColumnRow column="19" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="已纳税" isKey="false" skipUnmodified="false">
+<ColumnRow column="20" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="当月应补" isKey="false" skipUnmodified="false">
+<ColumnRow column="21" row="2"/>
+</ColumnConfig>
+<Condition class="com.fr.data.condition.ListCondition"/>
+</DMLConfig>
+</SubmitVisitor>
+</ReportWriteAttr>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TextEditor">
+<WidgetName name="人员归属"/>
+<LabelName name="人员归属:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
+<watermark>
+<![CDATA[模糊查找]]></watermark>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="444" y="0" width="102" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label人员归属"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[人员归属:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="364" y="0" width="80" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.TextEditor">
+<WidgetName name="姓名"/>
+<LabelName name="姓名:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
+<watermark>
+<![CDATA[模糊查找]]></watermark>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="262" y="0" width="102" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label姓名"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[姓名:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="182" y="0" width="80" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<LabelName name="劳动月份:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="546" y="0" width="94" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="劳动月份"/>
+<LabelName name="劳动月份:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<DateAttr format="yyyy-MM" start="12/01/2020"/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=monthdelta(today(),-1)]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="0" width="102" height="27"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label劳动月份"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[劳动月份:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="0" width="80" height="27"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="劳动月份"/>
+<Widget widgetName="姓名"/>
+<Widget widgetName="人员归属"/>
+<Widget widgetName="Search"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="劳动月份" modified="true"/>
+<TagModified tag="姓名" modified="true"/>
+<TagModified tag="人员归属" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="劳动月份" tag="劳动月份:"/>
+<NameTag name="姓名" tag="姓名:"/>
+<NameTag name="Search" tag="劳动月份:"/>
+<NameTag name="人员归属" tag="人员归属:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="28"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-4530689"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="1"/>
+<TemplateID TemplateID="e03b46da-c03a-40d0-b43a-c6e18b2c7a77"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="8a797eb1-c8a6-4575-88d6-b2ce3aef3150"/>
+</TemplateIdAttMark>
+</WorkBook>

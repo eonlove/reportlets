@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="移库(查区间)" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT f.*,1 AS 出库状态,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NULL,1,NULL) AS 在途未送达,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NOT NULL,1,NULL) AS 门店确认,
+    IF (f.出库单号 IS NOT NULL AND f.物流送达日期 IS NOT NULL,1,NULL) AS 师傅送达,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NOT NULL,1,NULL) AS 送达未确认,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NOT NULL,DATEDIFF(CURRENT_DATE,f.物流送达日期),NULL) AS 已签收未确认天数,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NOT NULL AND f.物流送达日期 IS NULL,1,NULL) AS 已送达确认师傅未录入,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NULL,DATEDIFF(CURRENT_DATE,f.出库日期),NULL) AS 在途未送达确认间隔天数,
+    IF (f.物流送达日期 IS NULL,NULL,1) AS 送货状态
+FROM
+(SELECT hz.*, sd.操作时间 AS 物流送达日期  FROM
+(SELECT "移库" AS 操作类型,e.移出单号 AS 出库单号,e.移出日期 AS 出库日期, e.移出仓库 AS 调出仓库,e.移出公司 AS 调出公司,e.移出公司部门 AS 调出公司部门,e.移出公司属性 AS 调出公司属性,
+       e.移入单号 AS 入库单号,e.移入日期 AS 入库时间,e.移入仓库 AS 调入仓库,e.移入公司 AS 调入公司,e.移入公司部门 AS 调入公司部门,e.移入公司属性 AS 调入公司属性,数量,金额
+FROM
+(SELECT d.*,dw1.部门 AS 移入公司部门,dw2.部门 AS 移出公司部门 FROM
+(SELECT c.*,ck1.公司 AS 移出公司,ck1.公司属性 AS 移出公司属性,ck2.公司 AS 移入公司,ck2.公司属性 AS 移入公司属性 FROM
+(SELECT a.*,b.移入单号,b.移入日期 FROM
+(SELECT 移出单号,移出日期,移出仓库,移入仓库,SUM(数量) AS 数量,SUM(金额) AS 金额,制单人,制单时间 FROM 移库_移出库明细_博远 
+
+WHERE 移出日期 BETWEEN '${开始日期}' AND '${结束日期}'
+
+GROUP BY 移出单号
+) a LEFT JOIN
+(SELECT 移出单号,移入单号,移入日期 FROM 移库_移入库明细_博远 GROUP BY 移出单号
+) b ON a.移出单号=b.移出单号
+) c
+LEFT JOIN 仓库配置表 ck1 ON c.移出仓库=ck1.仓库名称
+LEFT JOIN 仓库配置表 ck2 ON c.移入仓库=ck2.仓库名称
+) d
+LEFT JOIN 单位信息表 dw1 ON d.移入公司 = dw1.单位
+LEFT JOIN 单位信息表 dw2 ON d.移出公司 = dw2.单位
+) e
+UNION
+SELECT "调拨" AS 操作类型,e.单据号 AS 出库单号,e.出库时间 AS 出库日期,e.调出仓库,e.调出公司,e.调出公司部门,e.调出公司属性,
+       e.调入单号 AS 入库单号,e.调入日期 AS 入库时间,e.调入仓库,e.调入公司,e.调入公司部门,e.调入公司属性,数量,金额
+FROM
+(SELECT d.*,ck1.公司属性 AS 调出公司属性,ck2.公司属性 AS 调入公司属性  FROM
+(SELECT c.*,dw1.部门 AS 调出公司部门,dw2.部门 AS 调入公司部门 FROM
+(SELECT  a.*,b.调入单号,b.调入日期,b.调出人   FROM 
+(SELECT 单据号,日期 AS 出库时间,调出公司,调出仓库,调入公司,调入仓库,业务员,SUM(数量) AS 数量,SUM(金额) AS 金额,制单人,制单时间 FROM 调拨_调拨出库明细_博远
+
+WHERE 日期 BETWEEN '${开始日期}' AND '${结束日期}'
+
+GROUP BY 单据号
+) a LEFT JOIN
+(SELECT 单据号 AS 调入单号,日期 AS 调入日期,调出单号,调出人 FROM 调拨_调拨入库明细_博远 GROUP BY 调出单号
+) b ON a.单据号 = b.调出单号
+) c
+LEFT JOIN 单位信息表 dw1 ON c.调出公司 = dw1.单位
+LEFT JOIN 单位信息表 dw2 ON c.调入公司 = dw2.单位
+) d
+LEFT JOIN 仓库配置表 ck1 ON d.调出仓库=ck1.仓库名称
+LEFT JOIN 仓库配置表 ck2 ON d.调入仓库=ck2.仓库名称
+) e
+) hz  LEFT JOIN 送达明细 sd ON hz.出库单号=sd.单据号
+) f
+WHERE f.操作类型 = "移库"]]></Query>
+</TableData>
+<TableData name="移库(累计查询)" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="开始日期"/>
+<O>
+<![CDATA[2020-08-25]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+SELECT f.*,1 AS 出库状态,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NULL,1,NULL) AS 在途未送达,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NOT NULL,1,NULL) AS 门店确认,
+    IF (f.出库单号 IS NOT NULL AND f.物流送达日期 IS NOT NULL,1,NULL) AS 师傅送达,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NOT NULL,1,NULL) AS 送达未确认,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NOT NULL,DATEDIFF(CURRENT_DATE,f.物流送达日期),NULL) AS 已签收未确认天数,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NOT NULL AND f.物流送达日期 IS NULL,1,NULL) AS 已送达确认师傅未录入,
+    IF (f.出库单号 IS NOT NULL AND f.入库时间 IS NULL AND f.物流送达日期 IS NULL,DATEDIFF(CURRENT_DATE,f.出库日期),NULL) AS 在途未送达确认间隔天数,
+    IF (f.物流送达日期 IS NULL,NULL,1) AS 送货状态
+FROM
+(SELECT hz.*, sd.操作时间 AS 物流送达日期  FROM
+(SELECT "移库" AS 操作类型,e.移出单号 AS 出库单号,e.移出日期 AS 出库日期, e.移出仓库 AS 调出仓库,e.移出公司 AS 调出公司,e.移出公司部门 AS 调出公司部门,e.移出公司属性 AS 调出公司属性,
+       e.移入单号 AS 入库单号,e.移入日期 AS 入库时间,e.移入仓库 AS 调入仓库,e.移入公司 AS 调入公司,e.移入公司部门 AS 调入公司部门,e.移入公司属性 AS 调入公司属性,数量,金额
+FROM
+(SELECT d.*,dw1.部门 AS 移入公司部门,dw2.部门 AS 移出公司部门 FROM
+(SELECT c.*,ck1.公司 AS 移出公司,ck1.公司属性 AS 移出公司属性,ck2.公司 AS 移入公司,ck2.公司属性 AS 移入公司属性 FROM
+(SELECT a.*,b.移入单号,b.移入日期 FROM
+(SELECT 移出单号,移出日期,移出仓库,移入仓库,SUM(数量) AS 数量,SUM(金额) AS 金额,制单人,制单时间 FROM 移库_移出库明细_博远 
+
+WHERE 移出日期 < '${开始日期}' 
+
+GROUP BY 移出单号
+) a LEFT JOIN
+(SELECT 移出单号,移入单号,移入日期 FROM 移库_移入库明细_博远 GROUP BY 移出单号
+) b ON a.移出单号=b.移出单号
+) c
+LEFT JOIN 仓库配置表 ck1 ON c.移出仓库=ck1.仓库名称
+LEFT JOIN 仓库配置表 ck2 ON c.移入仓库=ck2.仓库名称
+) d
+LEFT JOIN 单位信息表 dw1 ON d.移入公司 = dw1.单位
+LEFT JOIN 单位信息表 dw2 ON d.移出公司 = dw2.单位
+) e
+UNION
+SELECT "调拨" AS 操作类型,e.单据号 AS 出库单号,e.出库时间 AS 出库日期,e.调出仓库,e.调出公司,e.调出公司部门,e.调出公司属性,
+       e.调入单号 AS 入库单号,e.调入日期 AS 入库时间,e.调入仓库,e.调入公司,e.调入公司部门,e.调入公司属性,数量,金额
+FROM
+(SELECT d.*,ck1.公司属性 AS 调出公司属性,ck2.公司属性 AS 调入公司属性  FROM
+(SELECT c.*,dw1.部门 AS 调出公司部门,dw2.部门 AS 调入公司部门 FROM
+(SELECT  a.*,b.调入单号,b.调入日期,b.调出人   FROM 
+(SELECT 单据号,日期 AS 出库时间,调出公司,调出仓库,调入公司,调入仓库,业务员,SUM(数量) AS 数量,SUM(金额) AS 金额,制单人,制单时间 FROM 调拨_调拨出库明细_博远
+
+WHERE 日期 < '${开始日期}' 
+
+GROUP BY 单据号
+) a LEFT JOIN
+(SELECT 单据号 AS 调入单号,日期 AS 调入日期,调出单号,调出人 FROM 调拨_调拨入库明细_博远 GROUP BY 调出单号
+) b ON a.单据号 = b.调出单号
+) c
+LEFT JOIN 单位信息表 dw1 ON c.调出公司 = dw1.单位
+LEFT JOIN 单位信息表 dw2 ON c.调入公司 = dw2.单位
+) d
+LEFT JOIN 仓库配置表 ck1 ON d.调出仓库=ck1.仓库名称
+LEFT JOIN 仓库配置表 ck2 ON d.调入仓库=ck2.仓库名称
+) e
+) hz  LEFT JOIN 送达明细 sd ON hz.出库单号=sd.单据号
+) f
+WHERE f.操作类型 = "移库"]]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.poly.PolyWorkSheet" name="sheet1">
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="115200000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+</ReportSettings>
+</ReportAttrSet>
+<Block class="com.fr.report.poly.PolyECBlock">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[2160000,864000,1371600,1152000,1440000,1440000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2880000,7200000,0,0,0,4572000,4320000,4320000,4320000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="9" s="0">
+<O>
+<![CDATA[移库信息]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" cs="9" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=IF($开始日期 = $结束日期,$开始日期,$开始日期 +"至"+ $结束日期)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="2">
+<O>
+<![CDATA[部门]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="2">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="3">
+<O>
+<![CDATA[总单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="3">
+<O>
+<![CDATA[已送达未确认单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="3">
+<O>
+<![CDATA[未送达数（在途）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="2">
+<O>
+<![CDATA[总单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="2">
+<O>
+<![CDATA[已送达单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="2">
+<O>
+<![CDATA[已送达未确认单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="2">
+<O>
+<![CDATA[未送达数（在途）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(查区间)" columnName="调入公司部门"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(查区间)" columnName="调入公司"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(查区间)" columnName="出库状态"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="3" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(查区间)" columnName="送达未确认"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="4" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(查区间)" columnName="在途未送达"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="5" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=C4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F4-I4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=E4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" cs="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=A3+"小计"]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(F4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(G4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(H4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(I4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="5" cs="2" s="6">
+<O>
+<![CDATA[合计]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(F5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(G5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(H5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(I5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<PECBAttr blockName="block1" x="1371600" y="2133600" width="27612000" height="8427600"/>
+</Block>
+<Block class="com.fr.report.poly.PolyECBlock">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[2160000,864000,1371600,1152000,1440000,1440000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2880000,7200000,0,0,0,4572000,4320000,4320000,4320000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" cs="9" s="0">
+<O>
+<![CDATA[移库信息]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" cs="9" s="1">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="截止"+$开始日期+"前不含("+$开始日期+")汇总" ]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="2">
+<O>
+<![CDATA[部门]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="2">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="3">
+<O>
+<![CDATA[总单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="3">
+<O>
+<![CDATA[已送达未确认单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="3">
+<O>
+<![CDATA[未送达数（在途）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="2">
+<O>
+<![CDATA[总单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="2">
+<O>
+<![CDATA[已送达单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="2">
+<O>
+<![CDATA[已送达未确认单据数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="2">
+<O>
+<![CDATA[未送达数（在途）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(累计查询)" columnName="调入公司部门"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(累计查询)" columnName="调入公司"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(累计查询)" columnName="出库状态"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="3" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(累计查询)" columnName="送达未确认"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="4" r="3" s="4">
+<O t="DSColumn">
+<Attributes dsName="移库(累计查询)" columnName="在途未送达"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.SummaryGrouper">
+<FN>
+<![CDATA[com.fr.data.util.function.SumFunction]]></FN>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand extendable="3"/>
+</C>
+<C c="5" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=C4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F4-I4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=E4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" cs="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=A4+"小计"]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[= SUM(F4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="6" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[= SUM(G4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="7" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[= SUM(H4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="8" r="4" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[= SUM(I4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="0" r="5" cs="2" s="6">
+<O>
+<![CDATA[合计 ]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="5" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(F5) ]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(G5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(H5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=SUM(I5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<PECBAttr blockName="block2" x="33451800" y="2133600" width="27612000" height="8427600"/>
+</Block>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="271" y="38" width="80" height="26"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="结束日期"/>
+<LabelName name="结束日期:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="130" y="54" width="100" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label结束日期"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[结束日期:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="50" y="54" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="开始日期"/>
+<LabelName name="开始日期:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="130" y="25" width="100" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label开始日期"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[开始日期:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="50" y="25" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="开始日期"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="结束日期"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="0"/>
+<Design_Width design_width="960"/>
+<NameTagModified/>
+<WidgetNameTagMap>
+<NameTag name="结束日期" tag="结束日期:"/>
+<NameTag name="开始日期" tag="开始日期:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="99"/>
+</ParameterUI>
+<Parameter>
+<Attributes name="开始日期"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="结束日期"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="160" foreground="-1"/>
+<Background name="ColorBackground" color="-13395610"/>
+<Border>
+<Top style="1" color="-16777216"/>
+<Bottom style="1" color="-16777216"/>
+<Left style="1" color="-16777216"/>
+<Right style="1" color="-16777216"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="80"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-3342388"/>
+<Border>
+<Top style="1" color="-16777216"/>
+<Bottom style="1" color="-16777216"/>
+<Left style="1" color="-16777216"/>
+<Right style="1" color="-16777216"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-65536"/>
+<Border>
+<Top style="1" color="-16777216"/>
+<Bottom style="1" color="-16777216"/>
+<Left style="1" color="-16777216"/>
+<Right style="1" color="-16777216"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="96"/>
+<Background name="ColorBackground" color="-4144960"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-103"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96"/>
+<Background name="ColorBackground" color="-26368"/>
+<Border>
+<Top style="1"/>
+<Bottom style="1"/>
+<Left style="1"/>
+<Right style="1"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="9a0a630a-5390-4e7d-8e94-6622b42d62f9"/>
+</TemplateIdAttMark>
+</WorkBook>

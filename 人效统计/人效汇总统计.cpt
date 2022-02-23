@@ -1,0 +1,1135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="A"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="B"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="C"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="ps"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="moemin"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="moemax"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="status"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT
+
+SUM(IF(profit<='${A}',profit,0)) 1级毛利,
+SUM(IF(profit>'${A}' AND profit<='${B}',profit,0)) 2级毛利,
+SUM(IF(profit>'${B}' AND profit<='${C}',profit,0)) 3级毛利,
+SUM(IF(profit>'${C}',profit,0)) 4级毛利,
+
+SUM(IF(profit<='${A}',1,0)) 1级毛利人数,
+SUM(IF(profit>'${A}' AND profit<='${B}',1,0)) 2级毛利人数,
+SUM(IF(profit>'${B}' AND profit<='${C}',1,0)) 3级毛利人数,
+SUM(IF(profit>'${C}',1,0)) 4级毛利人数
+
+
+FROM
+(
+	SELECT a.*,IFNULL(b.利润,0) AS profit
+		
+	FROM
+	(
+		SELECT name_in_company,department_trans,position_trans,entry_date,leave_date,status_trans,t1.显示分类 AS unit_grade,
+		DATEDIFF(CURDATE(),entry_date)/30 AS monthofentry,
+		IF(status_trans IN ('实习生','试用期'),'新人','正式员工') AS `status`,
+		CASE
+			WHEN position_trans IN ('店员','副店长','储备店长') AND t1.显示分类 = 'A' THEN 'A类店员'
+			WHEN position_trans IN ('店员','副店长','储备店长') AND t1.显示分类 = 'B' THEN 'B类店员'
+			WHEN position_trans IN ('店员','副店长','储备店长') AND t1.显示分类 = 'C' THEN 'C类店员'
+			WHEN position_trans IN ('店长','承包人') AND t1.显示分类 = 'A' THEN 'A类店长'
+			WHEN position_trans IN ('店长','承包人') AND t1.显示分类 IN ('B','C') THEN 'BC类店长'
+			WHEN position_trans = '售前工程师' THEN '售前工程师'
+			WHEN position_trans = '客户经理' THEN '客户经理'
+			WHEN position_trans = '收单员' THEN '收单员'
+			WHEN position_trans IN ('客户工程师','实习工程师','装维班长') THEN '包区工程师'
+			ELSE 0
+			END AS position_sort
+
+		FROM selectroster_tmp t
+		LEFT JOIN 新单位信息 t1 ON t.department_trans = t1.单位
+		WHERE `month` = LEFT(CURDATE(),7)
+		AND department_trans IN (SELECT 单位 FROM 新单位信息 WHERE 营业状态 = '营业')
+		AND position_trans NOT IN ('专职库管','分局长助理','录入专员')
+		AND department_trans NOT LIKE '%小米%'
+	) a
+
+	LEFT JOIN
+
+	(
+		SELECT t1.姓名,
+		SUM(利润) AS 利润
+		
+		FROM 利润明细 t
+		LEFT JOIN 店员字典 t1 ON t.店员1 = t1.店员
+		WHERE 日期 BETWEEN '${start}' AND '${end}'
+		GROUP BY t1.姓名
+	) b ON a.name_in_company = b.姓名
+
+	WHERE a.position_sort != '0'
+)c
+
+WHERE 1=1 ${IF(len(ps)=0,"","and position_sort in ('"+ps+"') ")}
+AND 1=1 ${IF(len(moemin)=0,"","and monthofentry >= '"+moemin+"' ")}
+AND 1=1 ${IF(len(moemax)=0,"","and monthofentry <= '"+moemax+"' ")}
+AND 1=1 ${IF(len(status)=0,"","and `status` = '"+status+"'")}
+]]></Query>
+</TableData>
+<TableData name="ds2" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select 'A类店长' as sort
+union
+select 'BC类店长'
+union
+select 'A类店员'
+union
+select 'B类店员'
+union
+select 'C类店员'
+union
+select '包区工程师'
+union
+select '客户经理'
+union
+select '售前工程'
+union
+select '客户经理'
+union
+select '收单员']]></Query>
+</TableData>
+<TableData name="ds3" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select '新人' as status
+union
+select '正式员工']]></Query>
+</TableData>
+</TableDataMap>
+<ElementCaseMobileAttr>
+<ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
+</ElementCaseMobileAttr>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1296000,1296000,1296000,1296000,1296000,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[2743200,4752000,4752000,4752000,4752000,0,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[分类]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="毛利<="+$A]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$A+"<毛利<="+$B]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$B+"<毛利<="+$C]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" s="0">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="毛利>"+$C]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O>
+<![CDATA[总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="1级毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="2级毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="3级毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="1" s="2">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="4级毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="0" r="2" s="1">
+<O>
+<![CDATA[人数]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="1级毛利人数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="ps"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$ps]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="A"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$A]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemin"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$moemin]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemax"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$moemax]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="status"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$status]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="900" height="500"/>
+<ReportletName showPI="true">
+<![CDATA[/人效统计/人效统计_下钻A.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="2" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="2级毛利人数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemin"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=moemin]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemax"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=moemax]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="ps"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$ps]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="A"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$A]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="B"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$B]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="status"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$status]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="900" height="500"/>
+<ReportletName showPI="true">
+<![CDATA[/人效统计/人效统计_下钻B.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="3" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="3级毛利人数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemin"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=moemin]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemax"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$moemax]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="B"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$B]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="C"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$C]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="ps"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$ps]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="status"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$status]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="900" height="500"/>
+<ReportletName showPI="true">
+<![CDATA[/人效统计/人效统计_下钻C.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="4" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="4级毛利人数"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemin"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$moemin]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="moemax"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$moemax]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="ps"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$ps]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="C"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$C]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="status"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$status]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="900" height="500"/>
+<ReportletName showPI="true">
+<![CDATA[/人效统计/人效统计_下钻D.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand dir="0"/>
+</C>
+<C c="5" r="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=b3+c3+d3+e3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="1">
+<O>
+<![CDATA[人数占比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=b3/f3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=c3/f3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=d3/f3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="3" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=e3/f3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" s="1">
+<O>
+<![CDATA[人均]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="4" s="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=b2/b3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="4" s="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=C2/C3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="4" s="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=D2/D3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="2">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=E2/E3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="28800000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="1" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="status"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="status" viName="status"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[ds3]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="420" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelstatus"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[人员状态]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="340" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="moemax"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr>
+<widgetValue/>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="687" y="4" width="53" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelmoemax"/>
+<LabelName name="moemin:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[<= 入职时长(月) <=]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="571" y="4" width="116" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="moemin"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr>
+<widgetValue/>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="520" y="4" width="51" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboCheckBox">
+<WidgetName name="ps"/>
+<LabelName name="ps:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DirectEdit>
+<![CDATA[false]]></DirectEdit>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="sort" viName="sort"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[ds2]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+<RAAttr delimiter="&apos;,&apos;" isArray="false"/>
+</InnerWidget>
+<BoundsAttr x="600" y="29" width="140" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelps"/>
+<LabelName name="阶梯B (中):"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[岗位分类]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="505" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<Listener event="click">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var w = this.options.form.getWidgetByName("start");
+var m = w.getValue();
+var sql1 = "call selectroster('"+m+"')";
+FR.remoteEvaluate('sql("JDBC2","'+sql1+'",1,1)');]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="Search"/>
+<LabelName name="A:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="748" y="4" width="80" height="46"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="end"/>
+<LabelName name="end:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="29" width="100" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelend"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[统计结束]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.DateEditor">
+<WidgetName name="start"/>
+<LabelName name="start:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<DateAttr/>
+<widgetValue>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=""]]></Attributes>
+</O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="4" width="100" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelstart"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[统计开始]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="C"/>
+<LabelName name="C:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请填入统计阶梯]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<NumberAttr maxDecimalLength="2">
+<widgetValue/>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="420" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="LabelC"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[阶梯C (高):]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="340" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="B"/>
+<LabelName name="B:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请填入统计阶梯]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<NumberAttr maxDecimalLength="2">
+<widgetValue/>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="260" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="LabelB"/>
+<LabelName name="end:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[阶梯B (中):]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="180" y="29" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.NumberEditor">
+<WidgetName name="A"/>
+<LabelName name="A:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<EMSG>
+<![CDATA[请填入统计阶梯]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
+<NumberAttr maxDecimalLength="2">
+<widgetValue/>
+</NumberAttr>
+</InnerWidget>
+<BoundsAttr x="260" y="4" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="LabelA"/>
+<LabelName name="B:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[阶梯A (低):]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="180" y="4" width="80" height="21"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="start"/>
+<Widget widgetName="A"/>
+<Widget widgetName="C"/>
+<Widget widgetName="moemin"/>
+<Widget widgetName="moemax"/>
+<Widget widgetName="Search"/>
+<Widget widgetName="end"/>
+<Widget widgetName="B"/>
+<Widget widgetName="status"/>
+<Widget widgetName="ps"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="true"/>
+<UseParamsTemplate use="true"/>
+<Position position="1"/>
+<Design_Width design_width="960"/>
+<NameTagModified>
+<TagModified tag="A" modified="true"/>
+<TagModified tag="B" modified="true"/>
+<TagModified tag="C" modified="true"/>
+<TagModified tag="ps" modified="true"/>
+<TagModified tag="moemin" modified="true"/>
+<TagModified tag="Search" modified="true"/>
+<TagModified tag="start" modified="true"/>
+<TagModified tag="end" modified="true"/>
+<TagModified tag="moemax" modified="true"/>
+<TagModified tag="status" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="A" tag="A:"/>
+<NameTag name="B" tag="B:"/>
+<NameTag name="C" tag="C:"/>
+<NameTag name="ps" tag="ps:"/>
+<NameTag name="moemin" tag="moemin:"/>
+<NameTag name="Search" tag="A:"/>
+<NameTag name="start" tag="start:"/>
+<NameTag name="end" tag="end:"/>
+<NameTag name="moemax" tag="moemax:"/>
+<NameTag name="status" tag="status:"/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="960" height="50"/>
+</ParameterUI>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.00]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72" foreground="-16776961" underline="1"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="8eb90d70-fe18-4c41-9fb6-493b916d02db"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="ee1ca2e9-8be8-4b76-8268-407de0357776"/>
+</TemplateIdAttMark>
+</WorkBook>

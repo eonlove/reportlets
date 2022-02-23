@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
+<TableDataMap>
+<TableData name="ds1" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="ckmd"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="month"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[oracle]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT 
+to_char(ckrq,'YYYY-MM') AS yf,
+ckmd,
+ckdh
+
+FROM
+(
+  SELECT tb1.pm,tb1.tm,tb1.djbh AS ckdh,tb1.ckmd,tb1.sl AS cksl,tb1.je AS ckje,tb1.tmzh,tb1.ckrq,
+  tb2.djbh AS rkdh,tb2.rkmd,tb2.sl AS rksl,tb2.je AS rkje,tb2.rkrq
+  FROM
+  (
+    SELECT t.*,t1.tmzh,to_date(f_get_sep_str(t.djbh, '-', 2), 'YYMMDD') AS ckrq
+    FROM zl_psmx t
+    LEFT JOIN (
+      select djbh,listagg(tm)within group(order by tm) as tmzh
+      from zl_psmx
+      group by djbh
+    ) t1 ON t.djbh = t1.djbh
+    WHERE t.djlx = '配送出库'
+  ) tb1
+
+  LEFT JOIN
+
+  (
+    SELECT t.*,t1.tmzh,to_date(f_get_sep_str(t.djbh, '-', 2), 'YYMMDD')  AS rkrq
+    FROM zl_psmx t
+    LEFT JOIN (
+      select djbh,listagg(tm)within group(order by tm) as tmzh
+      from zl_psmx
+      group by djbh
+    ) t1 ON t.djbh = t1.djbh
+    WHERE djlx = '配送入库'
+  ) tb2 
+  ON tb1.ckmd = tb2.ckmd 
+  AND tb1.rkmd = tb2.rkmd 
+  AND tb1.tmzh = tb2.tmzh 
+  and tb2.rkrq-tb1.ckrq <=5
+  and tb2.rkrq-tb1.ckrq >=0
+  AND tb1.tm = tb2.tm
+  AND ABS(tb1.je) = ABS(tb2.je)
+  AND ABS(tb1.sl) = ABS(tb2.sl)
+  WHERE tb2.rkmd IS NULL
+) a
+
+WHERE to_char(ckrq,'YYYY-MM')= '${month}'
+AND ckmd = '${ckmd}'
+GROUP BY to_char(ckrq,'YYYY-MM'),ckmd,ckdh]]></Query>
+</TableData>
+</TableDataMap>
+<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3276600,3733800,6743700,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0">
+<O>
+<![CDATA[月份]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="0">
+<O>
+<![CDATA[出库门店]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<O>
+<![CDATA[出库单号]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="YF"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="1" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CKMD"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="CKDH"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting/>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<StyleList>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+</StyleList>
+<DesignerVersion DesignerVersion="JAA"/>
+<PreviewType PreviewType="0"/>
+<TemplateID TemplateID="2a931f51-1109-47c1-af8b-eba02ce14c3c"/>
+<TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
+<TemplateIdAttMark TemplateId="1722a31a-284e-4f48-aa61-72462ceb583c"/>
+</TemplateIdAttMark>
+</WorkBook>
