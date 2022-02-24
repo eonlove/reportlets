@@ -33,9 +33,9 @@ where 月份 = '${月份}']]></Query>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3695700,2743200,2743200,2743200,3048000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[3695700,2743200,2743200,2743200,3048000,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O>
@@ -57,7 +57,7 @@ where 月份 = '${月份}']]></Query>
 </C>
 <C c="3" r="0" s="0">
 <O>
-<![CDATA[人员工资]]></O>
+<![CDATA[人工成本]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -97,7 +97,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="1" s="0">
+<C c="0" r="1" s="1">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="结算单位"/>
 <Complex/>
@@ -107,7 +107,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="1">
+<C c="1" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="单位总毛利"/>
 <Complex/>
@@ -117,7 +117,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="1">
+<C c="2" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="可控成本"/>
 <Complex/>
@@ -127,9 +127,9 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="1">
+<C c="3" r="1" s="2">
 <O t="DSColumn">
-<Attributes dsName="ds1" columnName="人员税前工资"/>
+<Attributes dsName="ds1" columnName="人工成本"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -137,7 +137,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="4" r="1" s="1">
+<C c="4" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="社保单位部分"/>
 <Complex/>
@@ -147,7 +147,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="5" r="1" s="1">
+<C c="5" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="区域管理费"/>
 <Complex/>
@@ -157,7 +157,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="6" r="1" s="1">
+<C c="6" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="摊销金额"/>
 <Complex/>
@@ -167,7 +167,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="7" r="1" s="1">
+<C c="7" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="分红比例"/>
 <Complex/>
@@ -177,7 +177,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="8" r="1" s="1">
+<C c="8" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="核算毛利"/>
 <Complex/>
@@ -187,7 +187,7 @@ where 月份 = '${月份}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="9" r="1" s="1">
+<C c="9" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="分红金额"/>
 <Complex/>
@@ -216,8 +216,18 @@ where 月份 = '${月份}']]></Query>
 </ReportParameterAttr>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -229,7 +239,7 @@ where 月份 = '${月份}']]></Query>
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.00]]></Format>
 <FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
