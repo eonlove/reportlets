@@ -2141,6 +2141,7 @@ where a.yjfl is not null]]></Query>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.parameter.FormSubmitButton">
 <WidgetName name="Search"/>
+<LabelName name="单位"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
@@ -2149,7 +2150,7 @@ where a.yjfl is not null]]></Query>
 <Hotkeys>
 <![CDATA[enter]]></Hotkeys>
 </InnerWidget>
-<BoundsAttr x="207" y="4" width="80" height="21"/>
+<BoundsAttr x="201" y="9" width="83" height="24"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
@@ -2158,6 +2159,8 @@ where a.yjfl is not null]]></Query>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
+<fontSize>
+<![CDATA[13]]></fontSize>
 <Dictionary class="com.fr.data.impl.TableDataDictionary">
 <FormulaDictAttr kiName="DEPARTMENT" viName="DEPARTMENT"/>
 <TableDataDictAttr>
@@ -2172,7 +2175,7 @@ where a.yjfl is not null]]></Query>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="4" width="112" height="21"/>
+<BoundsAttr x="60" y="9" width="131" height="24"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -2182,13 +2185,13 @@ where a.yjfl is not null]]></Query>
 </WidgetAttr>
 <widgetValue>
 <O>
-<![CDATA[单位]]></O>
+<![CDATA[单位：]]></O>
 </widgetValue>
 <LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="4" width="80" height="21"/>
+<BoundsAttr x="7" y="9" width="53" height="24"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
@@ -2202,12 +2205,14 @@ where a.yjfl is not null]]></Query>
 <Design_Width design_width="960"/>
 <NameTagModified>
 <TagModified tag="unit" modified="true"/>
+<TagModified tag="Search" modified="true"/>
 </NameTagModified>
 <WidgetNameTagMap>
 <NameTag name="unit" tag="unit:"/>
+<NameTag name="Search" tag="单位"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="28"/>
+<DesignAttr width="960" height="36"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

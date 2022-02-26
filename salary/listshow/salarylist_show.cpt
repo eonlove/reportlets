@@ -213,7 +213,7 @@ FROM
 	AND 1=1 ${IF(fr_authority = '承包人',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
 
 	AND 1=1 ${IF(fr_authority = '班长',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
-	AND 1=1 ${IF(fr_authority = '运营区经',"and left(s.department,4) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
+AND 1=1 ${IF(fr_authority = '运营区经',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类5 = '"+fr_username+"')","")}
 
 	AND 1=1 ${IF(fr_authority = '督察部经理',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '市场部经理',"and s.department in ('09','10','11')","")}
@@ -749,7 +749,25 @@ alert(result);
 contentPane.parameterCommit();]]></Content>
 </JavaScript>
 </Listener>
-<ToolBars/>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
 <SelectedColor/>
 <WebWrite SheetPosition="3"/>
 <RptLocation isShowAtLeft="false"/>
@@ -759,7 +777,7 @@ contentPane.parameterCommit();]]></Content>
 </WebWriteContent>
 </ReportWebAttr>
 <ReportExportAttr>
-<ExcelExportAttr pwd="___0069003f00700067005200e3001d"/>
+<ExcelExportAttr protectedWord="___0069003f00700067005200e3001d"/>
 <PDFExportAttr/>
 <HTMLExportAttr/>
 <WordExportAttr/>

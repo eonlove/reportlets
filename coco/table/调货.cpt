@@ -46,7 +46,7 @@ t1.*
 FROM dim_goods t
 LEFT JOIN
 (
-  SELECT tb."SPTM",tb."MD",tb."MC",tb."YXL6",tb."YXL5",tb."YXL4",tb."YXL3",tb."YXL2",tb."YXL1",tb."JQRJXL",tb."BYXL",tb."SYXL",
+  SELECT tb."SPTM",tb."MD",tb."MC",tb."YXL6",tb."YXL5",tb."YXL4",tb."YXL3",tb."YXL2",tb."YXL1",tb."JQRJXL",tb."BYXL",tb."SYXL",tb.j14rxl,
   GREATEST(yxl6, yxl5, yxl4, yxl3, yxl2, yxl1) AS bnzdyxl,--半年最大月销量
   ROUND(((yxl6 + yxl5 + yxl4 + yxl3 + yxl2 + yxl1) / 180 * 7 * 1.2 / 2),2) AS zzdyxlyb --周最大销量一半
   FROM (
@@ -61,6 +61,7 @@ LEFT JOIN
        nvl(SUM(CASE WHEN daybetween <= 60 AND daybetween > 30 THEN sl ELSE NULL END),0) AS yxl2,
        nvl(SUM(CASE WHEN daybetween <= 30 AND daybetween > 0 THEN sl ELSE NULL END),0) AS yxl1,
        ROUND(nvl(SUM(CASE WHEN daybetween <= 7 AND daybetween >= 0 THEN sl ELSE NULL END),0)/7,2) AS jqrjxl,--近7日均销量
+       ROUND(nvl(SUM(CASE WHEN daybetween <= 14 AND daybetween >= 0 THEN sl ELSE NULL END),0),2) AS j14rxl,--近14日销量
        nvl(SUM(CASE WHEN months_between(SYSDATE,jysj)<=1  THEN sl ELSE NULL END),0) AS byxl,--本月销量
        nvl(SUM(CASE WHEN months_between(SYSDATE,jysj)>1 AND months_between(SYSDATE,jysj)<=2 THEN sl ELSE NULL END),0) AS syxl --上月销量
        FROM (       
@@ -771,7 +772,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="37" r="0" s="3">
+<C c="37" r="0" s="2">
 <O>
 <![CDATA[汇总7日销量]]></O>
 <PrivilegeControl/>
@@ -789,7 +790,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="40" r="0" s="3">
+<C c="40" r="0" s="2">
 <O>
 <![CDATA[汇总30日销量]]></O>
 <PrivilegeControl/>
@@ -933,6 +934,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="在售门店数" columnName="ZSMDS"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -968,6 +971,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -977,6 +982,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </JoinCondition>
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[MDMC]]></CNAME>
 <Compare op="0">
@@ -1004,7 +1011,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </C>
 <C c="13" r="1" s="5">
 <O t="DSColumn">
-<Attributes dsName="th" columnName="近14日销量"/>
+<Attributes dsName="th" columnName="J14RXL"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -1014,12 +1021,10 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </C>
 <C c="14" r="1" s="5">
 <O t="DSColumn">
-<Attributes dsName="公司销量" columnName="近90日销量"/>
+<Attributes dsName="公司销量" columnName="YXL7"/>
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[商品条码]]></CNAME>
+<![CDATA[SPTM]]></CNAME>
 <Compare op="0">
 <ColumnRow column="6" row="1"/>
 </Compare>
@@ -1031,16 +1036,14 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="15" r="1" s="5">
+<C c="15" r="1" s="6">
 <O t="DSColumn">
-<Attributes dsName="分货占比" columnName="分货占比"/>
+<Attributes dsName="分货占比" columnName="FHZB"/>
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[门店]]></CNAME>
+<![CDATA[MD]]></CNAME>
 <Compare op="0">
 <ColumnRow column="0" row="1"/>
 </Compare>
@@ -1048,10 +1051,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </JoinCondition>
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[小包装码]]></CNAME>
+<![CDATA[XBZM]]></CNAME>
 <Compare op="0">
 <ColumnRow column="6" row="1"/>
 </Compare>
@@ -1077,6 +1078,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="推荐出货门店" columnName="MDMC"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1094,6 +1097,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="推荐出货门店" columnName="KCHL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1113,6 +1118,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1122,6 +1129,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </JoinCondition>
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[MDMC]]></CNAME>
 <Compare op="0">
@@ -1171,6 +1180,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="可出货门店数/总量" columnName="KCHMDS"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1188,6 +1199,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="可出货门店数/总量" columnName="KCHZL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1205,6 +1218,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="需进货门店量/货物量" columnName="XJHMDS"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1222,6 +1237,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="需进货门店量/货物量" columnName="XJHZL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1256,14 +1273,14 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <C c="29" r="1" s="5">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=L2 / AC2]]></Attributes>
+<![CDATA[=if(or(l2=0,len(l2)=0),0,if(or(ac2=0,len(ac2)=0),9999,L2 / AC2))]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="30" r="1" s="5">
 <O t="DSColumn">
-<Attributes dsName="th" columnName="近30天销量"/>
+<Attributes dsName="th" columnName="YXL1"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -1274,7 +1291,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <C c="31" r="1" s="5">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=L2 / AE2 * 30]]></Attributes>
+<![CDATA[=if(or(l2=0,len(l2)=0),0,if(or(ae2=0,len(ae2)=0),9999,L2 / Ae2*30))]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
@@ -1285,6 +1302,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[SPTM]]></CNAME>
 <Compare op="0">
@@ -1294,6 +1313,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </JoinCondition>
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[MD]]></CNAME>
 <Compare op="0">
@@ -1332,7 +1353,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="35" r="1" s="6">
+<C c="35" r="1" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=(AH2 - AI2) / AI2]]></Attributes>
@@ -1344,6 +1365,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="汇总库存" columnName="SL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[TXM]]></CNAME>
 <Compare op="0">
@@ -1361,12 +1384,10 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </C>
 <C c="37" r="1" s="4">
 <O t="DSColumn">
-<Attributes dsName="公司销量" columnName="近7日均销量"/>
+<Attributes dsName="公司销量" columnName="JQRJXL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[商品条码]]></CNAME>
+<![CDATA[SPTM]]></CNAME>
 <Compare op="0">
 <ColumnRow column="6" row="1"/>
 </Compare>
@@ -1398,12 +1419,10 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </C>
 <C c="40" r="1" s="5">
 <O t="DSColumn">
-<Attributes dsName="公司销量" columnName="近30天销量"/>
+<Attributes dsName="公司销量" columnName="YXL1"/>
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[商品条码]]></CNAME>
+<![CDATA[SPTM]]></CNAME>
 <Compare op="0">
 <ColumnRow column="6" row="1"/>
 </Compare>
@@ -1429,6 +1448,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="公司销量" columnName="BYXL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[SPTM]]></CNAME>
 <Compare op="0">
@@ -1448,6 +1469,8 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <O t="DSColumn">
 <Attributes dsName="公司销量" columnName="SYXL"/>
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[SPTM]]></CNAME>
 <Compare op="0">
@@ -1747,7 +1770,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-52"/>
+<Background name="ColorBackground" color="-3342388"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -1778,6 +1801,18 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Style horizontal_alignment="0" imageLayout="1">
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.000]]></Format>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <Background name="ColorBackground" color="-657929"/>
 <Border>
