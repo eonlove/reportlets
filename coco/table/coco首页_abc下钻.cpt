@@ -25,69 +25,71 @@
 <![CDATA[oracle]]></DatabaseName>
 </Connection>
 <Query>
-<![CDATA[SELECT DES1.*,des2.is_aplus from (
-select b.*,
+<![CDATA[SELECT DES1.*,des2.is_aplus 
+from (
+    select b.*,case when cbisnull is null then '无采购价' else '' end  cb,
 
-case when ysjecounter=1 and ysje_lv1_lj>=0.5 then 'A'
-  when ysje_lv1_lj>=0.9 then 'C'
-  when ysje_lv1_lj>=0.5 then 'B'
-  else 'A'
-  end as ysje_lv1_sort,
+    case when ysjecounter=1 and ysje_lv1_lj>=0.5 then 'A'
+      when ysje_lv1_lj>=0.9 then 'C'
+      when ysje_lv1_lj>=0.5 then 'B'
+      else 'A'
+      end as ysje_lv1_sort,
 
-case when slcounter=1 and sl_lv1_lj>=0.5 then 'A'
-  when sl_lv1_lj>=0.9 then 'C'
-  when sl_lv1_lj>=0.5 then 'B'
-  else 'A'
-  end as sl_lv1_sort,
+    case when slcounter=1 and sl_lv1_lj>=0.5 then 'A'
+      when sl_lv1_lj>=0.9 then 'C'
+      when sl_lv1_lj>=0.5 then 'B'
+      else 'A'
+      end as sl_lv1_sort,
 
-case when jslrcounter=1 and jslr_lv1_lj>=0.5 then 'A'
-  when jslr_lv1_lj>=0.9 then 'C'
-  when jslr_lv1_lj>=0.5 then 'B'
-  else 'A'
-  end as jslr_lv1_sort
-  
-from
-(
-    select a.*,
-    
-    case when ysje_total=0 then 0 else ysje_lv1/ysje_total end as ysje_lv1_zb,
-    case when sl_total=0 then 0 else sl_lv1/sl_total end as sl_lv1_zb,
-    case when jslr_total=0 then 0 else jslr_lv1/jslr_total end as jslr_lv1_zb,
-
-    sum(case when ysje_total=0 then 0 else ysje_lv1/ysje_total end) over(order by case when ysje_total=0 then 0 else ysje_lv1/ysje_total end desc rows between unbounded preceding and current row) as ysje_lv1_lj,
-    sum(case when sl_total=0 then 0 else sl_lv1/sl_total end) over(order by case when sl_total=0 then 0 else sl_lv1/sl_total end desc rows between unbounded preceding and current row) as sl_lv1_lj,
-    sum(case when jslr_total=0 then 0 else jslr_lv1/jslr_total end) over(order by case when jslr_total=0 then 0 else jslr_lv1/jslr_total end desc rows between unbounded preceding and current row) as jslr_lv1_lj,
-    
-    sum(1) over(order by case when ysje_total=0 then 0 else ysje_lv1/ysje_total end desc rows between unbounded preceding and current row) as ysjecounter,
-    sum(1) over(order by case when sl_total=0 then 0 else sl_lv1/sl_total end desc rows between unbounded preceding and current row) as slcounter,
-    sum(1) over(order by case when jslr_total=0 then 0 else jslr_lv1/jslr_total end desc rows between unbounded preceding and current row) as jslrcounter
-
+    case when jslrcounter=1 and jslr_lv1_lj>=0.5 then 'A'
+      when jslr_lv1_lj>=0.9 then 'C'
+      when jslr_lv1_lj>=0.5 then 'B'
+      else 'A'
+      end as jslr_lv1_sort
+      
     from
     (
-          select t.sptm,t.xbzspmc,
+          select a.*,
           
-          sum(case when ysje is null then 0 else ysje end) as ysje_lv1,
-          sum(case when sl is null then 0 else sl end) as sl_lv1,
-          sum(case when jslr is null then 0 else jslr end) as jslr_lv1,
+          case when ysje_total=0 then 0 else ysje_lv1/ysje_total end as ysje_lv1_zb,
+          case when sl_total=0 then 0 else sl_lv1/sl_total end as sl_lv1_zb,
+          case when jslr_total=0 then 0 else jslr_lv1/jslr_total end as jslr_lv1_zb,
+
+          sum(case when ysje_total=0 then 0 else ysje_lv1/ysje_total end) over(order by case when ysje_total=0 then 0 else ysje_lv1/ysje_total end desc rows between unbounded preceding and current row) as ysje_lv1_lj,
+          sum(case when sl_total=0 then 0 else sl_lv1/sl_total end) over(order by case when sl_total=0 then 0 else sl_lv1/sl_total end desc rows between unbounded preceding and current row) as sl_lv1_lj,
+          sum(case when jslr_total=0 then 0 else jslr_lv1/jslr_total end) over(order by case when jslr_total=0 then 0 else jslr_lv1/jslr_total end desc rows between unbounded preceding and current row) as jslr_lv1_lj,
           
-          sum(sum(case when ysje is null then 0 else ysje end)) over() as ysje_total,
-          sum(sum(case when sl is null then 0 else sl end)) over() as sl_total,
-          sum(sum(case when jslr is null then 0 else jslr end)) over() as jslr_total
-          
+          sum(1) over(order by case when ysje_total=0 then 0 else ysje_lv1/ysje_total end desc rows between unbounded preceding and current row) as ysjecounter,
+          sum(1) over(order by case when sl_total=0 then 0 else sl_lv1/sl_total end desc rows between unbounded preceding and current row) as slcounter,
+          sum(1) over(order by case when jslr_total=0 then 0 else jslr_lv1/jslr_total end desc rows between unbounded preceding and current row) as jslrcounter
+
           from
-          
           (
-              select yjfl,rjfl,xbzm as sptm,dzxmc as xbzspmc
-              from dim_goods
-              where zsbzzl = '小包装'
-          ) t      
-          left join (select * from spls_lrhy where rq >= to_date('${dur}','yyyy/mm/dd')
-          and 1=1 ${if(len(unit)==0,"","and md = '"+unit+"'")}
-          ) t1 on t.sptm = t1.sptm  
-          where  t.yjfl='${yjfl}'
-          group by t.sptm,t.xbzspmc
-    ) a
-) b) des1
+                  select t.sptm,t.xbzspmc,
+                  
+                  sum(case when ysje is null then 0 else ysje end) as ysje_lv1,
+                  sum(case when sl is null then 0 else sl end) as sl_lv1,
+                  sum(case when jslr is null then 0 else jslr end) as jslr_lv1,
+                  sum(jslr) as cbisnull,
+                  sum(sum(case when ysje is null then 0 else ysje end)) over() as ysje_total,
+                  sum(sum(case when sl is null then 0 else sl end)) over() as sl_total,
+                  sum(sum(case when jslr is null then 0 else jslr end)) over() as jslr_total
+                  
+                  from
+                  
+                  (
+                      select yjfl,rjfl,xbzm as sptm,dzxmc as xbzspmc
+                      from dim_goods
+                      where zsbzzl = '小包装'
+                  ) t      
+                  left join (select * from spls_lrhy where rq >= to_date('${dur}','yyyy/mm/dd')
+                  and 1=1 ${if(len(unit)==0,"","and md = '"+unit+"'")}
+                  ) t1 on t.sptm = t1.sptm  
+                  where  t.yjfl='${yjfl}'
+                  group by t.sptm,t.xbzspmc
+          ) a
+    ) b
+) des1
 left join coco_detail_aplus des2 on des1.sptm = des2.sptm ]]></Query>
 </TableData>
 <TableData name="widget_unit" class="com.fr.data.impl.DBTableData">
@@ -198,9 +200,9 @@ from zl_spls]]></Query>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1008000,1066800,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1008000,990600,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3924300,4114800,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,1905000,2743200]]></ColumnWidth>
+<![CDATA[3924300,4114800,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,1905000,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O>
@@ -216,11 +218,17 @@ from zl_spls]]></Query>
 </C>
 <C c="2" r="0" s="0">
 <O>
+<![CDATA[是否有成本]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<O>
 <![CDATA[销售额]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="0" s="1">
+<C c="4" r="0" s="1">
 <O>
 <![CDATA[销售额占比]]></O>
 <PrivilegeControl/>
@@ -232,7 +240,7 @@ from zl_spls]]></Query>
 <Attributes name="a"/>
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if($a=1,0,1)]]></Attributes>
+<![CDATA[=if($a = 1, 0, 1)]]></Attributes>
 </O>
 </Parameter>
 <Parameter>
@@ -246,13 +254,13 @@ from zl_spls]]></Query>
 </NameJavaScriptGroup>
 <Expand/>
 </C>
-<C c="4" r="0" s="0">
+<C c="5" r="0" s="0">
 <O>
 <![CDATA[利润]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="5" r="0" s="1">
+<C c="6" r="0" s="1">
 <O>
 <![CDATA[利润占比]]></O>
 <PrivilegeControl/>
@@ -264,7 +272,7 @@ from zl_spls]]></Query>
 <Attributes name="a"/>
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if($a=1,0,1)]]></Attributes>
+<![CDATA[=if($a = 1, 0, 1)]]></Attributes>
 </O>
 </Parameter>
 <Parameter>
@@ -278,13 +286,13 @@ from zl_spls]]></Query>
 </NameJavaScriptGroup>
 <Expand/>
 </C>
-<C c="6" r="0" s="0">
+<C c="7" r="0" s="0">
 <O>
 <![CDATA[数量]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="7" r="0" s="1">
+<C c="8" r="0" s="1">
 <O>
 <![CDATA[数量占比]]></O>
 <PrivilegeControl/>
@@ -296,7 +304,7 @@ from zl_spls]]></Query>
 <Attributes name="a"/>
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if($a=1,0,1)]]></Attributes>
+<![CDATA[=if($a = 1, 0, 1)]]></Attributes>
 </O>
 </Parameter>
 <Parameter>
@@ -310,25 +318,25 @@ from zl_spls]]></Query>
 </NameJavaScriptGroup>
 <Expand/>
 </C>
-<C c="8" r="0" s="0">
+<C c="9" r="0" s="0">
 <O>
 <![CDATA[销售额ABC]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="9" r="0" s="0">
+<C c="10" r="0" s="0">
 <O>
 <![CDATA[利润ABC]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="10" r="0" s="0">
+<C c="11" r="0" s="0">
 <O>
 <![CDATA[数量ABC]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="11" r="0" s="0">
+<C c="12" r="0" s="0">
 <O>
 <![CDATA[A+清单]]></O>
 <PrivilegeControl/>
@@ -346,7 +354,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0" order="1">
 <SortFormula>
-<![CDATA[=if($a = 1, eval($val), eval($val) * -1)]]></SortFormula>
+<![CDATA[if($a = 1, eval($val), eval($val) * -1)]]></SortFormula>
 </Expand>
 </C>
 <C c="1" r="1" s="3">
@@ -359,7 +367,17 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="4">
+<C c="2" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="ABC分析" columnName="CB"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="4">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="YSJE_LV1"/>
 <Complex/>
@@ -369,7 +387,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="5">
+<C c="4" r="1" s="5">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="YSJE_LV1_ZB"/>
 <Complex/>
@@ -379,7 +397,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="4" r="1" s="4">
+<C c="5" r="1" s="4">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="JSLR_LV1"/>
 <Complex/>
@@ -389,7 +407,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="5" r="1" s="5">
+<C c="6" r="1" s="5">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="JSLR_LV1_ZB"/>
 <Complex/>
@@ -399,7 +417,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="6" r="1" s="3">
+<C c="7" r="1" s="3">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="SL_LV1"/>
 <Complex/>
@@ -409,7 +427,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="7" r="1" s="5">
+<C c="8" r="1" s="5">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="SL_LV1_ZB"/>
 <Complex/>
@@ -419,7 +437,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="8" r="1" s="3">
+<C c="9" r="1" s="3">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="YSJE_LV1_SORT"/>
 <Complex/>
@@ -429,7 +447,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="9" r="1" s="3">
+<C c="10" r="1" s="3">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="JSLR_LV1_SORT"/>
 <Complex/>
@@ -439,7 +457,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="10" r="1" s="3">
+<C c="11" r="1" s="3">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="SL_LV1_SORT"/>
 <Complex/>
@@ -449,7 +467,7 @@ from zl_spls]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="11" r="1" s="6">
+<C c="12" r="1" s="6">
 <O t="DSColumn">
 <Attributes dsName="ABC分析" columnName="IS_APLUS"/>
 <Complex/>
@@ -465,7 +483,7 @@ from zl_spls]]></Query>
 <Attributes name="row"/>
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=row()-1]]></Attributes>
+<![CDATA[=row() - 1]]></Attributes>
 </O>
 </Parameter>
 </Parameters>
@@ -491,6 +509,7 @@ if (t != 'OK') {
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
 <PaperSize width="38880000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>

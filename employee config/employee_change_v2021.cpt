@@ -16,7 +16,7 @@
 </Connection>
 <Query>
 <![CDATA[select *
-from employee_2nd_position
+from employeeChangeList
 where id = '${id}'
 order by occurrence_date]]></Query>
 </TableData>
@@ -42,7 +42,7 @@ where codetypeid = '000004']]></Query>
 <Query>
 <![CDATA[SELECT codeid,codename
 FROM code_dict
-WHERE codetypeid = '000006']]></Query>
+WHERE codetypeid = '000001']]></Query>
 </TableData>
 <TableData name="Tree1" class="com.fr.data.impl.RecursionTableData">
 <markFields>
@@ -100,18 +100,6 @@ WHERE codetypeid = '000003']]></Query>
 FROM code_dict
 WHERE codetypeid = '000002']]></Query>
 </TableData>
-<TableData name="单位字典" class="com.fr.data.impl.DBTableData">
-<Parameters/>
-<Attributes maxMemRowCount="-1"/>
-<Connection class="com.fr.data.impl.NameDatabaseConnection">
-<DatabaseName>
-<![CDATA[JDBC2]]></DatabaseName>
-</Connection>
-<Query>
-<![CDATA[SELECT codeid,codename
-FROM code_dict
-WHERE codetypeid in ('000006','000001')]]></Query>
-</TableData>
 </TableDataMap>
 <ReportWebAttr>
 <ServerPrinter/>
@@ -147,11 +135,11 @@ WHERE codetypeid in ('000006','000001')]]></Query>
 <RowHeight defaultValue="723900">
 <![CDATA[1485900,1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2743200,2743200,3456000,3456000,4953000,3369600,3086100,0,7734300,0,0,3581400,2743200]]></ColumnWidth>
+<![CDATA[2743200,2743200,3499200,3499200,4953000,3369600,3086100,0,7734300,0,0,3581400,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" cs="12" s="0">
 <O>
-<![CDATA[兼职记录]]></O>
+<![CDATA[岗位变动记录]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -169,19 +157,19 @@ WHERE codetypeid in ('000006','000001')]]></Query>
 </C>
 <C c="3" r="1" s="1">
 <O>
-<![CDATA[离岗月份]]></O>
+<![CDATA[到岗状态]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="4" r="1" s="1">
 <O>
-<![CDATA[所属单位]]></O>
+<![CDATA[到岗单位]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="5" r="1" s="1">
 <O>
-<![CDATA[兼职职务]]></O>
+<![CDATA[到岗职务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -199,7 +187,7 @@ WHERE codetypeid in ('000006','000001')]]></Query>
 </C>
 <C c="8" r="1" s="1">
 <O>
-<![CDATA[当月兼职备注]]></O>
+<![CDATA[当月调动备注]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -223,7 +211,7 @@ WHERE codetypeid in ('000006','000001')]]></Query>
 <Parameters/>
 <Content>
 <![CDATA[contentPane.verifyAndWriteReport();
-location.reload();]]></Content>
+location.reload;]]></Content>
 </JavaScript>
 </Listener>
 <WidgetAttr description="">
@@ -293,23 +281,53 @@ location.reload();]]></Content>
 </C>
 <C c="3" r="2" s="2">
 <O t="DSColumn">
-<Attributes dsName="main" columnName="leave_date"/>
+<Attributes dsName="main" columnName="status"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
 </O>
 <PrivilegeControl/>
-<Widget class="com.fr.form.ui.DateEditor">
+<CellPageAttr/>
+<Widget class="com.fr.form.ui.ComboBox">
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
+<EMSG>
+<![CDATA[请选择状态]]></EMSG>
+<allowBlank>
+<![CDATA[false]]></allowBlank>
 <DirectEdit>
 <![CDATA[false]]></DirectEdit>
 <watermark>
-<![CDATA[请选择月份]]></watermark>
-<DateAttr format="yyyy-MM"/>
+<![CDATA[请选择状态]]></watermark>
+<CustomData>
+<![CDATA[false]]></CustomData>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="codeid" viName="codename"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[状态控件]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
 <widgetValue/>
 </Widget>
+<Present class="com.fr.base.present.DictPresent">
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="codeid" viName="codename"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[状态控件]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+</Present>
+<CellInsertPolicy>
+<InsertPolicy>
+<![CDATA[copy]]></InsertPolicy>
+</CellInsertPolicy>
 <Expand dir="0"/>
 </C>
 <C c="4" r="2" s="2">
@@ -355,7 +373,7 @@ location.reload();]]></Content>
 <TableDataDictAttr>
 <TableData class="com.fr.data.impl.NameTableData">
 <Name>
-<![CDATA[单位字典]]></Name>
+<![CDATA[单位控件]]></Name>
 </TableData>
 </TableDataDictAttr>
 </Dictionary>
@@ -516,7 +534,7 @@ location.reload();]]></Content>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
-<PaperSize width="43200000" height="42768000"/>
+<PaperSize width="50400000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>
@@ -540,9 +558,12 @@ location.reload();]]></Content>
 <![CDATA[内置SQL1]]></Name>
 <Attributes dsName="JDBC2"/>
 <DMLConfig class="com.fr.write.config.IntelliDMLConfig">
-<Table schema="" name="employee_2nd_position"/>
+<Table schema="" name="employeeChangeList"/>
 <ColumnConfig name="id" isKey="true" skipUnmodified="false">
 <ColumnRow column="7" row="2"/>
+</ColumnConfig>
+<ColumnConfig name="status" isKey="false" skipUnmodified="false">
+<ColumnRow column="3" row="2"/>
 </ColumnConfig>
 <ColumnConfig name="occurrence_date" isKey="true" skipUnmodified="false">
 <ColumnRow column="2" row="2"/>
@@ -565,10 +586,8 @@ location.reload();]]></Content>
 <ColumnConfig name="updater" isKey="false" skipUnmodified="false">
 <ColumnRow column="10" row="2"/>
 </ColumnConfig>
-<ColumnConfig name="leave_date" isKey="false" skipUnmodified="false">
-<ColumnRow column="3" row="2"/>
-</ColumnConfig>
 <Condition class="com.fr.data.condition.ListCondition"/>
+<UpdateAttr updateStatus="true"/>
 </DMLConfig>
 </SubmitVisitor>
 </ReportWriteAttr>

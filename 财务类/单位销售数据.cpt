@@ -72,7 +72,7 @@ AND 商品全称 NOT IN
 	SELECT 商品名称
 	FROM 博远虚拟商品
 	WHERE 佣金比例=0
-	and 商品名称 not in ('企业组网利润','政企项目服务费【人工】')
+	and 商品名称 not in ('企业组网利润','政企项目服务费【人工】','政企项目服务费【外部人工】')
 )
 AND 单据类型 IN ('零售','零售退货','零售换机')
 GROUP BY CASE WHEN t1.结算单位 = '政企营销组' THEN t1.备注 ELSE t1.结算单位 END]]></Query>
@@ -108,7 +108,7 @@ AND 商品全称 NOT IN
 	SELECT 商品名称
 	FROM 博远虚拟商品
 	WHERE 佣金比例=0
-	and 商品名称 not in ('企业组网利润','政企项目服务费【人工】')
+	and 商品名称 not in ('企业组网利润','政企项目服务费【人工】','政企项目服务费【外部人工】')
 )
 AND 单据类型 IN ('零售','零售退货','零售换机')
 GROUP BY CASE WHEN 公司='政企营销部' THEN '政企营销组' ELSE 公司 END]]></Query>

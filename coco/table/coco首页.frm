@@ -1546,16 +1546,6 @@ FR.remoteEvaluate('sql("oracle","'+sql+'",1,1)');]]></Content>
 <ChartDefinition>
 <CustomDefinition>
 <DefinitionMapList>
-<DefinitionMap key="column">
-<OneValueCDDefinition seriesName="MDMC" valueName="KUCUNDIM" function="com.fr.data.util.function.NoneFunction">
-<Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
-<TableData class="com.fr.data.impl.NameTableData">
-<Name>
-<![CDATA[kucun]]></Name>
-</TableData>
-<CategoryName value="RQ"/>
-</OneValueCDDefinition>
-</DefinitionMap>
 <DefinitionMap key="line">
 <MoreNameCDDefinition>
 <Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
@@ -1566,6 +1556,16 @@ FR.remoteEvaluate('sql("oracle","'+sql+'",1,1)');]]></Content>
 <CategoryName value="RQ"/>
 <ChartSummaryColumn name="KUCUNDIM" function="com.fr.data.util.function.SumFunction" customName="库存成本"/>
 </MoreNameCDDefinition>
+</DefinitionMap>
+<DefinitionMap key="column">
+<OneValueCDDefinition seriesName="MDMC" valueName="KUCUNDIM" function="com.fr.data.util.function.NoneFunction">
+<Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[kucun]]></Name>
+</TableData>
+<CategoryName value="RQ"/>
+</OneValueCDDefinition>
 </DefinitionMap>
 </DefinitionMapList>
 </CustomDefinition>
@@ -2255,7 +2255,7 @@ d!*Cp\rH6#$:a=s/F_o821nV>R\9]A\@HD51&Kj/nb"bF/I1)#[RP##Mt4EC)9]ApdP:h)[eHN
 </Parameters>
 <TargetFrame>
 <![CDATA[_dialog]]></TargetFrame>
-<Features width="1000" height="700"/>
+<Features width="1200" height="700"/>
 <ReportletName showPI="true">
 <![CDATA[/coco/table/coco首页_abc下钻.cpt]]></ReportletName>
 </JavaScript>
@@ -7716,16 +7716,6 @@ rNrBTIBAtk+%h@p21C!X3XNCZ@'[l^BDY$lFm*Vj:a3HCDPjCeR,NWlH5IG+9!>~
 <ChartDefinition>
 <CustomDefinition>
 <DefinitionMapList>
-<DefinitionMap key="column">
-<OneValueCDDefinition seriesName="MD" valueName="JSLR" function="com.fr.data.util.function.NoneFunction">
-<Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
-<TableData class="com.fr.data.impl.NameTableData">
-<Name>
-<![CDATA[ds1]]></Name>
-</TableData>
-<CategoryName value="RQ"/>
-</OneValueCDDefinition>
-</DefinitionMap>
 <DefinitionMap key="line">
 <MoreNameCDDefinition>
 <Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
@@ -7736,6 +7726,16 @@ rNrBTIBAtk+%h@p21C!X3XNCZ@'[l^BDY$lFm*Vj:a3HCDPjCeR,NWlH5IG+9!>~
 <CategoryName value="RQ"/>
 <ChartSummaryColumn name="JSLR" function="com.fr.data.util.function.SumFunction" customName="利润"/>
 </MoreNameCDDefinition>
+</DefinitionMap>
+<DefinitionMap key="column">
+<OneValueCDDefinition seriesName="MD" valueName="JSLR" function="com.fr.data.util.function.NoneFunction">
+<Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[ds1]]></Name>
+</TableData>
+<CategoryName value="RQ"/>
+</OneValueCDDefinition>
 </DefinitionMap>
 </DefinitionMapList>
 </CustomDefinition>
@@ -9906,8 +9906,8 @@ T_@mg73+L0K27=mt,I=L*Eirt<!C).9_?,VPrc$J=!<~
 <ChartDefinition>
 <CustomDefinition>
 <DefinitionMapList>
-<DefinitionMap key="column">
-<OneValueCDDefinition seriesName="MD" valueName="JSLR" function="com.fr.data.util.function.NoneFunction">
+<DefinitionMap key="line">
+<OneValueCDDefinition valueName="JSLR" function="com.fr.data.util.function.SumFunction">
 <Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
 <TableData class="com.fr.data.impl.NameTableData">
 <Name>
@@ -9916,8 +9916,8 @@ T_@mg73+L0K27=mt,I=L*Eirt<!C).9_?,VPrc$J=!<~
 <CategoryName value="RQ"/>
 </OneValueCDDefinition>
 </DefinitionMap>
-<DefinitionMap key="line">
-<OneValueCDDefinition valueName="JSLR" function="com.fr.data.util.function.SumFunction">
+<DefinitionMap key="column">
+<OneValueCDDefinition seriesName="MD" valueName="JSLR" function="com.fr.data.util.function.NoneFunction">
 <Top topCate="-1" topValue="-1" isDiscardOtherCate="false" isDiscardOtherSeries="false" isDiscardNullCate="false" isDiscardNullSeries="false"/>
 <TableData class="com.fr.data.impl.NameTableData">
 <Name>

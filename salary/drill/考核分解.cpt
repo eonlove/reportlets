@@ -23,7 +23,8 @@
 <![CDATA[select *
 from 对店激励考核_分解
 where 月份 = '${月份}'
-and 姓名 = '${姓名}']]></Query>
+and 姓名 = '${姓名}'
+]]></Query>
 </TableData>
 </TableDataMap>
 <ElementCaseMobileAttr>
@@ -365,7 +366,9 @@ and 姓名 = '${姓名}']]></Query>
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="姓名"/>
 <Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
 <Parameters/>
 </O>
 <PrivilegeControl/>

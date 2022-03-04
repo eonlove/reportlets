@@ -42,7 +42,7 @@ where codetypeid = '000004']]></Query>
 <Query>
 <![CDATA[SELECT codeid,codename
 FROM code_dict
-WHERE codetypeid = '000001']]></Query>
+WHERE codetypeid = '000006']]></Query>
 </TableData>
 <TableData name="Tree1" class="com.fr.data.impl.RecursionTableData">
 <markFields>
@@ -99,6 +99,18 @@ WHERE codetypeid = '000003']]></Query>
 <![CDATA[SELECT codeid,codename
 FROM code_dict
 WHERE codetypeid = '000002']]></Query>
+</TableData>
+<TableData name="单位字典" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[SELECT codeid,codename
+FROM code_dict
+WHERE codetypeid in ('000006','000001')]]></Query>
 </TableData>
 </TableDataMap>
 <ReportWebAttr>
@@ -373,7 +385,7 @@ location.reload;]]></Content>
 <TableDataDictAttr>
 <TableData class="com.fr.data.impl.NameTableData">
 <Name>
-<![CDATA[单位控件]]></Name>
+<![CDATA[单位字典]]></Name>
 </TableData>
 </TableDataDictAttr>
 </Dictionary>
@@ -534,7 +546,7 @@ location.reload;]]></Content>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
-<PaperSize width="50400000" height="42768000"/>
+<PaperSize width="43200000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>

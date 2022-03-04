@@ -4225,7 +4225,7 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <Text>
 <![CDATA[数据调整]]></Text>
 </InnerWidget>
-<BoundsAttr x="647" y="3" width="80" height="48"/>
+<BoundsAttr x="638" y="3" width="80" height="48"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TreeComboBoxEditor">
@@ -4300,7 +4300,7 @@ if(status == 1){
 <Text>
 <![CDATA[存档 (提交财务)]]></Text>
 </InnerWidget>
-<BoundsAttr x="737" y="3" width="94" height="48"/>
+<BoundsAttr x="725" y="3" width="94" height="48"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
@@ -4436,7 +4436,7 @@ FR.remoteEvaluate('sql("JDBC2","'+sql1+'",1,1)');]]></Content>
 <Hotkeys>
 <![CDATA[enter]]></Hotkeys>
 </InnerWidget>
-<BoundsAttr x="556" y="3" width="80" height="48"/>
+<BoundsAttr x="552" y="3" width="80" height="48"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">

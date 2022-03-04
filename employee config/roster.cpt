@@ -27,7 +27,7 @@
 <Query>
 <![CDATA[SELECT codeid,codename
 FROM code_dict
-WHERE codetypeid = '000001']]></Query>
+WHERE codetypeid = '000006']]></Query>
 </TableData>
 <TableData name="单位树" class="com.fr.data.impl.RecursionTableData">
 <markFields>
@@ -195,10 +195,8 @@ WHERE codetypeid = '000004']]></Query>
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
 <CNAME>
-<![CDATA[department]]></CNAME>
+<![CDATA[department_trans]]></CNAME>
 <Compare op="12">
 <O t="Formula" class="Formula">
 <Attributes>
@@ -223,6 +221,8 @@ WHERE codetypeid = '000004']]></Query>
 </JoinCondition>
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[status_trans]]></CNAME>
 <Compare op="12">
@@ -596,7 +596,7 @@ WHERE codetypeid = '000004']]></Query>
 <isAutoBuild autoBuild="false"/>
 <isPerformanceFirst performanceFirst="false"/>
 <Dictionary class="com.fr.data.impl.TableDataDictionary">
-<FormulaDictAttr kiName="codeid" viName="codename"/>
+<FormulaDictAttr kiName="codename" viName="codename"/>
 <TableDataDictAttr>
 <TableData class="com.fr.data.impl.NameTableData">
 <Name>

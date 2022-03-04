@@ -27,13 +27,13 @@
 <Query>
 <![CDATA[SELECT 自定义分类2,
 SUM(CASE WHEN 总毛利<=30000 THEN 1 ELSE 0 END) AS below3,
-SUM(CASE WHEN 总毛利>30000 THEN 1 ELSE 0 END) AS over3,
-SUM(CASE WHEN 总毛利>50000 THEN 1 ELSE 0 END) AS over5,
-SUM(CASE WHEN 总毛利>100000 THEN 1 ELSE 0 END) AS over10,
-SUM(CASE WHEN 总毛利>150000 THEN 1 ELSE 0 END) AS over15,
-SUM(CASE WHEN 总毛利>200000 THEN 1 ELSE 0 END) AS over20,
-SUM(CASE WHEN 总毛利>300000 THEN 1 ELSE 0 END) AS over30,
-SUM(CASE WHEN 总毛利>400000 THEN 1 ELSE 0 END) AS over40,
+SUM(CASE WHEN 总毛利>30000 AND 总毛利<50000 THEN 1 ELSE 0 END) AS over3,
+SUM(CASE WHEN 总毛利>50000 AND 总毛利<100000 THEN 1 ELSE 0 END) AS over5,
+SUM(CASE WHEN 总毛利>100000 AND 总毛利<150000 THEN 1 ELSE 0 END) AS over10,
+SUM(CASE WHEN 总毛利>150000 AND 总毛利<200000 THEN 1 ELSE 0 END) AS over15,
+SUM(CASE WHEN 总毛利>200000 AND 总毛利<300000 THEN 1 ELSE 0 END) AS over20,
+SUM(CASE WHEN 总毛利>300000 AND 总毛利<400000 THEN 1 ELSE 0 END) AS over30,
+SUM(CASE WHEN 总毛利>400000 AND 总毛利<500000 THEN 1 ELSE 0 END) AS over40,
 SUM(CASE WHEN 总毛利>500000 THEN 1 ELSE 0 END) AS over50
 
 FROM
@@ -60,7 +60,7 @@ FROM
 	LEFT JOIN 新单位信息 e ON c.codename = e.单位
 	LEFT JOIN
 	(
-		SELECT 姓名,SUM(利润) AS 总毛利
+		SELECT 姓名,SUM(利润)/DATEDIFF('${end}','${start}')*365 AS 总毛利
 		FROM 利润明细 f
 		LEFT JOIN 店员字典 g ON f.店员1 = g.店员
 		WHERE 日期 BETWEEN '${start}' AND '${end}'
@@ -92,11 +92,77 @@ GROUP BY 自定义分类2]]></Query>
 <![CDATA[Ha:9Vl'rJA)LJuclu%6cCc@FZ!!~
 ]]></RowData>
 </TableData>
+<TableData name="detail" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="isleave"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O>
+<![CDATA[2022-01-01]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O>
+<![CDATA[2022-02-27]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[
+	SELECT h.月份,b.`name_in_company`,b.`entry_date`,b.`leave_date`,c.codename AS department_trans,d.codename AS position_trans,e.自定义分类2,IFNULL(h.总毛利,0) 总毛利,h.日期差
+	FROM
+	(
+		SELECT *,row_number() over(PARTITION BY id ORDER BY occurrence_date DESC) rn
+		FROM employeeChangeList
+	) a
+	LEFT JOIN roster b ON a.id =b.id
+	LEFT JOIN
+	(
+		SELECT *
+		FROM code_dict
+		WHERE codetypeid ='000001'
+	) c ON a.department = c.codeid
+	LEFT JOIN
+	(
+		SELECT *
+		FROM code_dict
+		WHERE codetypeid ='000002'
+	) d ON a.position = d.codeid
+	LEFT JOIN 新单位信息 e ON c.codename = e.单位
+	LEFT JOIN
+	(
+		SELECT DATE_FORMAT(日期,'%Y-%m') 月份,姓名,SUM(利润)AS 总毛利,DATEDIFF('${end}','${start}') 日期差
+		FROM 利润明细 f
+		LEFT JOIN 店员字典 g ON f.店员1 = g.店员
+		WHERE 日期 BETWEEN '${start}' AND '${end}'
+		GROUP BY DATE_FORMAT(日期,'%Y-%m'),g.姓名
+	) h ON b.`name_in_company` = h.姓名
+
+	WHERE rn =1 AND h.月份 IS NOT NULL
+
+	AND d.codename NOT IN('专职库管','分局长助理','录入专员','投诉专员','数据分析师',
+	'业务督导','经理','部门主管','区域主管','部门总监','区域总监','区域经理',
+	'营销副总','职能副总','部门专员','人事专员','政企督导','人事经理','部门经理')
+
+	AND entry_date <='${end}'
+	AND (leave_date >= '${start}' OR leave_date IS NULL)
+	${IF(isleave="仅在职","and leave_date is null","")}
+	${IF(isleave="仅离职","and leave_date is not null","")}
+]]></Query>
+</TableData>
 </TableDataMap>
 <ElementCaseMobileAttr>
 <ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
 </ElementCaseMobileAttr>
-<Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
+<Report class="com.fr.report.worksheet.WorkSheet" name="汇总">
 <ReportPageAttr>
 <HR/>
 <FR/>
@@ -112,7 +178,7 @@ GROUP BY 自定义分类2]]></Query>
 <CellElementList>
 <C c="0" r="0" cs="11" s="0">
 <O>
-<![CDATA[历史区域划分与现行不同，会造成区域经理为空的情况]]></O>
+<![CDATA[历史区域划分差异，会造成区域经理为空的情况]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -122,67 +188,67 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="1" s="0">
+<C c="0" r="1" s="2">
 <O>
 <![CDATA[区域经理]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="1" s="0">
+<C c="1" r="1" s="2">
 <O>
 <![CDATA[<=3万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="2" r="1" s="0">
+<C c="2" r="1" s="2">
 <O>
 <![CDATA[>3万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="1" s="0">
+<C c="3" r="1" s="2">
 <O>
 <![CDATA[>5万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="4" r="1" s="0">
+<C c="4" r="1" s="2">
 <O>
 <![CDATA[>10万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="5" r="1" s="0">
+<C c="5" r="1" s="2">
 <O>
 <![CDATA[>15万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="6" r="1" s="0">
+<C c="6" r="1" s="2">
 <O>
 <![CDATA[>20万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="7" r="1" s="0">
+<C c="7" r="1" s="2">
 <O>
 <![CDATA[>30万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="8" r="1" s="0">
+<C c="8" r="1" s="2">
 <O>
 <![CDATA[>40万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="9" r="1" s="0">
+<C c="9" r="1" s="2">
 <O>
 <![CDATA[>50万]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="10" r="1" s="0">
+<C c="10" r="1" s="2">
 <O>
 <![CDATA[合计]]></O>
 <PrivilegeControl/>
@@ -242,7 +308,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="2" s="2">
+<C c="0" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="自定义分类2"/>
 <Complex/>
@@ -252,7 +318,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="2" s="2">
+<C c="1" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="below3"/>
 <Complex/>
@@ -260,9 +326,57 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[30000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="2" r="2" s="2">
+<C c="2" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over3"/>
 <Complex/>
@@ -270,9 +384,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[30000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[50000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="3" r="2" s="2">
+<C c="3" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over5"/>
 <Complex/>
@@ -280,9 +447,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[50000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[100000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="4" r="2" s="2">
+<C c="4" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over10"/>
 <Complex/>
@@ -290,9 +510,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[100000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[150000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="5" r="2" s="2">
+<C c="5" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over15"/>
 <Complex/>
@@ -300,9 +573,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[150000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[200000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="6" r="2" s="2">
+<C c="6" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over20"/>
 <Complex/>
@@ -310,9 +636,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[200000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[300000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="7" r="2" s="2">
+<C c="7" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over30"/>
 <Complex/>
@@ -320,9 +699,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[300000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[400000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="8" r="2" s="2">
+<C c="8" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over40"/>
 <Complex/>
@@ -330,9 +762,62 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[400000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="b"/>
+<O>
+<![CDATA[500000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="9" r="2" s="2">
+<C c="9" r="2" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="over50"/>
 <Complex/>
@@ -340,9 +825,57 @@ GROUP BY 自定义分类2]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="网络报表1">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<JavaScript class="com.fr.js.ReportletHyperlink">
+<Parameters>
+<Parameter>
+<Attributes name="start"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$start]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="end"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$end]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="isleave"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=$isleave]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="a"/>
+<O>
+<![CDATA[500000]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="qyjl"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=a3]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+<TargetFrame>
+<![CDATA[_dialog]]></TargetFrame>
+<Features width="1000" height="600"/>
+<ReportletName showPI="true">
+<![CDATA[/市场部/dril_humanperformace.cpt]]></ReportletName>
+</JavaScript>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
 <Expand dir="0"/>
 </C>
-<C c="10" r="2" s="3">
+<C c="10" r="2" s="5">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(b3:j3)]]></Attributes>
@@ -350,7 +883,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="11" r="2" s="4">
+<C c="11" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=b3/eval("k"+"3")]]></Attributes>
@@ -358,7 +891,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="2" s="4">
+<C c="12" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=C3/eval("k"+"3")]]></Attributes>
@@ -366,7 +899,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="13" r="2" s="4">
+<C c="13" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D3/eval("k"+"3")]]></Attributes>
@@ -374,7 +907,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="14" r="2" s="4">
+<C c="14" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=E3/eval("k"+"3")]]></Attributes>
@@ -382,7 +915,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="15" r="2" s="4">
+<C c="15" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F3/eval("k"+"3")]]></Attributes>
@@ -390,7 +923,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="16" r="2" s="4">
+<C c="16" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=G3/eval("k"+"3")]]></Attributes>
@@ -398,7 +931,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="17" r="2" s="4">
+<C c="17" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=H3/eval("k"+"3")]]></Attributes>
@@ -406,7 +939,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="18" r="2" s="4">
+<C c="18" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=I3/eval("k"+"3")]]></Attributes>
@@ -414,7 +947,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="19" r="2" s="4">
+<C c="19" r="2" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=J3/eval("k"+"3")]]></Attributes>
@@ -422,13 +955,13 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="3" s="5">
+<C c="0" r="3" s="7">
 <O>
 <![CDATA[合计]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="3" s="5">
+<C c="1" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(b3)]]></Attributes>
@@ -436,7 +969,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="2" r="3" s="5">
+<C c="2" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(C3)]]></Attributes>
@@ -444,7 +977,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="3" s="5">
+<C c="3" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3)]]></Attributes>
@@ -452,7 +985,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="4" r="3" s="5">
+<C c="4" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E3)]]></Attributes>
@@ -460,7 +993,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="5" r="3" s="5">
+<C c="5" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(F3)]]></Attributes>
@@ -468,7 +1001,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="6" r="3" s="5">
+<C c="6" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3)]]></Attributes>
@@ -476,7 +1009,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="7" r="3" s="5">
+<C c="7" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(H3)]]></Attributes>
@@ -484,7 +1017,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="8" r="3" s="5">
+<C c="8" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(I3)]]></Attributes>
@@ -492,7 +1025,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="9" r="3" s="5">
+<C c="9" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(J3)]]></Attributes>
@@ -500,7 +1033,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="10" r="3" s="5">
+<C c="10" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3)]]></Attributes>
@@ -508,7 +1041,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="11" r="3" s="6">
+<C c="11" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=b4/eval("k"+"4")]]></Attributes>
@@ -516,7 +1049,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="3" s="6">
+<C c="12" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=C4/eval("k"+"4")]]></Attributes>
@@ -524,7 +1057,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="13" r="3" s="6">
+<C c="13" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D4/eval("k"+"4")]]></Attributes>
@@ -532,7 +1065,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="14" r="3" s="6">
+<C c="14" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=E4/eval("k"+"4")]]></Attributes>
@@ -540,7 +1073,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="15" r="3" s="6">
+<C c="15" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F4/eval("k"+"4")]]></Attributes>
@@ -548,7 +1081,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="16" r="3" s="6">
+<C c="16" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=G4/eval("k"+"4")]]></Attributes>
@@ -556,7 +1089,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="17" r="3" s="6">
+<C c="17" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=H4/eval("k"+"4")]]></Attributes>
@@ -564,7 +1097,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="18" r="3" s="6">
+<C c="18" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=I4/eval("k"+"4")]]></Attributes>
@@ -572,7 +1105,7 @@ GROUP BY 自定义分类2]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="19" r="3" s="6">
+<C c="19" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=J4/eval("k"+"4")]]></Attributes>
@@ -585,6 +1118,255 @@ GROUP BY 自定义分类2]]></Query>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
 <PaperSize width="60480000" height="42768000"/>
+<Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
+</PaperSetting>
+<Background name="ColorBackground" color="-1"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+</ReportAttrSet>
+<PrivilegeControl/>
+</Report>
+<Report class="com.fr.report.worksheet.WorkSheet" name="明细">
+<ReportPageAttr>
+<HR/>
+<FR/>
+<HC/>
+<FC/>
+</ReportPageAttr>
+<ColumnPrivilegeControl/>
+<RowPrivilegeControl/>
+<RowHeight defaultValue="723900">
+<![CDATA[1008000,1008000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<ColumnWidth defaultValue="2743200">
+<![CDATA[3086100,3162300,3162300,3771900,5257800,3048000,2743200,3048000,2743200,2743200,2743200]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="9">
+<O>
+<![CDATA[姓名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="9">
+<O>
+<![CDATA[入职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="9">
+<O>
+<![CDATA[离职日期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="9">
+<O>
+<![CDATA[岗位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" s="9">
+<O>
+<![CDATA[单位]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="0" s="9">
+<O>
+<![CDATA[区经]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="0" s="9">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="月份"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="1"/>
+</C>
+<C c="7" r="0" s="10">
+<O>
+<![CDATA[年度预估]]></O>
+<PrivilegeControl/>
+<NameJavaScriptGroup>
+<NameJavaScript name="动态参数1">
+<JavaScript class="com.fr.js.ParameterJavaScript">
+<Parameters>
+<Parameter>
+<Attributes name="a"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if($a=1,0,1)]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="val"/>
+<O>
+<![CDATA[h2]]></O>
+</Parameter>
+</Parameters>
+</JavaScript>
+</NameJavaScript>
+</NameJavaScriptGroup>
+<Expand/>
+</C>
+<C c="8" r="0" s="9">
+<O>
+<![CDATA[分级]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" s="9">
+<O>
+<![CDATA[调整目标R1]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="0" s="9">
+<O>
+<![CDATA[调整目标R2]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="0" s="9">
+<O>
+<![CDATA[调整目标R3]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="name_in_company"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<SortFormula>
+<![CDATA[=if($a=1,eval($val),-1*eval($val))]]></SortFormula>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0" order="1">
+<SortFormula>
+<![CDATA[=if($a=1,eval($val),-1*eval($val))]]></SortFormula>
+</Expand>
+</C>
+<C c="1" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="entry_date"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="2" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="leave_date"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="3" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="position_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="4" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="department_trans"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="1" s="3">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="自定义分类2"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="1" s="11">
+<O t="DSColumn">
+<Attributes dsName="detail" columnName="总毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="1" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(G2) / datedif($start, $end, "D") * 365]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="F2"/>
+</C>
+<C c="8" r="1" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(H2 > 500000, "50万以上", if(H2 > 400000, "40万以上", if(H2 > 300000, "30万以上", if(H2 > 200000, "20万以上", if(H2 > 150000, "15万以上", if(H2 > 100000, "10万以上", if(H2 > 50000, "5万以上", if(H2 > 30000, "3万以上", "3万以下"))))))))]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="F2"/>
+</C>
+<C c="9" r="1" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=round(H2 / 1000, 1) * 1000]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="F2"/>
+</C>
+<C c="10" r="1" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=J2 * 1.1]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="F2"/>
+</C>
+<C c="11" r="1" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=K2 * 1.1]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="F2"/>
+</C>
+</CellElementList>
+<ReportAttrSet>
+<ReportSettings headerHeight="0" footerHeight="0">
+<PaperSetting>
+<PaperSize width="57600000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>
@@ -773,7 +1555,7 @@ GROUP BY 自定义分类2]]></Query>
 </ReportParameterAttr>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="72"/>
+<FRFont name="微软雅黑" style="1" size="72" foreground="-8388480"/>
 <Background name="ColorBackground" color="-2823681"/>
 <Border>
 <Top style="1" color="-6908266"/>
@@ -793,7 +1575,27 @@ GROUP BY 自定义分类2]]></Query>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="72" foreground="-16776961" underline="1"/>
 <Background name="ColorBackground" color="-657931"/>
 <Border>
 <Top style="1" color="-6908266"/>
@@ -846,9 +1648,41 @@ GROUP BY 自定义分类2]]></Query>
 <Right style="1" color="-6908266"/>
 </Border>
 </Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="72" foreground="-16776961" underline="1"/>
+<Background name="ColorBackground" color="-3349252"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0]]></Format>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
 </StyleList>
 <DesignerVersion DesignerVersion="JAA"/>
-<PreviewType PreviewType="0"/>
+<PreviewType PreviewType="2"/>
 <TemplateID TemplateID="cbec6b9f-ce55-4380-ae79-c7693abf8db7"/>
 <TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
 <TemplateIdAttMark TemplateId="cd1534e0-5ef8-437c-9cca-232dac7bca3e"/>
