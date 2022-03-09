@@ -160,6 +160,7 @@ WHERE hs != 0]]></Query>
 <OtherAttr isAutoStash="false"/>
 </WebWriteContent>
 </ReportWebAttr>
+<ReportFitAttr fitStateInPC="1" fitFont="false"/>
 <Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
 <ReportPageAttr>
 <HR/>
@@ -170,29 +171,71 @@ WHERE hs != 0]]></Query>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1676400,1152000,1562100,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1943100,952500,914400,914400,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[5715000,4953000,5715000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[114300,6972300,4000500,4419600,2133600,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
-<C c="0" r="0" cs="2" s="0">
-<O>
-<![CDATA[上传信息]]></O>
+<C c="1" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="0" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="0" r="1" s="1">
-<O>
-<![CDATA[上传表名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="1" s="1">
+<C c="1" r="1" cs="3" s="2">
+<O>
+<![CDATA[上 传 信 息]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="1" s="3">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="4">
+<O>
+<![CDATA[            上传表名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="4">
 <O>
 <![CDATA[行数(不含标题)]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="2" s="2">
+<C c="3" r="2" s="5">
+<O>
+<![CDATA[提交入库]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="6">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="1">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" s="7">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="bm"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -205,7 +248,7 @@ WHERE hs != 0]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="2" s="2">
+<C c="2" r="3" s="7">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="hs"/>
 <Complex/>
@@ -215,7 +258,7 @@ WHERE hs != 0]]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="2">
+<C c="3" r="3" s="8">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -257,6 +300,10 @@ else
 </Widget>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="4" r="3" s="9">
+<PrivilegeControl/>
+<Expand/>
+</C>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
@@ -284,35 +331,95 @@ else
 <![CDATA[参数]]></PWTitle>
 </ReportParameterAttr>
 <StyleList>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="96"/>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
 <Background name="NullBackground"/>
 <Border>
-<Top style="1" color="-1"/>
-<Bottom style="1" color="-1"/>
-<Left style="1" color="-1"/>
-<Right style="1" color="-1"/>
+<Top color="-6697729"/>
+<Bottom style="1" color="-6697729"/>
+<Left color="-6697729"/>
+<Right color="-6697729"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="96" foreground="-13421671"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-4144960"/>
+<Bottom style="1" color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-4144960"/>
+<Bottom color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
+</Border>
+</Style>
+<Style horizontal_alignment="2" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="88" foreground="-13421671"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-4144960"/>
+<Bottom style="1" color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="88" foreground="-13421671"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top style="1" color="-4144960"/>
+<Bottom style="1" color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border>
+<Top color="-4144960"/>
+<Bottom color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="96"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-1"/>
 <Border>
-<Top style="1" color="-1"/>
-<Bottom style="1" color="-1"/>
-<Left style="1" color="-1"/>
-<Right style="1" color="-1"/>
+<Top style="1" color="-4144960"/>
+<Bottom style="1" color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
 </Border>
 </Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="96"/>
-<Background name="ColorBackground" color="-1118482"/>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
 <Border>
-<Top style="1" color="-1"/>
-<Bottom style="1" color="-1"/>
-<Left style="1" color="-1"/>
-<Right style="1" color="-1"/>
+<Top style="1" color="-4144960"/>
+<Bottom style="1" color="-4144960"/>
+<Left color="-4144960"/>
+<Right color="-4144960"/>
 </Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-1"/>
+<Border/>
 </Style>
 </StyleList>
 <DesignerVersion DesignerVersion="JAA"/>

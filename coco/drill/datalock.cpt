@@ -77,6 +77,29 @@ where sd = 'Y']]></Query>
 <ReportWebAttr>
 <ServerPrinter/>
 <WebWriteContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var row_back_color = "";
+
+//捕获鼠标移入
+$(".x-table td[id]A").bind("mouseenter", function() {
+//捕获鼠标移入的所有行
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+//改色
+            row_back_color = $(this).css("background-color");
+            $(this).css("background-color", "rgb(176,196,222)");});});});
+            
+// 鼠标移出，恢复原色
+$(".x-table td[id]A").bind("mouseleave", function() {
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+            $(this).css("background-color", row_back_color);}); });});
+]]></Content>
+</JavaScript>
+</Listener>
 <ToolBars/>
 <SelectedColor/>
 <WebWrite SheetPosition="3"/>
@@ -86,45 +109,61 @@ where sd = 'Y']]></Query>
 <OtherAttr isAutoStash="false"/>
 </WebWriteContent>
 </ReportWebAttr>
+<ReportFitAttr fitStateInPC="1" fitFont="false"/>
 <Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
 <ReportPageAttr>
-<HR/>
+<HR F="0" T="0"/>
 <FR/>
 <HC/>
 <FC/>
+<UPFCR COLUMN="false" ROW="true"/>
 </ReportPageAttr>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1152000,1152000,1152000,1152000,1152000,1152000,1152000,1152000,723900,723900,723900]]></RowHeight>
+<![CDATA[1066800,936000,936000,936000,936000,936000,936000,936000,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3733800,4381500,3429000,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[76200,4457700,5753100,3162300,76200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="1">
 <O>
 <![CDATA[表名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="0" s="0">
+<C c="2" r="0" s="1">
 <O>
 <![CDATA[锁定至]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="2" r="0" s="0">
+<C c="3" r="0" s="1">
 <O>
 <![CDATA[操作]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="1" s="1">
+<C c="4" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="1" s="2">
 <O>
 <![CDATA[工行流水]]></O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="1">
+<C c="2" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="工行日期" columnName="日期"/>
 <Complex/>
@@ -144,7 +183,7 @@ where sd = 'Y']]></Query>
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="1">
+<C c="3" r="1" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -171,13 +210,21 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="0" r="2" s="1">
+<C c="4" r="1" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="2">
 <O>
 <![CDATA[订单流水]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="2" s="1">
+<C c="2" r="2" s="2">
 <O t="DSColumn">
 <Attributes dsName="订单流水" columnName="日期"/>
 <Complex/>
@@ -197,7 +244,7 @@ else {
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="2" s="1">
+<C c="3" r="2" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -224,13 +271,21 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="0" r="3" s="1">
+<C c="4" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="3" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="3" s="2">
 <O>
 <![CDATA[支付流水]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="3" s="1">
+<C c="2" r="3" s="2">
 <O t="DSColumn">
 <Attributes dsName="支付流水" columnName="日期"/>
 <Complex/>
@@ -250,7 +305,7 @@ else {
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="3" s="1">
+<C c="3" r="3" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -277,13 +332,21 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="0" r="4" s="1">
+<C c="4" r="3" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="4" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="4" s="2">
 <O>
 <![CDATA[商品流水]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="4" s="1">
+<C c="2" r="4" s="2">
 <O t="DSColumn">
 <Attributes dsName="商品流水" columnName="日期"/>
 <Complex/>
@@ -303,7 +366,7 @@ else {
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="4" s="1">
+<C c="3" r="4" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -330,13 +393,21 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="0" r="5" s="1">
+<C c="4" r="4" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="5" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="5" s="2">
 <O>
 <![CDATA[打款记录]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="5" s="1">
+<C c="2" r="5" s="2">
 <O t="DSColumn">
 <Attributes dsName="打款记录" columnName="日期"/>
 <Complex/>
@@ -356,7 +427,7 @@ else {
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="5" s="1">
+<C c="3" r="5" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -383,13 +454,21 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="0" r="6" s="1">
+<C c="4" r="5" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="6" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="6" s="2">
 <O>
 <![CDATA[出入库明细]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="6" s="1">
+<C c="2" r="6" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.DateEditor">
 <WidgetName name="crk"/>
@@ -403,17 +482,25 @@ else {
 </Widget>
 <Expand/>
 </C>
-<C c="2" r="6" s="1">
+<C c="3" r="6" s="2">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="7" s="1">
+<C c="4" r="6" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="7" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="7" s="2">
 <O>
 <![CDATA[采购明细]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="7" s="1">
+<C c="2" r="7" s="2">
 <O t="DSColumn">
 <Attributes dsName="采购明细" columnName="日期"/>
 <Complex/>
@@ -433,7 +520,7 @@ else {
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="2" r="7" s="1">
+<C c="3" r="7" s="2">
 <PrivilegeControl/>
 <Widget class="com.fr.form.ui.FreeButton">
 <Listener event="click">
@@ -460,9 +547,14 @@ else {
 </Widget>
 <Expand/>
 </C>
+<C c="4" r="7" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting/>
 <Background name="ColorBackground" color="-1"/>
 </ReportSettings>
@@ -487,9 +579,14 @@ else {
 <![CDATA[参数]]></PWTitle>
 </ReportParameterAttr>
 <StyleList>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border/>
+</Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="72"/>
-<Background name="NullBackground"/>
+<FRFont name="微软雅黑" style="1" size="88"/>
+<Background name="ColorBackground" color="-2823681"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -498,8 +595,8 @@ else {
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<FRFont name="微软雅黑" style="0" size="88"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>

@@ -39,7 +39,7 @@
 </Widget>
 <Expand/>
 </C>
-<C c="1" r="0">
+<C c="1" r="0" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -55,15 +55,15 @@
 </Widget>
 <Expand/>
 </C>
-<C c="1" r="1">
+<C c="1" r="1" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="2">
+<C c="1" r="2" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="3">
+<C c="1" r="3" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -96,13 +96,8 @@
 <StyleList>
 <Style imageLayout="1">
 <FRFont name="SimSun" style="0" size="72"/>
-<Background name="NullBackground"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
+<Background name="ColorBackground" color="-657929"/>
+<Border/>
 </Style>
 </StyleList>
 <DesignerVersion DesignerVersion="JAA"/>

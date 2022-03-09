@@ -195,6 +195,8 @@ WHERE codetypeid = '000004']]></Query>
 <Condition class="com.fr.data.condition.ListCondition">
 <JoinCondition join="0">
 <Condition class="com.fr.data.condition.CommonCondition">
+<CNUMBER>
+<![CDATA[0]]></CNUMBER>
 <CNAME>
 <![CDATA[department_trans]]></CNAME>
 <Compare op="12">
@@ -539,8 +541,6 @@ WHERE codetypeid = '000004']]></Query>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
-<DirectEdit>
-<![CDATA[false]]></DirectEdit>
 <watermark>
 <![CDATA[可选]]></watermark>
 <CustomData>
@@ -585,8 +585,6 @@ WHERE codetypeid = '000004']]></Query>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
-<DirectEdit>
-<![CDATA[false]]></DirectEdit>
 <watermark>
 <![CDATA[可选]]></watermark>
 <CustomData>

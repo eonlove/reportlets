@@ -24,6 +24,29 @@ order by rq,djlx]]></Query>
 <ReportWebAttr>
 <ServerPrinter/>
 <WebPageContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var row_back_color = "";
+
+//捕获鼠标移入
+$(".x-table td[id]A").bind("mouseenter", function() {
+//捕获鼠标移入的所有行
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+//改色
+            row_back_color = $(this).css("background-color");
+            $(this).css("background-color", "rgb(176,196,222)");});});});
+            
+// 鼠标移出，恢复原色
+$(".x-table td[id]A").bind("mouseleave", function() {
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+            $(this).css("background-color", row_back_color);}); });});
+]]></Content>
+</JavaScript>
+</Listener>
 <ToolBars>
 <ToolBarManager>
 <Location>
@@ -64,48 +87,79 @@ order by rq,djlx]]></Query>
 <WebPage isPage="true" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
 </WebPageContent>
 </ReportWebAttr>
+<ReportFitAttr fitStateInPC="1" fitFont="false"/>
 <ElementCaseMobileAttr>
 <ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
 </ElementCaseMobileAttr>
 <Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
 <ReportPageAttr>
-<HR/>
+<HR F="0" T="1"/>
 <FR/>
 <HC/>
 <FC/>
+<UPFCR COLUMN="false" ROW="true"/>
 </ReportPageAttr>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[2286000,1295400,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[864000,1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3848100,3886200,3467100,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[144000,3848100,3886200,3467100,144000,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
-<C c="0" r="0" cs="3" s="0">
-<O>
-<![CDATA[以下采购单据未找到入库日期，需要更新出入库明细]]></O>
+<C c="0" r="0" s="0">
 <PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="1" r="0" cs="3" s="1">
+<O>
+<![CDATA[*以下采购单据未找到入库日期，需要更新出入库明细]]></O>
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="4" r="0" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
 <Expand/>
 </C>
 <C c="0" r="1" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="1" r="1" s="2">
 <O>
 <![CDATA[日期]]></O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand/>
 </C>
-<C c="1" r="1" s="0">
+<C c="2" r="1" s="2">
 <O>
 <![CDATA[单据类型]]></O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="0">
+<C c="3" r="1" s="2">
 <O>
 <![CDATA[单据数量]]></O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand/>
 </C>
-<C c="0" r="2" s="1">
+<C c="4" r="1" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="0" r="2" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="1" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="无采购日期" columnName="RQ"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -116,9 +170,10 @@ order by rq,djlx]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="2" s="1">
+<C c="2" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="无采购日期" columnName="DJLX"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -129,9 +184,10 @@ order by rq,djlx]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="2" s="1">
+<C c="3" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="无采购日期" columnName="DJL"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -142,11 +198,18 @@ order by rq,djlx]]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellPageAttr/>
 <Expand dir="0"/>
+</C>
+<C c="4" r="2" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
 </C>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A3"/>
 <PaperSetting>
 <PaperSize width="17280000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
@@ -174,8 +237,13 @@ order by rq,djlx]]></Query>
 <![CDATA[参数]]></PWTitle>
 </ReportParameterAttr>
 <StyleList>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="72"/>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border/>
+</Style>
+<Style horizontal_alignment="2" vertical_alignment="1" imageLayout="1">
+<FRFont name="微软雅黑" style="1" size="96" foreground="-6737152"/>
 <Background name="NullBackground"/>
 <Border>
 <Top style="1" color="-6908266"/>
@@ -185,8 +253,18 @@ order by rq,djlx]]></Query>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<FRFont name="微软雅黑" style="1" size="88"/>
+<Background name="ColorBackground" color="-2823681"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
+<FRFont name="微软雅黑" style="0" size="88"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>

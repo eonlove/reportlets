@@ -81,9 +81,9 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[0,1008000,1008000,2400300,2781300,1008000,1008000,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[0,1143000,1440000,2933700,2819400,1440000,1008000,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[4762500,3695700,5562600,8991600,0,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[4762500,3695700,5562600,8267700,4038600,4267200,4343400,4991100,3467100,5067300,4991100,3467100,3467100,3390900,3467100,3467100,0,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O t="Formula" class="Formula">
@@ -123,6 +123,42 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="4" r="1" cs="5" s="1">
+<O>
+<![CDATA[业务发展指标（25分）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="1" cs="2" s="1">
+<O>
+<![CDATA[当期重点拦截指标（10分）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="1" cs="2" s="1">
+<O>
+<![CDATA[O2O（10分）]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="1" s="1">
+<O>
+<![CDATA[发展质量和风险管控]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="1" s="1">
+<O>
+<![CDATA[服务及投诉]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="1" s="1">
+<O>
+<![CDATA[工作作风考核]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 <C c="0" r="2" s="1">
 <O>
 <![CDATA[项目]]></O>
@@ -144,6 +180,78 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <C c="3" r="2" s="2">
 <O>
 <![CDATA[人员能力认证]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="2">
+<O>
+<![CDATA[宽带完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="2">
+<O>
+<![CDATA[FTTR完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="2" s="2">
+<O>
+<![CDATA[新合约]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="2" s="2">
+<O>
+<![CDATA[高活号卡]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="2" s="2">
+<O>
+<![CDATA[5G绑码终端]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="2">
+<O>
+<![CDATA[高价值拦截率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="2" s="2">
+<O>
+<![CDATA[三千兆套餐拦截率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="2" s="2">
+<O>
+<![CDATA[电宽异号偏离度]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="2" s="2">
+<O>
+<![CDATA[三千兆偏离度]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="2" s="2">
+<O>
+<![CDATA[发展质量和风险管控]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="2" s="2">
+<O>
+<![CDATA[服务及投诉]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="2" s="2">
+<O>
+<![CDATA[工作作风考核]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -169,6 +277,78 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="4" r="3" s="2">
+<O>
+<![CDATA[完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="3" s="2">
+<O>
+<![CDATA[完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="3" s="2">
+<O>
+<![CDATA[新合约完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="3" s="2">
+<O>
+<![CDATA[高活号卡完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="3" s="2">
+<O>
+<![CDATA[每低1%扣0.2分扣完为止，每高1%加0.2分]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="3" s="2">
+<O>
+<![CDATA[5G绑码终端完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="3" s="2">
+<O>
+<![CDATA[完成率=实际完成量/目标量*100%；加扣上限为该项目权重的50%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="3" s="2">
+<O>
+<![CDATA[完成率*权重]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="3" s="2">
+<O>
+<![CDATA[完成率*权重]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="3" s="2">
+<O>
+<![CDATA[按成都公司发展质量及风险管控办法]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="3" s="2">
+<O>
+<![CDATA[见公司服务投诉管理办法]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="3" s="2">
+<O>
+<![CDATA[按公司规定动作考核办法]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 <C c="0" r="4" s="1">
 <O>
 <![CDATA[标准]]></O>
@@ -188,6 +368,72 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <C c="3" r="4" s="2">
 <O>
 <![CDATA[包区工程师能力认证合格率：三千兆100%，FTTR100%,智企1.0100%，云电脑/云桌面100%，安全家90%，行业魔镜90%，R小区80%，每达标项加1分。]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="4" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="4" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="4" s="2">
+<O>
+<![CDATA[累计完成率*权重]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="4" s="2">
+<O>
+<![CDATA[累计完成率*权重]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="4" s="2">
+<O>
+<![CDATA[考核目标值70%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="4" s="2">
+<O>
+<![CDATA[累计完成率*权重]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="4" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="4" s="2">
+<O>
+<![CDATA[电宽异号偏离度小于30%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="4" s="2">
+<O>
+<![CDATA[三千兆偏离度小于10%]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="4" s="2">
+<O>
+<![CDATA[按分公司要求管控目标考核。]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="4" s="2">
+<O>
+<![CDATA[考核越级投诉、投诉处理情况指标完成情]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="4" s="2">
+<O>
+<![CDATA[劳动纪律、会议纪律要求、工作群信息查收回复要求等]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -212,6 +458,70 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <C c="3" r="5" s="2">
 <O t="I">
 <![CDATA[8]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="5" s="2">
+<O t="I">
+<![CDATA[5]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="5" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="12" r="5" s="2">
+<O t="I">
+<![CDATA[10]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="13" r="5" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="14" r="5" s="2">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="15" r="5" s="2">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -279,10 +589,226 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="4" r="6">
+<C c="4" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="5" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="FTTR"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="6" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="新合约"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="7" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="高活号卡"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="8" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="5G绑码终端"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="9" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="高价值拦截"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="10" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="三千兆拦截"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="11" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="电宽异号偏离"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="12" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="三千兆偏离"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="13" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="发展质量和风控"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="14" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="服务投诉"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="15" r="6" s="3">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="工作作风"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr maxDecimalLength="1">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="16" r="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=c7+d7]]></Attributes>
+<![CDATA[=sum(B7:P7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
@@ -332,20 +858,48 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <ColumnConfig name="人员能力认证" isKey="false" skipUnmodified="false">
 <ColumnRow column="3" row="6"/>
 </ColumnConfig>
+<ColumnConfig name="高价值拦截" isKey="false" skipUnmodified="false">
+<ColumnRow column="9" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="新合约" isKey="false" skipUnmodified="false">
+<ColumnRow column="6" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="高活号卡" isKey="false" skipUnmodified="false">
+<ColumnRow column="7" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="5G绑码终端" isKey="false" skipUnmodified="false">
+<ColumnRow column="8" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="电宽异号偏离" isKey="false" skipUnmodified="false">
+<ColumnRow column="11" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="三千兆偏离" isKey="false" skipUnmodified="false">
+<ColumnRow column="12" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="发展质量和风控" isKey="false" skipUnmodified="false">
+<ColumnRow column="13" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="服务投诉" isKey="false" skipUnmodified="false">
+<ColumnRow column="14" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="工作作风" isKey="false" skipUnmodified="false">
+<ColumnRow column="15" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="FTTR" isKey="false" skipUnmodified="false">
+<ColumnRow column="5" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="宽带" isKey="false" skipUnmodified="false">
+<ColumnRow column="4" row="6"/>
+</ColumnConfig>
+<ColumnConfig name="三千兆拦截" isKey="false" skipUnmodified="false">
+<ColumnRow column="10" row="6"/>
+</ColumnConfig>
 <Condition class="com.fr.data.condition.ListCondition"/>
 </DMLConfig>
 </SubmitVisitor>
 <TopVerifier class="com.fr.report.write.ValueVerifier">
 <name>
 <![CDATA[内置校验1]]></name>
-<VerifyItem class="com.fr.data.VerifyItem">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=F7 <= 28]]></Attributes>
-</O>
-<message>
-<![CDATA[="上限28分"]]></message>
-</VerifyItem>
 </TopVerifier>
 </ReportWriteAttr>
 <PrivilegeControl/>

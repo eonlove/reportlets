@@ -1039,7 +1039,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 </Report>
 <ReportParameterAttr>
-<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="false"/>
 <PWTitle>
 <![CDATA[参数]]></PWTitle>
 <ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
@@ -1062,6 +1062,22 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </Border>
 <Background name="ColorBackground" color="-1118482"/>
 <LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label二级分类_c"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[本月销量:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="1" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="184" y="32" width="80" height="21"/>
+</Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
 <WidgetName name="门店"/>
@@ -1096,7 +1112,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <![CDATA[门店:]]></O>
 </widgetValue>
 <LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
-<FRFont name="SimSun" style="0" size="72"/>
+<FRFont name="SimSun" style="1" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
 <BoundsAttr x="0" y="32" width="80" height="21"/>
@@ -1104,6 +1120,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.NumberEditor">
 <WidgetName name="BYXL2"/>
+<LabelName name="二级分类:"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
@@ -1111,7 +1128,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <widgetValue/>
 </NumberAttr>
 </InnerWidget>
-<BoundsAttr x="184" y="32" width="51" height="21"/>
+<BoundsAttr x="264" y="32" width="103" height="21"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.NumberEditor">
@@ -1124,7 +1141,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <widgetValue/>
 </NumberAttr>
 </InnerWidget>
-<BoundsAttr x="315" y="32" width="52" height="21"/>
+<BoundsAttr x="447" y="32" width="104" height="21"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -1140,7 +1157,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <FRFont name="SimSun" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="235" y="32" width="80" height="21"/>
+<BoundsAttr x="367" y="32" width="80" height="21"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.parameter.FormSubmitButton">
@@ -1160,7 +1177,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Hotkeys>
 <![CDATA[enter]]></Hotkeys>
 </InnerWidget>
-<BoundsAttr x="565" y="3" width="77" height="50"/>
+<BoundsAttr x="559" y="3" width="117" height="50"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
@@ -1197,7 +1214,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <![CDATA[三级分类:]]></O>
 </widgetValue>
 <LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
-<FRFont name="SimSun" style="0" size="72"/>
+<FRFont name="SimSun" style="1" size="80"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
 <BoundsAttr x="367" y="3" width="80" height="21"/>
@@ -1236,7 +1253,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <![CDATA[二级分类:]]></O>
 </widgetValue>
 <LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
-<FRFont name="SimSun" style="0" size="72"/>
+<FRFont name="SimSun" style="1" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
 <BoundsAttr x="184" y="3" width="80" height="21"/>
@@ -1275,7 +1292,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <![CDATA[一级分类:]]></O>
 </widgetValue>
 <LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
-<FRFont name="SimSun" style="0" size="72"/>
+<FRFont name="SimSun" style="1" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
 <BoundsAttr x="0" y="4" width="80" height="21"/>
@@ -1292,13 +1309,14 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="true"/>
-<UseParamsTemplate use="true"/>
+<UseParamsTemplate use="false"/>
 <Position position="0"/>
 <Design_Width design_width="960"/>
 <NameTagModified>
 <TagModified tag="BYXL" modified="true"/>
 <TagModified tag="FL1" modified="true"/>
 <TagModified tag="FL3" modified="true"/>
+<TagModified tag="BYXL2" modified="true"/>
 <TagModified tag="FL2" modified="true"/>
 <TagModified tag="门店" modified="true"/>
 </NameTagModified>
@@ -1306,11 +1324,12 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <NameTag name="BYXL" tag="BYXL:"/>
 <NameTag name="FL1" tag="一级分类:"/>
 <NameTag name="FL3" tag="三级分类:"/>
+<NameTag name="BYXL2" tag="二级分类:"/>
 <NameTag name="FL2" tag="二级分类:"/>
 <NameTag name="门店" tag="门店:"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="54"/>
+<DesignAttr width="960" height="57"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

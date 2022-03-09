@@ -360,63 +360,86 @@ WHERE sd = 'Y']]></Query>
 <WebPage isPage="false" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
 </WebPageContent>
 <WebWriteContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[$('.parameter-container-collapseimg-up').remove();]]></Content>
+</JavaScript>
+</Listener>
 <ToolBars/>
 <SelectedColor/>
 <WebWrite SheetPosition="3"/>
-<RptLocation isShowAtLeft="false"/>
+<RptLocation isShowAtLeft="true"/>
 <UnloadCheck/>
 <ShowWidgets/>
 <OtherAttr isAutoStash="false"/>
 </WebWriteContent>
 </ReportWebAttr>
+<ReportFitAttr fitStateInPC="1" fitFont="false"/>
 <ElementCaseMobileAttr>
 <ElementCaseMobileAttrProvider horizontal="1" vertical="1" zoom="true" refresh="false" isUseHTML="false" isMobileCanvasSize="false" appearRefresh="false" allowFullScreen="false"/>
 </ElementCaseMobileAttr>
 <Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
 <ReportPageAttr>
-<HR/>
+<HR F="0" T="0"/>
 <FR/>
 <HC/>
 <FC/>
+<UPFCR COLUMN="false" ROW="true"/>
 </ReportPageAttr>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1440000,1440000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1143000,1181100,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3600000,4305300,3600000,3600000,3600000,2743200,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[5448300,3924300,5486400,4464000,4464000,4464000,6705600,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="0" s="1">
 <O>
 <![CDATA[分类]]></O>
 <PrivilegeControl/>
 <Expand upParentDefault="false"/>
 </C>
-<C c="1" r="0" s="0">
+<C c="2" r="0" s="1">
 <O>
 <![CDATA[表名]]></O>
 <PrivilegeControl/>
 <Expand upParentDefault="false"/>
 </C>
-<C c="2" r="0" s="0">
+<C c="3" r="0" s="1">
 <O>
 <![CDATA[数据起]]></O>
 <PrivilegeControl/>
 <Expand upParentDefault="false"/>
 </C>
-<C c="3" r="0" s="0">
+<C c="4" r="0" s="1">
 <O>
 <![CDATA[数据止]]></O>
 <PrivilegeControl/>
 <Expand upParentDefault="false"/>
 </C>
-<C c="4" r="0" s="0">
+<C c="5" r="0" s="1">
 <O>
 <![CDATA[锁定至]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="1" s="1">
+<C c="6" r="0" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="1" s="0">
+<PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="1" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="Embedded1" columnName="分类"/>
 <Complex/>
@@ -424,9 +447,11 @@ WHERE sd = 'Y']]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="1">
+<C c="2" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="Embedded1" columnName="表名"/>
 <Complex/>
@@ -434,9 +459,11 @@ WHERE sd = 'Y']]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="1">
+<C c="3" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="check" columnName="数据起"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -445,7 +472,7 @@ WHERE sd = 'Y']]></Query>
 <CNAME>
 <![CDATA[表名]]></CNAME>
 <Compare op="0">
-<ColumnRow column="1" row="1"/>
+<ColumnRow column="2" row="1"/>
 </Compare>
 </Condition>
 <Complex/>
@@ -453,9 +480,11 @@ WHERE sd = 'Y']]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="1">
+<C c="4" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="check" columnName="数据止"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -464,7 +493,7 @@ WHERE sd = 'Y']]></Query>
 <CNAME>
 <![CDATA[表名]]></CNAME>
 <Compare op="0">
-<ColumnRow column="1" row="1"/>
+<ColumnRow column="2" row="1"/>
 </Compare>
 </Condition>
 <Complex/>
@@ -472,13 +501,15 @@ WHERE sd = 'Y']]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
 <Name>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[datedif(today(), D2, "D") >= 2]]></Formula>
+<![CDATA[datedif(today(), e2, "D") >= 3]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
 <Background name="ColorBackground" color="-13108"/>
@@ -487,7 +518,7 @@ WHERE sd = 'Y']]></Query>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="4" r="1" s="1">
+<C c="5" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="锁定日期" columnName="SDZ"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -496,7 +527,7 @@ WHERE sd = 'Y']]></Query>
 <CNAME>
 <![CDATA[BM]]></CNAME>
 <Compare op="0">
-<ColumnRow column="1" row="1"/>
+<ColumnRow column="2" row="1"/>
 </Compare>
 </Condition>
 <Complex/>
@@ -506,11 +537,47 @@ WHERE sd = 'Y']]></Query>
 <Parameters/>
 </O>
 <PrivilegeControl/>
+<CellGUIAttr adjustmode="0"/>
+<CellPageAttr/>
 <Expand dir="0"/>
+</C>
+<C c="6" r="1" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="0" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="1" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="2" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="3" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="4" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="5" r="2" s="0">
+<PrivilegeControl/>
+<CellPageAttr/>
+<Expand/>
+</C>
+<C c="6" r="2" s="0">
+<PrivilegeControl/>
+<Expand/>
 </C>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
 <PaperSize width="25920000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
@@ -533,7 +600,7 @@ WHERE sd = 'Y']]></Query>
 <PrivilegeControl/>
 </Report>
 <ReportParameterAttr>
-<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="1" useParamsTemplate="true"/>
+<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="1" useParamsTemplate="false"/>
 <PWTitle>
 <![CDATA[参数]]></PWTitle>
 <ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
@@ -575,8 +642,10 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </WidgetAttr>
 <Text>
 <![CDATA[一致性稽核]]></Text>
+<IconName>
+<![CDATA[edit]]></IconName>
 </InnerWidget>
-<BoundsAttr x="169" y="4" width="70" height="52"/>
+<BoundsAttr x="400" y="7" width="131" height="36"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.FreeButton">
@@ -594,8 +663,10 @@ FR.doHyperlinkByGet(url);]]></Content>
 </WidgetAttr>
 <Text>
 <![CDATA[导入数据]]></Text>
+<IconName>
+<![CDATA[add]]></IconName>
 </InnerWidget>
-<BoundsAttr x="0" y="4" width="70" height="52"/>
+<BoundsAttr x="8" y="7" width="131" height="36"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.FreeButton">
@@ -616,8 +687,10 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </WidgetAttr>
 <Text>
 <![CDATA[数据锁定]]></Text>
+<IconName>
+<![CDATA[ok]]></IconName>
 </InnerWidget>
-<BoundsAttr x="85" y="4" width="70" height="52"/>
+<BoundsAttr x="203" y="7" width="131" height="36"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
@@ -627,19 +700,24 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="false"/>
-<UseParamsTemplate use="true"/>
+<UseParamsTemplate use="false"/>
 <Position position="1"/>
-<Design_Width design_width="960"/>
+<Design_Width design_width="917"/>
 <NameTagModified/>
 <WidgetNameTagMap/>
 </Layout>
-<DesignAttr width="960" height="58"/>
+<DesignAttr width="917" height="47"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="ColorBackground" color="-657929"/>
+<Border/>
+</Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="80"/>
-<Background name="ColorBackground" color="-4530689"/>
+<FRFont name="微软雅黑" style="1" size="88"/>
+<Background name="ColorBackground" color="-2823681"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -648,8 +726,8 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-1118482"/>
+<FRFont name="微软雅黑" style="0" size="88"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>

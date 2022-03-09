@@ -6,7 +6,7 @@
 <Parameter>
 <Attributes name="ymd"/>
 <O>
-<![CDATA[2022-02-20]]></O>
+<![CDATA[2022-02-28]]></O>
 </Parameter>
 <Parameter>
 <Attributes name="unit"/>
@@ -18,6 +18,11 @@
 <O>
 <![CDATA[]]></O>
 </Parameter>
+<Parameter>
+<Attributes name="yjfl"/>
+<O>
+<![CDATA[毛利归类]]></O>
+</Parameter>
 </Parameters>
 <Attributes maxMemRowCount="-1"/>
 <Connection class="com.fr.data.impl.NameDatabaseConnection">
@@ -28,14 +33,22 @@
 <![CDATA[SELECT 公司,SUM(成本单价) 进店成本,SUM(采购单价) 采购金额,SUM(成本单价)-SUM(采购单价) 差异
 FROM
 (
-	SELECT 日期,串号1 AS 串号,公司,仓库类型,成本单价,采购单价
-	FROM 库存串号明细
-	WHERE  1=1 ${if(len(ymd)=0,"","and 日期='"+ymd+"'")}
-	${if(len(warehousetype)=0,"","and 仓库类型='"+warehousetype+"'")}
-	${if(len(unit)=0,"","and 公司='"+unit+"'")}
-) a
+	SELECT a.*
+	FROM
+	(
+		SELECT 日期,商品全称,串号1 AS 串号,公司,仓库类型,成本单价,采购单价
+		FROM 库存串号明细
+		WHERE  1=1 ${IF(len(ymd)=0,"","and 日期='"+ymd+"'")}
+		${IF(len(warehousetype)=0,"","and 仓库类型='"+warehousetype+"'")}
+		${IF(len(unit)=0,"","and 公司='"+unit+"'")}
+	) a
+	LEFT JOIN (SELECT * FROM by_sorts b WHERE 是否启用 = '是') b ON a.商品全称 = b.商品全称
+	WHERE 1=1 ${IF(len(yjfl)=0,"","and b.一级分类名称='"+yjfl+"'")}
+
+) c
 GROUP BY 公司
-order by 差异 desc]]></Query>
+ORDER BY 差异 DESC
+]]></Query>
 </TableData>
 <TableData name="widget_ymd" class="com.fr.data.impl.DBTableData">
 <Parameters/>
@@ -86,6 +99,17 @@ ${if(len(ymd)=0,"","and 日期 = '"+ymd+"'")}]]></Query>
 from 库存串号明细
 where 1=1
 ${if(len(ymd)=0,"","and 日期 = '"+ymd+"'")}]]></Query>
+</TableData>
+<TableData name="yjfl" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[JDBC2]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select distinct 一级分类名称
+from by_sorts]]></Query>
 </TableData>
 </TableDataMap>
 <ElementCaseMobileAttr>
@@ -210,6 +234,44 @@ ${if(len(ymd)=0,"","and 日期 = '"+ymd+"'")}]]></Query>
 </Border>
 <Background name="ColorBackground" color="-1118482"/>
 <LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<WidgetName name="yjfl"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="一级分类名称" viName="一级分类名称"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[yjfl]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="262" y="25" width="96" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelyjfl"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[商品一级分类]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="182" y="25" width="80" height="21"/>
+</Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
 <WidgetName name="ymd"/>
@@ -349,6 +411,7 @@ ${if(len(ymd)=0,"","and 日期 = '"+ymd+"'")}]]></Query>
 <Widget widgetName="warehousetype"/>
 <Widget widgetName="Search"/>
 <Widget widgetName="unit"/>
+<Widget widgetName="yjfl"/>
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="true"/>
@@ -359,11 +422,13 @@ ${if(len(ymd)=0,"","and 日期 = '"+ymd+"'")}]]></Query>
 <TagModified tag="ymd" modified="true"/>
 <TagModified tag="unit" modified="true"/>
 <TagModified tag="warehousetype" modified="true"/>
+<TagModified tag="yjfl" modified="true"/>
 </NameTagModified>
 <WidgetNameTagMap>
 <NameTag name="ymd" tag="ymd:"/>
 <NameTag name="unit" tag="unit:"/>
 <NameTag name="warehousetype" tag="warehousetype:"/>
+<NameTag name="yjfl" tag="yjfl:"/>
 </WidgetNameTagMap>
 </Layout>
 <DesignAttr width="960" height="47"/>

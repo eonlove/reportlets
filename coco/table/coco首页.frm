@@ -372,7 +372,7 @@ from zl_spls]]></Query>
 <FRFont name="SimSun" style="0" size="72" foreground="-6737152"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="915" y="4" width="241" height="36"/>
+<BoundsAttr x="727" y="4" width="241" height="36"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.FreeButton">
@@ -395,7 +395,7 @@ if(t == "OK")
 <Text>
 <![CDATA[手动刷新]]></Text>
 </InnerWidget>
-<BoundsAttr x="812" y="7" width="103" height="30"/>
+<BoundsAttr x="624" y="10" width="103" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.RadioGroup">
@@ -2255,7 +2255,7 @@ d!*Cp\rH6#$:a=s/F_o821nV>R\9]A\@HD51&Kj/nb"bF/I1)#[RP##Mt4EC)9]ApdP:h)[eHN
 </Parameters>
 <TargetFrame>
 <![CDATA[_dialog]]></TargetFrame>
-<Features width="1200" height="700"/>
+<Features width="1000" height="700"/>
 <ReportletName showPI="true">
 <![CDATA[/coco/table/coco首页_abc下钻.cpt]]></ReportletName>
 </JavaScript>

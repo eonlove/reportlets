@@ -187,13 +187,13 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </C>
 <C c="1" r="2" cs="5" s="2">
 <O>
-<![CDATA[业务发展指标（33）]]></O>
+<![CDATA[业务发展指标（44）]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="6" r="2" cs="4" s="2">
 <O>
-<![CDATA[重点拦截指标（20）]]></O>
+<![CDATA[重点拦截指标（19）]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -217,7 +217,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </C>
 <C c="16" r="2" cs="2" s="2">
 <O>
-<![CDATA[基础管理(20分)]]></O>
+<![CDATA[基础管理(10分)]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -612,31 +612,29 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </C>
 <C c="1" r="6" s="3">
 <O t="I">
-<![CDATA[10]]></O>
+<![CDATA[12]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="2" r="6" s="3">
 <O t="I">
-<![CDATA[7]]></O>
+<![CDATA[12]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="3" r="6" s="3">
 <O t="I">
-<![CDATA[7]]></O>
+<![CDATA[10]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="4" r="6" s="3">
-<O t="I">
-<![CDATA[5]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="5" r="6" s="3">
 <O t="I">
-<![CDATA[5]]></O>
+<![CDATA[10]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -671,8 +669,8 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <Expand/>
 </C>
 <C c="11" r="6" s="3">
-<O>
-<![CDATA[6/8/10]]></O>
+<O t="I">
+<![CDATA[6]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -684,7 +682,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </C>
 <C c="13" r="6" s="3">
 <O t="I">
-<![CDATA[2]]></O>
+<![CDATA[3]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -695,20 +693,18 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <Expand/>
 </C>
 <C c="15" r="6" s="3">
-<O t="I">
-<![CDATA[1]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="16" r="6" s="3">
-<O>
-<![CDATA[-3/-2]]></O>
+<O t="I">
+<![CDATA[5]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="17" r="6" s="3">
-<O>
-<![CDATA[-1/-3]]></O>
+<O t="I">
+<![CDATA[5]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>

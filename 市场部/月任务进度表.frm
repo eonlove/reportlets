@@ -733,6 +733,12 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="122" r="0" cs="3" s="0">
+<O>
+<![CDATA[华为手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 <C c="5" r="1" s="2">
 <O>
 <![CDATA[小米]]></O>
@@ -1406,6 +1412,24 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <C c="121" r="1" s="0">
 <O>
 <![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="122" r="1" s="0">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="123" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="124" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -2514,11 +2538,11 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="119" r="2" s="6">
+<C c="119" r="2" s="7">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="120" r="2" s="6">
+<C c="120" r="2" s="7">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -2531,6 +2555,34 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </O>
 <PrivilegeControl/>
 <Expand dir="0"/>
+</C>
+<C c="122" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="complete" columnName="华为手机"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="123" r="2" s="3">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="华为手机"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="124" r="2" s="5">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=ds3/dt3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
 </C>
 </CellElementList>
 <ReportAttrSet>
@@ -2606,6 +2658,16 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </Border>
 </Style>
 <Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
+<Background name="NullBackground"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="SimSun" style="0" size="72"/>
 <Background name="NullBackground"/>
 <Border>

@@ -148,7 +148,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <ColumnWidth defaultValue="2743200">
 <![CDATA[4305300,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,0,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,4076700,2743200]]></ColumnWidth>
 <CellElementList>
-<C c="0" r="0" cs="72" s="0">
+<C c="0" r="0" cs="75" s="0">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=$单位]]></Attributes>
@@ -294,11 +294,11 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="35" r="1" cs="37" s="2">
+<C c="35" r="1" cs="40" s="2">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="2" cs="72" s="3">
+<C c="0" r="2" cs="75" s="3">
 <O>
 <![CDATA[单位任务]]></O>
 <PrivilegeControl/>
@@ -731,6 +731,24 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <C c="71" r="3" s="4">
 <O>
 <![CDATA[电渠总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="3" s="4">
+<O>
+<![CDATA[终端台量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="3" s="4">
+<O>
+<![CDATA[华为手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="3" s="4">
+<O>
+<![CDATA[验机数量]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -2932,11 +2950,104 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="0" r="5" cs="72" s="6">
+<C c="72" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="单位任务" columnName="终端台量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$$$ = 0]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[len($$$) = 0]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="73" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="单位任务" columnName="华为手机"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$$$ = 0]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[len($$$) = 0]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="74" r="4" s="5">
+<O t="DSColumn">
+<Attributes dsName="单位任务" columnName="验机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.ListCondition">
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[$$$ = 0]]></Formula>
+</Condition>
+</JoinCondition>
+<JoinCondition join="1">
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[len($$$) = 0]]></Formula>
+</Condition>
+</JoinCondition>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ColWidthHighlightAction"/>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="0" r="5" cs="75" s="6">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="6" cs="72" s="7">
+<C c="0" r="6" cs="75" s="7">
 <O>
 <![CDATA[人员任务(待分配)]]></O>
 <PrivilegeControl/>
@@ -3371,6 +3482,24 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <C c="71" r="7" s="4">
 <O>
 <![CDATA[电渠总毛利]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="7" s="4">
+<O>
+<![CDATA[终端台量]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="7" s="4">
+<O>
+<![CDATA[华为手机]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="7" s="4">
+<O>
+<![CDATA[验机数量]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -5148,6 +5277,60 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </Widget>
 <Expand dir="0"/>
 </C>
+<C c="72" r="8" s="5">
+<O t="DSColumn">
+<Attributes dsName="人员任务" columnName="终端台量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr allowDecimals="false" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="73" r="8" s="5">
+<O t="DSColumn">
+<Attributes dsName="人员任务" columnName="华为手机"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr allowDecimals="false" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
+<C c="74" r="8" s="5">
+<O t="DSColumn">
+<Attributes dsName="人员任务" columnName="验机数量"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Widget class="com.fr.form.ui.NumberEditor">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<NumberAttr allowDecimals="false" allowNegative="false">
+<widgetValue/>
+</NumberAttr>
+</Widget>
+<Expand dir="0"/>
+</C>
 <C c="0" r="9" s="9">
 <O>
 <![CDATA[已分解合计]]></O>
@@ -5725,6 +5908,30 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(BT9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="72" r="9" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BU9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="9" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BV9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="9" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BW9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
@@ -6310,6 +6517,30 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="72" r="10" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BU5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="10" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BV5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="10" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(BW5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 <C c="0" r="11" s="11">
 <O>
 <![CDATA[剩余待分解]]></O>
@@ -6884,6 +7115,30 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="72" r="11" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BU11 - BU10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="73" r="11" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BV11 - BV10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="74" r="11" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BW11 - BW10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
@@ -7134,6 +7389,15 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </ColumnConfig>
 <ColumnConfig name="电渠总毛利" isKey="false" skipUnmodified="false">
 <ColumnRow column="71" row="8"/>
+</ColumnConfig>
+<ColumnConfig name="终端台量" isKey="false" skipUnmodified="false">
+<ColumnRow column="72" row="8"/>
+</ColumnConfig>
+<ColumnConfig name="华为手机" isKey="false" skipUnmodified="false">
+<ColumnRow column="73" row="8"/>
+</ColumnConfig>
+<ColumnConfig name="验机数量" isKey="false" skipUnmodified="false">
+<ColumnRow column="74" row="8"/>
 </ColumnConfig>
 <Condition class="com.fr.data.condition.ListCondition"/>
 </DMLConfig>
@@ -7681,6 +7945,30 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=bt12=0]]></Attributes>
+</O>
+<message>
+<![CDATA[="分解出错，请检查剩余未分解是否全部为0"]]></message>
+</VerifyItem>
+<VerifyItem class="com.fr.data.VerifyItem">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=bu12=0]]></Attributes>
+</O>
+<message>
+<![CDATA[="分解出错，请检查剩余未分解是否全部为0"]]></message>
+</VerifyItem>
+<VerifyItem class="com.fr.data.VerifyItem">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=bv12=0]]></Attributes>
+</O>
+<message>
+<![CDATA[="分解出错，请检查剩余未分解是否全部为0"]]></message>
+</VerifyItem>
+<VerifyItem class="com.fr.data.VerifyItem">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=bw12=0]]></Attributes>
 </O>
 <message>
 <![CDATA[="分解出错，请检查剩余未分解是否全部为0"]]></message>
