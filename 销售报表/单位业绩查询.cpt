@@ -204,7 +204,7 @@ order by 部门,运营部分类,单位]]></Query>
 <RowHeight defaultValue="723900">
 <![CDATA[1152000,1295400,1152000,1152000,1152000,1152000,0,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2880000,2880000,4991100,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200]]></ColumnWidth>
+<![CDATA[2880000,2880000,4991100,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2880000,2880000,2880000,0,2880000,2880000,2880000,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,0,0,2880000,2880000,2880000,0,0,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" cs="3" s="0">
 <O t="Formula" class="Formula">
@@ -214,7 +214,7 @@ order by 部门,运营部分类,单位]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="0" cs="125" s="1">
+<C c="3" r="0" cs="128" s="1">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -505,6 +505,12 @@ order by 部门,运营部分类,单位]]></Query>
 <C c="125" r="1" cs="3" s="2">
 <O>
 <![CDATA[苹果]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="128" r="1" cs="3" s="2">
+<O>
+<![CDATA[宽带]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -1235,6 +1241,24 @@ order by 部门,运营部分类,单位]]></Query>
 <Expand/>
 </C>
 <C c="127" r="2" s="2">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="128" r="2" s="2">
+<O>
+<![CDATA[完成]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="129" r="2" s="2">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="130" r="2" s="2">
 <O>
 <![CDATA[完成率]]></O>
 <PrivilegeControl/>
@@ -3227,6 +3251,34 @@ order by 部门,运营部分类,单位]]></Query>
 <PrivilegeControl/>
 <Expand/>
 </C>
+<C c="128" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="data" columnName="新装宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="129" r="3" s="8">
+<O t="DSColumn">
+<Attributes dsName="goal" columnName="宽带"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="130" r="3" s="9">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=dy4/dz4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
 <C c="2" r="4" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
@@ -4183,6 +4235,30 @@ order by 部门,运营部分类,单位]]></Query>
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=DV5 / DW5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="128" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DY4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="129" r="4" s="15">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="B4"/>
+</C>
+<C c="130" r="4" s="14">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DY5/DZ5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false" left="B4"/>
@@ -5147,6 +5223,30 @@ order by 部门,运营部分类,单位]]></Query>
 <PrivilegeControl/>
 <Expand leftParentDefault="false" left="A4"/>
 </C>
+<C c="128" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DY4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="129" r="5" s="20">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(DZ4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
+<C c="130" r="5" s="19">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DY6/DZ6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false" left="A4"/>
+</C>
 <C c="0" r="6" cs="3" s="2">
 <O>
 <![CDATA[电渠合计]]></O>
@@ -5973,7 +6073,7 @@ order by 部门,运营部分类,单位]]></Query>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
-<PaperSize width="345600000" height="72000000"/>
+<PaperSize width="351360000" height="72000000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>

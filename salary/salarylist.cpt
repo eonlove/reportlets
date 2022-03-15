@@ -93,7 +93,7 @@ FROM
 	(DAY(s.leave_date)-FLOOR(DAY(s.leave_date)/7))/(DAY(LAST_DAY(s.leave_date))-4)
 	ELSE 1 END pct,
 	
-	base_wage+IF(s.department_trans LIKE '%小米%' AND xm.销售额>=80000 AND s.position_trans IN ('店员','储备店长'),300,0) AS base_wage,
+	base_wage+IF(s.department_trans LIKE '%小米%' AND xm.销售额>=100000 AND s.position_trans IN ('店员','储备店长'),300,0) AS base_wage,
 	post_wage,
 	confidential_wage,
 	fulltime_wage,
