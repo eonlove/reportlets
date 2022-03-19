@@ -800,7 +800,7 @@ contentPane.parameterCommit();]]></Content>
 <RowHeight defaultValue="723900">
 <![CDATA[1152000,1409700,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2880000,2880000,0,2880000,2880000,2880000,2880000,4267200,2743200,2743200,3168000,3048000,0,0,0,0,0,0,0,0,3086100,0,0,3162300,0,0,0,0,0,0,0,3657600,0,0,0,0,0,0,0,0,0,3619500,2743200,2743200,2880000,3695700,2880000,2743200,3390900,2971800,2743200,2743200,2743200,2743200,2743200,3086100,2743200,2743200,2743200,2743200,2743200,2743200,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2743200,2743200,2743200,5791200,4320000,3124200,0,0,2743200]]></ColumnWidth>
+<![CDATA[2880000,2880000,0,2880000,2880000,2880000,2880000,4267200,2743200,2743200,3168000,3048000,0,0,0,0,0,0,0,0,3086100,0,0,3162300,0,0,0,0,0,0,0,3657600,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,3619500,2743200,2743200,2880000,3695700,2880000,2743200,3390900,2971800,2743200,2743200,2743200,2743200,2743200,3086100,2743200,2743200,2743200,2743200,2743200,2743200,2880000,2743200,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2880000,2743200,2743200,2743200,2743200,5791200,4320000,3124200,0,0,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" rs="2" s="0">
 <O>
@@ -2395,27 +2395,9 @@ else{};]]></Content>
 <C c="38" r="2" s="10">
 <O t="DSColumn">
 <Attributes dsName="渠道数据专员提成" columnName="提成"/>
-<Condition class="com.fr.data.condition.ListCondition">
-<JoinCondition join="0">
-<Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
-<CNAME>
-<![CDATA[部门]]></CNAME>
-<Compare op="0">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=concatenate(H3, "部")]]></Attributes>
-</O>
-</Compare>
-</Condition>
-</JoinCondition>
-<JoinCondition join="0">
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[G3 = "部门专员"]]></Formula>
-</Condition>
-</JoinCondition>
+<![CDATA[b3="付永梅"]]></Formula>
 </Condition>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
@@ -2513,6 +2495,7 @@ var desortsql="select department from selectroster_tmp where name_in_company = '
 var desort0 = FR.remoteEvaluate('sql("JDBC2","'+desortsql+'",1,1)');
 var desort = desort0.substring(0,2)
 
+var urlzqdd = FR.cjkEncode('${servletURL}?reportlet=salary/drill/政企督导.cpt&month='+month+'');
 
 var urlzwbz = '${servletURL}?reportlet=salary/drill/zwbz.cpt&unit='+FR.cjkEncode(unit)+'&month='+month+'';
 
@@ -2557,6 +2540,12 @@ else if(position=="区域业务经理"){
 
 else if(position=="电渠主管"){
 	$iframe.attr('src',urldqzg);
+	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
+}
+
+
+else if(position=="政企督导"){
+	$iframe.attr('src',urlzqdd);
 	window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); 
 }
 else{};]]></Content>

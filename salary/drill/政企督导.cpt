@@ -16,8 +16,8 @@
 </Connection>
 <Query>
 <![CDATA[select *
-from 渠道数据专员提成
-where 月份 = '${month}']]></Query>
+from 政企督导提成
+where month = '${month}']]></Query>
 </TableData>
 </TableDataMap>
 <ElementCaseMobileAttr>
@@ -35,59 +35,59 @@ where 月份 = '${month}']]></Query>
 <RowHeight defaultValue="723900">
 <![CDATA[1008000,1008000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2743200]]></ColumnWidth>
+<![CDATA[2743200,2743200,3352800,3200400,3009900,2743200,2743200,2743200,2743200,6819900,3505200,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O>
-<![CDATA[渠道总毛利]]></O>
+<![CDATA[月份]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="1" r="0" s="0">
 <O>
-<![CDATA[R0]]></O>
+<![CDATA[姓名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="2" r="0" s="0">
 <O>
-<![CDATA[R1]]></O>
+<![CDATA[单位]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="3" r="0" s="0">
 <O>
-<![CDATA[R2]]></O>
+<![CDATA[岗位]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="4" r="0" s="0">
 <O>
-<![CDATA[R3]]></O>
+<![CDATA[政企总毛]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="5" r="0" s="0">
 <O>
-<![CDATA[提成点1]]></O>
+<![CDATA[r0]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="6" r="0" s="0">
 <O>
-<![CDATA[提成点2]]></O>
+<![CDATA[r1]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="7" r="0" s="0">
 <O>
-<![CDATA[提成点3]]></O>
+<![CDATA[r2]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="8" r="0" s="0">
 <O>
-<![CDATA[提成点4]]></O>
+<![CDATA[r3]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -105,7 +105,7 @@ where 月份 = '${month}']]></Query>
 </C>
 <C c="0" r="1" s="1">
 <O t="DSColumn">
-<Attributes dsName="ds1" columnName="总毛利"/>
+<Attributes dsName="ds1" columnName="month"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -113,9 +113,9 @@ where 月份 = '${month}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="2">
+<C c="1" r="1" s="1">
 <O t="DSColumn">
-<Attributes dsName="ds1" columnName="r0"/>
+<Attributes dsName="ds1" columnName="name_in_company"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -123,9 +123,9 @@ where 月份 = '${month}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="2">
+<C c="2" r="1" s="1">
 <O t="DSColumn">
-<Attributes dsName="ds1" columnName="r1"/>
+<Attributes dsName="ds1" columnName="department_trans"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -133,9 +133,9 @@ where 月份 = '${month}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="2">
+<C c="3" r="1" s="1">
 <O t="DSColumn">
-<Attributes dsName="ds1" columnName="r2"/>
+<Attributes dsName="ds1" columnName="position_trans"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -145,47 +145,47 @@ where 月份 = '${month}']]></Query>
 </C>
 <C c="4" r="1" s="2">
 <O t="DSColumn">
+<Attributes dsName="ds1" columnName="总毛利"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="5" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="r0"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="6" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="r1"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="7" r="1" s="1">
+<O t="DSColumn">
+<Attributes dsName="ds1" columnName="r2"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<Expand dir="0"/>
+</C>
+<C c="8" r="1" s="1">
+<O t="DSColumn">
 <Attributes dsName="ds1" columnName="r3"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<Expand dir="0"/>
-</C>
-<C c="5" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="ds1" columnName="提成系数1"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<Expand dir="0"/>
-</C>
-<C c="6" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="ds1" columnName="提成系数2"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<Expand dir="0"/>
-</C>
-<C c="7" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="ds1" columnName="提成系数3"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<Expand dir="0"/>
-</C>
-<C c="8" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="ds1" columnName="提成系数4"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -203,7 +203,7 @@ where 月份 = '${month}']]></Query>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="10" r="1" s="4">
+<C c="10" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="提成"/>
 <Complex/>
@@ -217,7 +217,7 @@ where 月份 = '${month}']]></Query>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
-<PaperSize width="57600000" height="42768000"/>
+<PaperSize width="43200000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>
@@ -265,30 +265,6 @@ where 月份 = '${month}']]></Query>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <Format class="com.fr.base.CoreDecimalFormat">
-<![CDATA[#0]]></Format>
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-657929"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<Format class="com.fr.base.CoreDecimalFormat">
-<![CDATA[#0.0%]]></Format>
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-657929"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.00]]></Format>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <Background name="ColorBackground" color="-657929"/>
@@ -302,8 +278,8 @@ where 月份 = '${month}']]></Query>
 </StyleList>
 <DesignerVersion DesignerVersion="JAA"/>
 <PreviewType PreviewType="0"/>
-<TemplateID TemplateID="362cf68f-89d1-47b3-88ad-9af3b637c42e"/>
+<TemplateID TemplateID="31c85005-e62e-4919-9636-5fa03d572d60"/>
 <TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
-<TemplateIdAttMark TemplateId="e4302c36-dea1-4ddf-b2b6-7c7786f628c2"/>
+<TemplateIdAttMark TemplateId="ca5b55e8-fa2e-4744-b5fa-95974b96f1a0"/>
 </TemplateIdAttMark>
 </WorkBook>
