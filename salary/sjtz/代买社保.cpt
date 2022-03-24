@@ -43,67 +43,50 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </ElementCaseMobileAttr>
 <Report class="com.fr.report.worksheet.WorkSheet" name="sheet1">
 <ReportPageAttr>
-<HR/>
+<HR F="0" T="0"/>
 <FR/>
 <HC/>
 <FC/>
+<UPFCR COLUMN="false" ROW="true"/>
 </ReportPageAttr>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1152000,1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
 <![CDATA[3276600,3390900,3810000,4495800,3581400,8153400,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
 <CellElementList>
-<C c="0" r="0" s="0">
-<O>
-<![CDATA[月份]]></O>
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="1" r="0" s="1">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=$月份]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="2" r="0" cs="4" s="2">
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="0" r="1" cs="2" s="0">
+<C c="0" r="0" cs="2" s="0">
 <O>
 <![CDATA[操作]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="2" r="1" s="0">
+<C c="2" r="0" s="0">
 <O>
 <![CDATA[姓名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="1" s="0">
+<C c="3" r="0" s="0">
 <O>
 <![CDATA[单位]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="4" r="1" s="0">
+<C c="4" r="0" s="0">
 <O>
 <![CDATA[金额]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="5" r="1" s="0">
+<C c="5" r="0" s="0">
 <O>
 <![CDATA[备注]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="2" s="3">
+<C c="0" r="1" s="1">
 <PrivilegeControl/>
 <Widget class="com.fr.report.web.button.write.AppendRowButton">
 <WidgetAttr description="">
@@ -113,11 +96,11 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <![CDATA[插入行]]></Text>
 <IconName>
 <![CDATA[add]]></IconName>
-<FixCell row="2" col="2"/>
+<FixCell row="1" col="2"/>
 </Widget>
-<Expand leftParentDefault="false" left="C3"/>
+<Expand leftParentDefault="false" left="C2"/>
 </C>
-<C c="1" r="2" s="3">
+<C c="1" r="1" s="1">
 <PrivilegeControl/>
 <Widget class="com.fr.report.web.button.write.DeleteRowButton">
 <WidgetAttr description="">
@@ -127,11 +110,11 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <![CDATA[删除行]]></Text>
 <IconName>
 <![CDATA[delete]]></IconName>
-<FixCell row="2" col="2"/>
+<FixCell row="1" col="2"/>
 </Widget>
-<Expand leftParentDefault="false" left="C3"/>
+<Expand leftParentDefault="false" left="C2"/>
 </C>
-<C c="2" r="2" s="4">
+<C c="2" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="姓名"/>
 <Complex/>
@@ -153,7 +136,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="3" r="2" s="4">
+<C c="3" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="单位"/>
 <Complex/>
@@ -171,7 +154,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="4" r="2" s="4">
+<C c="4" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="金额"/>
 <Complex/>
@@ -191,7 +174,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="5" r="2" s="4">
+<C c="5" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="ds1" columnName="备注"/>
 <Complex/>
@@ -212,6 +195,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
 <PaperSize width="36000000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
@@ -239,19 +223,23 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <DMLConfig class="com.fr.write.config.IntelliDMLConfig">
 <Table schema="" name="代买社保清单"/>
 <ColumnConfig name="月份" isKey="true" skipUnmodified="false">
-<ColumnRow column="1" row="0"/>
+<Parameter>
+<Attributes name="月份"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
 </ColumnConfig>
 <ColumnConfig name="姓名" isKey="true" skipUnmodified="false">
-<ColumnRow column="2" row="2"/>
+<ColumnRow column="2" row="1"/>
 </ColumnConfig>
 <ColumnConfig name="单位" isKey="false" skipUnmodified="false">
-<ColumnRow column="3" row="2"/>
+<ColumnRow column="3" row="1"/>
 </ColumnConfig>
 <ColumnConfig name="金额" isKey="false" skipUnmodified="false">
-<ColumnRow column="4" row="2"/>
+<ColumnRow column="4" row="1"/>
 </ColumnConfig>
 <ColumnConfig name="备注" isKey="false" skipUnmodified="false">
-<ColumnRow column="5" row="2"/>
+<ColumnRow column="5" row="1"/>
 </ColumnConfig>
 <Condition class="com.fr.data.condition.ListCondition"/>
 </DMLConfig>
@@ -260,7 +248,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <PrivilegeControl/>
 </Report>
 <ReportParameterAttr>
-<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="0" useParamsTemplate="true"/>
+<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="1" useParamsTemplate="false"/>
 <PWTitle>
 <![CDATA[参数]]></PWTitle>
 <ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
@@ -299,22 +287,30 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <Text>
 <![CDATA[提交]]></Text>
 </InnerWidget>
-<BoundsAttr x="322" y="14" width="79" height="53"/>
+<BoundsAttr x="382" y="3" width="79" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="姓名"/>
 <LabelName name="姓名:"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
 <TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
 <widgetValue>
 <O>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="83" y="46" width="102" height="21"/>
+<BoundsAttr x="265" y="3" width="102" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -330,23 +326,17 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="3" y="46" width="80" height="21"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
-<WidgetName name="Search"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<Text>
-<![CDATA[查询]]></Text>
-<Hotkeys>
-<![CDATA[enter]]></Hotkeys>
-</InnerWidget>
-<BoundsAttr x="219" y="14" width="80" height="53"/>
+<BoundsAttr x="185" y="3" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="月份"/>
 <LabelName name="月份:"/>
 <WidgetAttr description="">
@@ -360,7 +350,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="83" y="14" width="102" height="21"/>
+<BoundsAttr x="83" y="3" width="102" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -376,19 +366,18 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="3" y="14" width="80" height="21"/>
+<BoundsAttr x="3" y="3" width="80" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
 <Widget widgetName="月份"/>
-<Widget widgetName="Search"/>
-<Widget widgetName="button0"/>
 <Widget widgetName="姓名"/>
+<Widget widgetName="button0"/>
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="false"/>
-<UseParamsTemplate use="true"/>
-<Position position="0"/>
+<UseParamsTemplate use="false"/>
+<Position position="1"/>
 <Design_Width design_width="960"/>
 <NameTagModified>
 <TagModified tag="姓名" modified="true"/>
@@ -399,32 +388,12 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <NameTag name="月份" tag="月份:"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="80"/>
+<DesignAttr width="960" height="34"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="1" size="72"/>
-<Background name="ColorBackground" color="-3677185"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="72" foreground="-10092544"/>
-<Background name="ColorBackground" color="-3677185"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
 <Background name="ColorBackground" color="-3677185"/>
 <Border>
 <Top style="1" color="-6908266"/>

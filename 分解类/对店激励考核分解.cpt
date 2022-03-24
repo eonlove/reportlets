@@ -7385,8 +7385,6 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
-<CustomData>
-<![CDATA[false]]></CustomData>
 <Dictionary class="com.fr.data.impl.TableDataDictionary">
 <FormulaDictAttr kiName="name_in_company" viName="name_in_company"/>
 <TableDataDictAttr>

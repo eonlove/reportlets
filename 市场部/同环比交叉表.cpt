@@ -12,7 +12,7 @@
 <![CDATA[SELECT 自定义分类2,自定义分类3,单位
 FROM 新单位信息
 WHERE 营业状态 = '营业'
-AND 自定义分类2 !='电渠部'
+AND 单位类型!='电渠'
 order by 自定义分类2,自定义分类3,单位]]></Query>
 </TableData>
 <TableData name="this_dur" class="com.fr.data.impl.DBTableData">
@@ -190,9 +190,9 @@ GROUP BY 单位
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,723900]]></RowHeight>
+<![CDATA[1008000,1143000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,1008000,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2743200,3771900,5029200,0,0,2743200,2743200,2743200,2743200,0,0,2743200,0,0,2743200]]></ColumnWidth>
+<![CDATA[2743200,3771900,5029200,0,0,2743200,2743200,2743200,2743200,2743200,0,0,2743200,0,0,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" rs="2" s="0">
 <O>
@@ -212,55 +212,55 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="0" cs="14" s="0">
+<C c="3" r="0" cs="16" s="0">
 <O>
 <![CDATA[总毛利]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="17" r="0" cs="7" s="0">
+<C c="19" r="0" cs="8" s="0">
 <O>
 <![CDATA[酬金]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="24" r="0" cs="7" s="0">
+<C c="27" r="0" cs="8" s="0">
 <O>
 <![CDATA[新装宽带]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="31" r="0" cs="7" s="0">
+<C c="35" r="0" cs="8" s="0">
 <O>
 <![CDATA[存量升级]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="38" r="0" cs="7" s="0">
+<C c="43" r="0" cs="8" s="0">
 <O>
 <![CDATA[手机台量]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="45" r="0" cs="7" s="0">
+<C c="51" r="0" cs="8" s="0">
 <O>
 <![CDATA[单机毛利]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="52" r="0" cs="7" s="0">
+<C c="59" r="0" cs="8" s="0">
 <O>
 <![CDATA[单机贡献]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="3" r="1" s="1">
+<C c="3" r="1" s="0">
 <O>
 <![CDATA[非小米]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="4" r="1" s="2">
+<C c="4" r="1" s="0">
 <O>
 <![CDATA[小米]]></O>
 <PrivilegeControl/>
@@ -286,307 +286,355 @@ GROUP BY 单位
 </C>
 <C c="8" r="1" s="0">
 <O>
-<![CDATA[排名]]></O>
+<![CDATA[毛利贡献率排名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="9" r="1" s="3">
+<C c="9" r="1" s="0">
+<O>
+<![CDATA[完成率排名]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="1" s="0">
 <O>
 <![CDATA[上期非小米]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="10" r="1" s="2">
+<C c="11" r="1" s="0">
 <O>
 <![CDATA[上期小米]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="11" r="1" s="0">
+<C c="12" r="1" s="0">
 <O>
 <![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="1" s="3">
+<C c="13" r="1" s="0">
 <O>
 <![CDATA[同期非小米]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="13" r="1" s="2">
+<C c="14" r="1" s="0">
 <O>
 <![CDATA[同期小米]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="14" r="1" s="0">
-<O>
-<![CDATA[同期]]></O>
-<PrivilegeControl/>
-<Expand/>
-</C>
 <C c="15" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="16" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="17" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="18" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="19" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[本期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="20" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[任务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="21" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="22" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="23" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="24" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="25" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="26" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="27" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[本期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="28" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[任务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="29" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="30" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="31" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="32" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="33" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="34" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="35" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[本期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="36" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[任务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="37" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="38" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="39" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="40" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="41" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="42" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="43" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[本期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="44" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[任务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="45" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="46" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="47" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="48" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="49" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="50" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="51" r="1" s="0">
 <O>
-<![CDATA[同比]]></O>
+<![CDATA[本期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="52" r="1" s="0">
 <O>
-<![CDATA[本期]]></O>
+<![CDATA[任务]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="53" r="1" s="0">
 <O>
-<![CDATA[任务]]></O>
+<![CDATA[完成率]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="54" r="1" s="0">
 <O>
-<![CDATA[完成率]]></O>
+<![CDATA[上期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="55" r="1" s="0">
 <O>
-<![CDATA[上期]]></O>
+<![CDATA[同期]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="56" r="1" s="0">
 <O>
-<![CDATA[同期]]></O>
+<![CDATA[环比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="57" r="1" s="0">
 <O>
-<![CDATA[环比]]></O>
+<![CDATA[同比]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
 <C c="58" r="1" s="0">
 <O>
+<![CDATA[同比增幅]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="59" r="1" s="0">
+<O>
+<![CDATA[本期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="60" r="1" s="0">
+<O>
+<![CDATA[任务]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="61" r="1" s="0">
+<O>
+<![CDATA[完成率]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="62" r="1" s="0">
+<O>
+<![CDATA[上期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="63" r="1" s="0">
+<O>
+<![CDATA[同期]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="64" r="1" s="0">
+<O>
+<![CDATA[环比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="65" r="1" s="0">
+<O>
 <![CDATA[同比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="66" r="1" s="0">
+<O>
+<![CDATA[同比增幅]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -622,7 +670,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="3" r="2" s="4">
+<C c="3" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="全利润"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -660,7 +708,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="5" r="2" s="5">
+<C c="5" r="2" s="3">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D3 + E3]]></Attributes>
@@ -668,7 +716,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="6" r="2" s="4">
+<C c="6" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="总毛任务"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -687,7 +735,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="7" r="2" s="6">
+<C c="7" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F3 / G3]]></Attributes>
@@ -699,7 +747,7 @@ GROUP BY 单位
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -709,7 +757,11 @@ GROUP BY 单位
 </HighlightList>
 <Expand/>
 </C>
-<C c="8" r="2" s="4">
+<C c="8" r="2" s="5">
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="2" s="1">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=if(or(G3 = 0, len(G3) = 0), 0, sort(H3))]]></Attributes>
@@ -717,7 +769,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="9" r="2" s="5">
+<C c="10" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="全利润"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -736,7 +788,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="10" r="2" s="4">
+<C c="11" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_xiaomi" columnName="毛利"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -755,15 +807,15 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="11" r="2" s="5">
+<C c="12" r="2" s="3">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J3 + K3]]></Attributes>
+<![CDATA[=K3 + L3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="2" s="5">
+<C c="13" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="全利润"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -782,7 +834,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="13" r="2" s="5">
+<C c="14" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="lastthis_xiaomi" columnName="毛利"/>
 <Condition class="com.fr.data.condition.CommonCondition">
@@ -801,31 +853,39 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="14" r="2" s="5">
+<C c="15" r="2" s="3">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M3 + N3]]></Attributes>
+<![CDATA[=N3 + O3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="15" r="2" s="6">
+<C c="16" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(l3=0,len(l3)=0),1,(F3 - L3) / L3)]]></Attributes>
+<![CDATA[=if(or(M3 = 0, len(M3) = 0), 1, (F3 - M3) / M3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="16" r="2" s="6">
+<C c="17" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(o3=0,len(o3)=0),1,(F3 - O3) / O3)]]></Attributes>
+<![CDATA[=if(or(P3 = 0, len(P3) = 0), 1, (F3 - P3) / P3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="17" r="2" s="5">
+<C c="18" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=F3 - P3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="19" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="酬金"/>
 <Complex/>
@@ -835,7 +895,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="18" r="2" s="4">
+<C c="20" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="酬金任务"/>
 <Complex/>
@@ -845,10 +905,10 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="19" r="2" s="6">
+<C c="21" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R3 / S3]]></Attributes>
+<![CDATA[=T3 / U3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -857,7 +917,7 @@ GROUP BY 单位
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -867,7 +927,7 @@ GROUP BY 单位
 </HighlightList>
 <Expand/>
 </C>
-<C c="20" r="2" s="5">
+<C c="22" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="酬金"/>
 <Complex/>
@@ -877,7 +937,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="21" r="2" s="5">
+<C c="23" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="酬金"/>
 <Complex/>
@@ -887,23 +947,31 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="22" r="2" s="6">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(u3=0,len(u3)=0),1,(R3 - U3) / U3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="23" r="2" s="6">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(v3=0,len(v3)=0),1,(R3 - V3) / V3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand/>
-</C>
 <C c="24" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(W3 = 0, len(W3) = 0), 1, (T3 - W3) / W3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="25" r="2" s="4">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(X3 = 0, len(X3) = 0), 1, (T3 - X3) / X3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="26" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=T3 - X3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="27" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="新装宽带"/>
 <Complex/>
@@ -913,7 +981,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="25" r="2" s="4">
+<C c="28" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="宽带"/>
 <Complex/>
@@ -923,10 +991,10 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="26" r="2" s="6">
+<C c="29" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=y3/z3]]></Attributes>
+<![CDATA[=AB3 / AC3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -935,7 +1003,7 @@ GROUP BY 单位
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -945,7 +1013,7 @@ GROUP BY 单位
 </HighlightList>
 <Expand/>
 </C>
-<C c="27" r="2" s="4">
+<C c="30" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="新装宽带"/>
 <Complex/>
@@ -955,7 +1023,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="28" r="2" s="4">
+<C c="31" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="新装宽带"/>
 <Complex/>
@@ -965,23 +1033,31 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="29" r="2" s="6">
+<C c="32" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(ab3=0,len(ab3)=0),1,(y3-ab3)/ab3)]]></Attributes>
+<![CDATA[=if(or(AE3 = 0, len(AE3) = 0), 1, (AB3 - AE3) / AE3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="30" r="2" s="6">
+<C c="33" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(ac3=0,len(ac3)=0),1,(y3-ac3)/ac3)]]></Attributes>
+<![CDATA[=if(or(AF3 = 0, len(AF3) = 0), 1, (AB3 - AF3) / AF3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="31" r="2" s="4">
+<C c="34" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB3 - AF3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="35" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="升级宽带"/>
 <Complex/>
@@ -991,11 +1067,11 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="32" r="2" s="4">
+<C c="36" r="2" s="1">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="33" r="2" s="6">
+<C c="37" r="2" s="4">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -1003,7 +1079,7 @@ GROUP BY 单位
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1013,7 +1089,7 @@ GROUP BY 单位
 </HighlightList>
 <Expand/>
 </C>
-<C c="34" r="2" s="4">
+<C c="38" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="升级宽带"/>
 <Complex/>
@@ -1023,7 +1099,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="35" r="2" s="4">
+<C c="39" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="升级宽带"/>
 <Complex/>
@@ -1033,23 +1109,31 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="36" r="2" s="6">
+<C c="40" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(ai3=0,len(ai3)=0),1,(af3-ai3)/ai3)]]></Attributes>
+<![CDATA[=if(or(AM3 = 0, len(AM3) = 0), 1, (AJ3 - AM3) / AM3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="37" r="2" s="6">
+<C c="41" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(aj3=0,len(aj3)=0),1,(af3-aj3)/aj3)]]></Attributes>
+<![CDATA[=if(or(AN3 = 0, len(AN3) = 0), 1, (AJ3 - AN3) / AN3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="38" r="2" s="4">
+<C c="42" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AJ3 - AN3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="43" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="手机数量"/>
 <Complex/>
@@ -1059,7 +1143,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="39" r="2" s="4">
+<C c="44" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="智能机"/>
 <Complex/>
@@ -1069,10 +1153,10 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="40" r="2" s="6">
+<C c="45" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM3 / AN3]]></Attributes>
+<![CDATA[=AR3 / AS3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1081,7 +1165,7 @@ GROUP BY 单位
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1091,7 +1175,7 @@ GROUP BY 单位
 </HighlightList>
 <Expand/>
 </C>
-<C c="41" r="2" s="4">
+<C c="46" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="手机数量"/>
 <Complex/>
@@ -1101,7 +1185,7 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="42" r="2" s="4">
+<C c="47" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="手机数量"/>
 <Complex/>
@@ -1111,24 +1195,31 @@ GROUP BY 单位
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="43" r="2" s="6">
+<C c="48" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
+<![CDATA[=if(or(AU3 = 0, len(AU3) = 0), 1, (AR3 - AU3) / AU3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="44" r="2" s="6">
+<C c="49" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(aq3=0,len(aq3)=0),1,(AM3 - AQ3) / AQ3)]]></Attributes>
+<![CDATA[=if(or(AV3 = 0, len(AV3) = 0), 1, (AR3 - AV3) / AV3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="45" r="2" s="5">
+<C c="50" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AR3 - AV3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="51" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="单机毛利"/>
 <Complex/>
@@ -1138,7 +1229,7 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="46" r="2" s="4">
+<C c="52" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="单机毛利"/>
 <Complex/>
@@ -1148,10 +1239,10 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="47" r="2" s="6">
+<C c="53" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AT3 / AU3]]></Attributes>
+<![CDATA[=AZ3 / BA3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1160,7 +1251,7 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1170,7 +1261,7 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 </HighlightList>
 <Expand/>
 </C>
-<C c="48" r="2" s="5">
+<C c="54" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="单机毛利"/>
 <Complex/>
@@ -1180,7 +1271,7 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="49" r="2" s="5">
+<C c="55" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="单机毛利"/>
 <Complex/>
@@ -1190,24 +1281,31 @@ if(or(ap3=0,len(ap3)=0),1,(AM3 - AP3) / AP3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="50" r="2" s="6">
+<C c="56" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
+<![CDATA[=if(or(BC3 = 0, len(BC3) = 0), 1, (AZ3 - BC3) / BC3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="51" r="2" s="6">
+<C c="57" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(ax3=0,len(ax3)=0),1,(AT3 - AX3) / AX3)]]></Attributes>
+<![CDATA[=if(or(BD3 = 0, len(BD3) = 0), 1, (AZ3 - BD3) / BD3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="52" r="2" s="5">
+<C c="58" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AZ3 - BD3]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="59" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="this_dur" columnName="单机贡献"/>
 <Complex/>
@@ -1217,7 +1315,7 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="53" r="2" s="4">
+<C c="60" r="2" s="1">
 <O t="DSColumn">
 <Attributes dsName="goal" columnName="单机贡献"/>
 <Complex/>
@@ -1227,10 +1325,10 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="54" r="2" s="6">
+<C c="61" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=BA3 / BB3]]></Attributes>
+<![CDATA[=BH3 / BI3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1239,7 +1337,7 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1249,7 +1347,7 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 </HighlightList>
 <Expand/>
 </C>
-<C c="55" r="2" s="5">
+<C c="62" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_dur" columnName="单机贡献"/>
 <Complex/>
@@ -1259,7 +1357,7 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="56" r="2" s="5">
+<C c="63" r="2" s="3">
 <O t="DSColumn">
 <Attributes dsName="last_this_dur" columnName="单机贡献"/>
 <Complex/>
@@ -1269,19 +1367,26 @@ if(or(aw3=0,len(aw3)=0),1,(AT3 - AW3) / AW3)]]></Attributes>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="57" r="2" s="6">
+<C c="64" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
+<![CDATA[=if(or(BK3 = 0, len(BK3) = 0), 1, (BH3 - BK3) / BK3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="58" r="2" s="6">
+<C c="65" r="2" s="4">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(be3=0,len(be3)=0),1,(BA3 - BE3) / BE3)]]></Attributes>
+<![CDATA[=if(or(BL3 = 0, len(BL3) = 0), 1, (BH3 - BL3) / BL3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="66" r="2" s="3">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH3 - BL3]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand/>
@@ -1304,7 +1409,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="3" s="7">
+<C c="3" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1312,7 +1417,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="3" s="7">
+<C c="4" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1320,7 +1425,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="3" s="8">
+<C c="5" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D4 + E4]]></Attributes>
@@ -1328,7 +1433,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="3" s="7">
+<C c="6" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1336,7 +1441,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="3" s="9">
+<C c="7" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F4 / G4]]></Attributes>
@@ -1348,7 +1453,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1358,19 +1463,15 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="3" s="7">
+<C c="8" r="3" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="3" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
+<C c="9" r="3" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="3" s="8">
+<C c="10" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1378,23 +1479,23 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="3" s="8">
+<C c="11" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J4 + K4]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="3" s="8">
+<C c="12" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=K4 + L4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="3" s="8">
+<C c="13" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1402,26 +1503,26 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="3" s="8">
+<C c="14" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M4 + N4]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="3" s="9">
+<C c="15" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L4=0,len(L4)=0),1,(F4 - L4) / L4)]]></Attributes>
+<![CDATA[=N4 + O4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="3" s="9">
+<C c="16" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O4=0,len(O4)=0),1,(F4 - O4) / O4)]]></Attributes>
+<![CDATA[=if(or(M4 = 0, len(M4) = 0), 1, (F4 - M4) / M4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1429,7 +1530,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="17" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(P4 = 0, len(P4) = 0), 1, (F4 - P4) / P4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1437,34 +1538,20 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="18" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=F4 - P4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="3" s="9">
+<C c="19" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R4 / S4]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="3" s="8">
+<C c="20" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1475,23 +1562,37 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="21" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=T4 / U4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="3" s="9">
+<C c="23" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U4=0,len(U4)=0),1,(R4 - U4) / U4)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V4=0,len(V4)=0),1,(R4 - V4) / V4)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1499,7 +1600,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="24" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(W4 = 0, len(W4) = 0), 1, (T4 - W4) / W4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1507,15 +1608,39 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="25" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(X4 = 0, len(X4) = 0), 1, (T4 - X4) / X4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="3" s="9">
+<C c="26" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y4/Z4]]></Attributes>
+<![CDATA[=T4 - X4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB4 / AC4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1524,7 +1649,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1534,42 +1659,18 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="3" s="8">
+<C c="30" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="3" s="8">
+<C c="31" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB4=0,len(AB4)=0),1,(Y4-AB4)/AB4)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC4=0,len(AC4)=0),1,(Y4-AC4)/AC4)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="3" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1577,12 +1678,44 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="32" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(AE4 = 0, len(AE4) = 0), 1, (AB4 - AE4) / AE4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="3" s="9">
+<C c="33" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF4 = 0, len(AF4) = 0), 1, (AB4 - AF4) / AF4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB4 - AF4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="3" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -1590,7 +1723,7 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1600,42 +1733,10 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="3" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="3" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI4=0,len(AI4)=0),1,(AF4-AI4)/AI4)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ4=0,len(AJ4)=0),1,(AF4-AJ4)/AJ4)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1643,37 +1744,23 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="39" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="3" s="9">
+<C c="40" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM4 / AN4]]></Attributes>
+<![CDATA[=if(or(AM4 = 0, len(AM4) = 0), 1, (AJ4 - AM4) / AM4)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="3" s="7">
+<C c="41" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(AN4 = 0, len(AN4) = 0), 1, (AJ4 - AN4) / AN4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1681,24 +1768,23 @@ if(or(bd3=0,len(bd3)=0),1,(BA3 - BD3) / BD3)]]></Attributes>
 <C c="42" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=AJ4 - AN4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="3" s="9">
+<C c="43" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="3" s="9">
+<C c="44" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ4=0,len(AQ4)=0),1,(AM4 - AQ4) / AQ4)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1706,23 +1792,7 @@ if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
 <C c="45" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="3" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT4 / AU4]]></Attributes>
+<![CDATA[=AR4 / AS4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1731,7 +1801,7 @@ if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1741,10 +1811,26 @@ if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="3" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="3" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(AU4 = 0, len(AU4) = 0), 1, (AR4 - AU4) / AU4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1752,29 +1838,28 @@ if(or(AP4=0,len(AP4)=0),1,(AM4 - AP4) / AP4)]]></Attributes>
 <C c="49" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(AV4 = 0, len(AV4) = 0), 1, (AR4 - AV4) / AV4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="3" s="9">
+<C c="50" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
+<![CDATA[=AR4 - AV4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="3" s="9">
+<C c="51" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX4=0,len(AX4)=0),1,(AT4 - AX4) / AX4)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="3" s="8">
+<C c="52" r="3" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1782,18 +1867,10 @@ if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="3" s="7">
+<C c="53" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="3" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA4 / BB4]]></Attributes>
+<![CDATA[=AZ4 / BA4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -1802,7 +1879,7 @@ if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1812,7 +1889,15 @@ if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="3" s="8">
+<C c="54" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
@@ -1823,24 +1908,101 @@ if(or(AW4=0,len(AW4)=0),1,(AT4 - AW4) / AW4)]]></Attributes>
 <C c="56" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+<![CDATA[=if(or(BC4 = 0, len(BC4) = 0), 1, (AZ4 - BC4) / BC4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="3" s="9">
+<C c="57" r="3" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
+<![CDATA[=if(or(BD4 = 0, len(BD4) = 0), 1, (AZ4 - BD4) / BD4)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="3" s="9">
+<C c="58" r="3" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE4=0,len(BE4)=0),1,(BA4 - BE4) / BE4)]]></Attributes>
+<![CDATA[=AZ4 - BD4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="3" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH4 / BI4]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "杨盛翔"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK4 = 0, len(BK4) = 0), 1, (BH4 - BK4) / BK4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="3" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL4 = 0, len(BL4) = 0), 1, (BH4 - BL4) / BL4)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="3" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH4 - BL4]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1863,7 +2025,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="4" s="7">
+<C c="3" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -1871,7 +2033,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="4" s="7">
+<C c="4" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E4[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
@@ -1879,7 +2041,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="4" s="8">
+<C c="5" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D5 + E5]]></Attributes>
@@ -1887,7 +2049,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="4" s="7">
+<C c="6" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -1895,7 +2057,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="4" s="9">
+<C c="7" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F5 / G5]]></Attributes>
@@ -1907,7 +2069,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -1917,19 +2079,15 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="4" s="7">
+<C c="8" r="4" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="4" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
+<C c="9" r="4" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="4" s="8">
+<C c="10" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -1937,23 +2095,23 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="4" s="8">
+<C c="11" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J5 + K5]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="4" s="8">
+<C c="12" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=K5 + L5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="4" s="8">
+<C c="13" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -1961,26 +2119,26 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="4" s="8">
+<C c="14" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M5 + N5]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="4" s="9">
+<C c="15" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L5=0,len(L5)=0),1,(F5 - L5) / L5)]]></Attributes>
+<![CDATA[=N5 + O5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="4" s="9">
+<C c="16" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O5=0,len(O5)=0),1,(F5 - O5) / O5)]]></Attributes>
+<![CDATA[=if(or(M5 = 0, len(M5) = 0), 1, (F5 - M5) / M5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1988,7 +2146,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="17" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(P5 = 0, len(P5) = 0), 1, (F5 - P5) / P5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -1996,34 +2154,20 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="18" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=F5 - P5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="4" s="9">
+<C c="19" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R5 / S5]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="4" s="8">
+<C c="20" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -2034,23 +2178,37 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="21" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=T5 / U5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="4" s="9">
+<C c="23" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U5=0,len(U5)=0),1,(R5 - U5) / U5)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V5=0,len(V5)=0),1,(R5 - V5) / V5)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2058,7 +2216,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="24" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(W5 = 0, len(W5) = 0), 1, (T5 - W5) / W5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2066,15 +2224,39 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="25" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(X5 = 0, len(X5) = 0), 1, (T5 - X5) / X5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="4" s="9">
+<C c="26" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y5/Z5]]></Attributes>
+<![CDATA[=T5 - X5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB5 / AC5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2083,7 +2265,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2093,42 +2275,18 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="4" s="8">
+<C c="30" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="4" s="8">
+<C c="31" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB5=0,len(AB5)=0),1,(Y5-AB5)/AB5)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC5=0,len(AC5)=0),1,(Y5-AC5)/AC5)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="4" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2136,12 +2294,44 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="32" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(AE5 = 0, len(AE5) = 0), 1, (AB5 - AE5) / AE5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="4" s="9">
+<C c="33" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF5 = 0, len(AF5) = 0), 1, (AB5 - AF5) / AF5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB5 - AF5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="4" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -2149,7 +2339,7 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2159,42 +2349,10 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="4" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="4" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI5=0,len(AI5)=0),1,(AF5-AI5)/AI5)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ5=0,len(AJ5)=0),1,(AF5-AJ5)/AJ5)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2202,37 +2360,23 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="39" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="4" s="9">
+<C c="40" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM5 / AN5]]></Attributes>
+<![CDATA[=if(or(AM5 = 0, len(AM5) = 0), 1, (AJ5 - AM5) / AM5)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="4" s="7">
+<C c="41" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(AN5 = 0, len(AN5) = 0), 1, (AJ5 - AN5) / AN5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2240,24 +2384,23 @@ if(or(BD4=0,len(BD4)=0),1,(BA4 - BD4) / BD4)]]></Attributes>
 <C c="42" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=AJ5 - AN5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="4" s="9">
+<C c="43" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="4" s="9">
+<C c="44" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ5=0,len(AQ5)=0),1,(AM5 - AQ5) / AQ5)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2265,23 +2408,7 @@ if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
 <C c="45" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="4" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT5 / AU5]]></Attributes>
+<![CDATA[=AR5 / AS5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2290,7 +2417,7 @@ if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2300,10 +2427,26 @@ if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="4" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="4" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(AU5 = 0, len(AU5) = 0), 1, (AR5 - AU5) / AU5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2311,29 +2454,28 @@ if(or(AP5=0,len(AP5)=0),1,(AM5 - AP5) / AP5)]]></Attributes>
 <C c="49" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(AV5 = 0, len(AV5) = 0), 1, (AR5 - AV5) / AV5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="4" s="9">
+<C c="50" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
+<![CDATA[=AR5 - AV5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="4" s="9">
+<C c="51" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX5=0,len(AX5)=0),1,(AT5 - AX5) / AX5)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="4" s="8">
+<C c="52" r="4" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -2341,18 +2483,10 @@ if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="4" s="7">
+<C c="53" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="4" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA5 / BB5]]></Attributes>
+<![CDATA[=AZ5 / BA5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2361,7 +2495,7 @@ if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2371,7 +2505,15 @@ if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="4" s="8">
+<C c="54" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
@@ -2382,24 +2524,101 @@ if(or(AW5=0,len(AW5)=0),1,(AT5 - AW5) / AW5)]]></Attributes>
 <C c="56" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+<![CDATA[=if(or(BC5 = 0, len(BC5) = 0), 1, (AZ5 - BC5) / BC5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="4" s="9">
+<C c="57" r="4" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
+<![CDATA[=if(or(BD5 = 0, len(BD5) = 0), 1, (AZ5 - BD5) / BD5)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="4" s="9">
+<C c="58" r="4" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE5=0,len(BE5)=0),1,(BA5 - BE5) / BE5)]]></Attributes>
+<![CDATA[=AZ5 - BD5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="4" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH5 / BI5]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "沈平"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK5 = 0, len(BK5) = 0), 1, (BH5 - BK5) / BK5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="4" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL5 = 0, len(BL5) = 0), 1, (BH5 - BL5) / BL5)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="4" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH5 - BL5]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2422,7 +2641,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="5" s="7">
+<C c="3" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2430,7 +2649,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="5" s="7">
+<C c="4" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E5[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
@@ -2438,7 +2657,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="5" s="8">
+<C c="5" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D6 + E6]]></Attributes>
@@ -2446,7 +2665,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="5" s="7">
+<C c="6" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2454,7 +2673,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="5" s="9">
+<C c="7" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F6 / G6]]></Attributes>
@@ -2466,7 +2685,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2476,19 +2695,15 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="5" s="7">
+<C c="8" r="5" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="5" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
+<C c="9" r="5" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="5" s="8">
+<C c="10" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2496,23 +2711,23 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="5" s="8">
+<C c="11" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J6 + K6]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="5" s="8">
+<C c="12" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=K6 + L6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="5" s="8">
+<C c="13" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2520,26 +2735,26 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="5" s="8">
+<C c="14" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M6 + N6]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="5" s="9">
+<C c="15" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L6=0,len(L6)=0),1,(F6 - L6) / L6)]]></Attributes>
+<![CDATA[=N6 + O6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="5" s="9">
+<C c="16" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O6=0,len(O6)=0),1,(F6 - O6) / O6)]]></Attributes>
+<![CDATA[=if(or(M6 = 0, len(M6) = 0), 1, (F6 - M6) / M6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2547,7 +2762,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="17" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(P6 = 0, len(P6) = 0), 1, (F6 - P6) / P6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2555,34 +2770,20 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="18" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=F6 - P6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="5" s="9">
+<C c="19" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R6 / S6]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="5" s="8">
+<C c="20" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2593,23 +2794,37 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="21" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=T6 / U6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="5" s="9">
+<C c="23" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U6=0,len(U6)=0),1,(R6 - U6) / U6)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V6=0,len(V6)=0),1,(R6 - V6) / V6)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2617,7 +2832,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="24" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(W6 = 0, len(W6) = 0), 1, (T6 - W6) / W6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2625,15 +2840,39 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="25" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(X6 = 0, len(X6) = 0), 1, (T6 - X6) / X6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="5" s="9">
+<C c="26" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y6/Z6]]></Attributes>
+<![CDATA[=T6 - X6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB6 / AC6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2642,7 +2881,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2652,42 +2891,18 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="5" s="8">
+<C c="30" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="5" s="8">
+<C c="31" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB6=0,len(AB6)=0),1,(Y6-AB6)/AB6)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC6=0,len(AC6)=0),1,(Y6-AC6)/AC6)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="5" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2695,12 +2910,44 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="32" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(AE6 = 0, len(AE6) = 0), 1, (AB6 - AE6) / AE6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="5" s="9">
+<C c="33" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF6 = 0, len(AF6) = 0), 1, (AB6 - AF6) / AF6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB6 - AF6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="5" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -2708,7 +2955,7 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2718,42 +2965,10 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="5" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="5" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI6=0,len(AI6)=0),1,(AF6-AI6)/AI6)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ6=0,len(AJ6)=0),1,(AF6-AJ6)/AJ6)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2761,37 +2976,23 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="39" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="5" s="9">
+<C c="40" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM6 / AN6]]></Attributes>
+<![CDATA[=if(or(AM6 = 0, len(AM6) = 0), 1, (AJ6 - AM6) / AM6)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="5" s="7">
+<C c="41" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(AN6 = 0, len(AN6) = 0), 1, (AJ6 - AN6) / AN6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2799,24 +3000,23 @@ if(or(BD5=0,len(BD5)=0),1,(BA5 - BD5) / BD5)]]></Attributes>
 <C c="42" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=AJ6 - AN6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="5" s="9">
+<C c="43" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="5" s="9">
+<C c="44" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ6=0,len(AQ6)=0),1,(AM6 - AQ6) / AQ6)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2824,23 +3024,7 @@ if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
 <C c="45" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="5" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT6 / AU6]]></Attributes>
+<![CDATA[=AR6 / AS6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2849,7 +3033,7 @@ if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2859,10 +3043,26 @@ if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(AU6 = 0, len(AU6) = 0), 1, (AR6 - AU6) / AU6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2870,29 +3070,28 @@ if(or(AP6=0,len(AP6)=0),1,(AM6 - AP6) / AP6)]]></Attributes>
 <C c="49" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(AV6 = 0, len(AV6) = 0), 1, (AR6 - AV6) / AV6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="5" s="9">
+<C c="50" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
+<![CDATA[=AR6 - AV6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="5" s="9">
+<C c="51" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX6=0,len(AX6)=0),1,(AT6 - AX6) / AX6)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="5" s="8">
+<C c="52" r="5" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2900,18 +3099,10 @@ if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="5" s="7">
+<C c="53" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="5" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA6 / BB6]]></Attributes>
+<![CDATA[=AZ6 / BA6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -2920,7 +3111,7 @@ if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -2930,7 +3121,15 @@ if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="5" s="8">
+<C c="54" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
@@ -2941,24 +3140,101 @@ if(or(AW6=0,len(AW6)=0),1,(AT6 - AW6) / AW6)]]></Attributes>
 <C c="56" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+<![CDATA[=if(or(BC6 = 0, len(BC6) = 0), 1, (AZ6 - BC6) / BC6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="5" s="9">
+<C c="57" r="5" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
+<![CDATA[=if(or(BD6 = 0, len(BD6) = 0), 1, (AZ6 - BD6) / BD6)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="5" s="9">
+<C c="58" r="5" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE6=0,len(BE6)=0),1,(BA6 - BE6) / BE6)]]></Attributes>
+<![CDATA[=AZ6 - BD6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="5" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH6 / BI6]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "邓群"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK6 = 0, len(BK6) = 0), 1, (BH6 - BK6) / BK6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="5" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL6 = 0, len(BL6) = 0), 1, (BH6 - BL6) / BL6)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="5" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH6 - BL6]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -2981,7 +3257,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="6" s="7">
+<C c="3" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -2989,7 +3265,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="6" s="7">
+<C c="4" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E6[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
@@ -2997,7 +3273,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="6" s="8">
+<C c="5" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D7 + E7]]></Attributes>
@@ -3005,7 +3281,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="6" s="7">
+<C c="6" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3013,7 +3289,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="6" s="9">
+<C c="7" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F7 / G7]]></Attributes>
@@ -3025,7 +3301,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3035,19 +3311,15 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="6" s="7">
+<C c="8" r="6" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="6" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
+<C c="9" r="6" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="6" s="8">
+<C c="10" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3055,23 +3327,23 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="6" s="8">
+<C c="11" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J7 + K7]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="6" s="8">
+<C c="12" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=K7 + L7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="6" s="8">
+<C c="13" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3079,26 +3351,26 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="6" s="8">
+<C c="14" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M7 + N7]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="6" s="9">
+<C c="15" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L7=0,len(L7)=0),1,(F7 - L7) / L7)]]></Attributes>
+<![CDATA[=N7 + O7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="6" s="9">
+<C c="16" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O7=0,len(O7)=0),1,(F7 - O7) / O7)]]></Attributes>
+<![CDATA[=if(or(M7 = 0, len(M7) = 0), 1, (F7 - M7) / M7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3106,7 +3378,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="17" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(P7 = 0, len(P7) = 0), 1, (F7 - P7) / P7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3114,34 +3386,20 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="18" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=F7 - P7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="6" s="9">
+<C c="19" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R7 / S7]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="6" s="8">
+<C c="20" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3152,23 +3410,37 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="21" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=T7 / U7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="6" s="9">
+<C c="23" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U7=0,len(U7)=0),1,(R7 - U7) / U7)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V7=0,len(V7)=0),1,(R7 - V7) / V7)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3176,7 +3448,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="24" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(W7 = 0, len(W7) = 0), 1, (T7 - W7) / W7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3184,15 +3456,39 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="25" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(X7 = 0, len(X7) = 0), 1, (T7 - X7) / X7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="6" s="9">
+<C c="26" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y7/Z7]]></Attributes>
+<![CDATA[=T7 - X7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB7 / AC7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -3201,7 +3497,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3211,42 +3507,18 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="6" s="8">
+<C c="30" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="6" s="8">
+<C c="31" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB7=0,len(AB7)=0),1,(Y7-AB7)/AB7)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC7=0,len(AC7)=0),1,(Y7-AC7)/AC7)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="6" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3254,12 +3526,44 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="32" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(AE7 = 0, len(AE7) = 0), 1, (AB7 - AE7) / AE7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="6" s="9">
+<C c="33" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF7 = 0, len(AF7) = 0), 1, (AB7 - AF7) / AF7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB7 - AF7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="6" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -3267,7 +3571,7 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3277,42 +3581,10 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="6" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="6" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI7=0,len(AI7)=0),1,(AF7-AI7)/AI7)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ7=0,len(AJ7)=0),1,(AF7-AJ7)/AJ7)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3320,37 +3592,23 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="39" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="6" s="9">
+<C c="40" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM7 / AN7]]></Attributes>
+<![CDATA[=if(or(AM7 = 0, len(AM7) = 0), 1, (AJ7 - AM7) / AM7)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="6" s="7">
+<C c="41" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(AN7 = 0, len(AN7) = 0), 1, (AJ7 - AN7) / AN7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3358,24 +3616,23 @@ if(or(BD6=0,len(BD6)=0),1,(BA6 - BD6) / BD6)]]></Attributes>
 <C c="42" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=AJ7 - AN7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="6" s="9">
+<C c="43" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="6" s="9">
+<C c="44" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ7=0,len(AQ7)=0),1,(AM7 - AQ7) / AQ7)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3383,23 +3640,7 @@ if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
 <C c="45" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="6" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT7 / AU7]]></Attributes>
+<![CDATA[=AR7 / AS7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -3408,7 +3649,7 @@ if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3418,10 +3659,26 @@ if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="6" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="6" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(AU7 = 0, len(AU7) = 0), 1, (AR7 - AU7) / AU7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3429,29 +3686,28 @@ if(or(AP7=0,len(AP7)=0),1,(AM7 - AP7) / AP7)]]></Attributes>
 <C c="49" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(AV7 = 0, len(AV7) = 0), 1, (AR7 - AV7) / AV7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="6" s="9">
+<C c="50" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
+<![CDATA[=AR7 - AV7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="6" s="9">
+<C c="51" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX7=0,len(AX7)=0),1,(AT7 - AX7) / AX7)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="6" s="8">
+<C c="52" r="6" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3459,18 +3715,10 @@ if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="6" s="7">
+<C c="53" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="6" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA7 / BB7]]></Attributes>
+<![CDATA[=AZ7 / BA7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -3479,7 +3727,7 @@ if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3489,7 +3737,15 @@ if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="6" s="8">
+<C c="54" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
@@ -3500,24 +3756,101 @@ if(or(AW7=0,len(AW7)=0),1,(AT7 - AW7) / AW7)]]></Attributes>
 <C c="56" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+<![CDATA[=if(or(BC7 = 0, len(BC7) = 0), 1, (AZ7 - BC7) / BC7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="6" s="9">
+<C c="57" r="6" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
+<![CDATA[=if(or(BD7 = 0, len(BD7) = 0), 1, (AZ7 - BD7) / BD7)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="6" s="9">
+<C c="58" r="6" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE7=0,len(BE7)=0),1,(BA7 - BE7) / BE7)]]></Attributes>
+<![CDATA[=AZ7 - BD7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="6" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH7 / BI7]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "李康"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK7 = 0, len(BK7) = 0), 1, (BH7 - BK7) / BK7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="6" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL7 = 0, len(BL7) = 0), 1, (BH7 - BL7) / BL7)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="6" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH7 - BL7]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3540,7 +3873,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="7" s="7">
+<C c="3" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -3548,7 +3881,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="7" s="7">
+<C c="4" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E7[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
@@ -3556,7 +3889,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="7" s="8">
+<C c="5" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D8 + E8]]></Attributes>
@@ -3564,7 +3897,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="7" s="7">
+<C c="6" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -3572,7 +3905,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="7" s="9">
+<C c="7" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F8 / G8]]></Attributes>
@@ -3584,7 +3917,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3594,19 +3927,15 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="7" s="7">
+<C c="8" r="7" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="7" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
+<C c="9" r="7" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="7" s="8">
+<C c="10" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -3614,23 +3943,23 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="7" s="8">
+<C c="11" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J8 + K8]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="7" s="8">
+<C c="12" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=K8 + L8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="7" s="8">
+<C c="13" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -3638,26 +3967,26 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="7" s="8">
+<C c="14" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M8 + N8]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="7" s="9">
+<C c="15" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L8=0,len(L8)=0),1,(F8 - L8) / L8)]]></Attributes>
+<![CDATA[=N8 + O8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="7" s="9">
+<C c="16" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O8=0,len(O8)=0),1,(F8 - O8) / O8)]]></Attributes>
+<![CDATA[=if(or(M8 = 0, len(M8) = 0), 1, (F8 - M8) / M8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3665,7 +3994,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="17" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(P8 = 0, len(P8) = 0), 1, (F8 - P8) / P8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3673,34 +4002,20 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="18" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=F8 - P8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="7" s="9">
+<C c="19" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R8 / S8]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="7" s="8">
+<C c="20" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -3711,23 +4026,37 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="21" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=T8 / U8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="7" s="9">
+<C c="23" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U8=0,len(U8)=0),1,(R8 - U8) / U8)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V8=0,len(V8)=0),1,(R8 - V8) / V8)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3735,7 +4064,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="24" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(W8 = 0, len(W8) = 0), 1, (T8 - W8) / W8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3743,15 +4072,39 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="25" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(X8 = 0, len(X8) = 0), 1, (T8 - X8) / X8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="7" s="9">
+<C c="26" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y8/Z8]]></Attributes>
+<![CDATA[=T8 - X8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB8 / AC8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -3760,7 +4113,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3770,42 +4123,18 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="7" s="8">
+<C c="30" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="7" s="8">
+<C c="31" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB8=0,len(AB8)=0),1,(Y8-AB8)/AB8)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC8=0,len(AC8)=0),1,(Y8-AC8)/AC8)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="7" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3813,12 +4142,44 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="32" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(AE8 = 0, len(AE8) = 0), 1, (AB8 - AE8) / AE8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="7" s="9">
+<C c="33" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF8 = 0, len(AF8) = 0), 1, (AB8 - AF8) / AF8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB8 - AF8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="7" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -3826,7 +4187,7 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3836,42 +4197,10 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="7" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="7" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI8=0,len(AI8)=0),1,(AF8-AI8)/AI8)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ8=0,len(AJ8)=0),1,(AF8-AJ8)/AJ8)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3879,37 +4208,23 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="39" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="7" s="9">
+<C c="40" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM8 / AN8]]></Attributes>
+<![CDATA[=if(or(AM8 = 0, len(AM8) = 0), 1, (AJ8 - AM8) / AM8)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="7" s="7">
+<C c="41" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(AN8 = 0, len(AN8) = 0), 1, (AJ8 - AN8) / AN8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3917,24 +4232,23 @@ if(or(BD7=0,len(BD7)=0),1,(BA7 - BD7) / BD7)]]></Attributes>
 <C c="42" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=AJ8 - AN8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="7" s="9">
+<C c="43" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="7" s="9">
+<C c="44" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ8=0,len(AQ8)=0),1,(AM8 - AQ8) / AQ8)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3942,23 +4256,7 @@ if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
 <C c="45" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="7" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT8 / AU8]]></Attributes>
+<![CDATA[=AR8 / AS8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -3967,7 +4265,7 @@ if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -3977,10 +4275,26 @@ if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="7" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="7" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(AU8 = 0, len(AU8) = 0), 1, (AR8 - AU8) / AU8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -3988,29 +4302,28 @@ if(or(AP8=0,len(AP8)=0),1,(AM8 - AP8) / AP8)]]></Attributes>
 <C c="49" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(AV8 = 0, len(AV8) = 0), 1, (AR8 - AV8) / AV8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="7" s="9">
+<C c="50" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
+<![CDATA[=AR8 - AV8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="7" s="9">
+<C c="51" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX8=0,len(AX8)=0),1,(AT8 - AX8) / AX8)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="7" s="8">
+<C c="52" r="7" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -4018,18 +4331,10 @@ if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="7" s="7">
+<C c="53" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="7" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA8 / BB8]]></Attributes>
+<![CDATA[=AZ8 / BA8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -4038,7 +4343,7 @@ if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4048,7 +4353,15 @@ if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="7" s="8">
+<C c="54" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
@@ -4059,24 +4372,101 @@ if(or(AW8=0,len(AW8)=0),1,(AT8 - AW8) / AW8)]]></Attributes>
 <C c="56" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+<![CDATA[=if(or(BC8 = 0, len(BC8) = 0), 1, (AZ8 - BC8) / BC8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="7" s="9">
+<C c="57" r="7" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
+<![CDATA[=if(or(BD8 = 0, len(BD8) = 0), 1, (AZ8 - BD8) / BD8)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="7" s="9">
+<C c="58" r="7" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE8=0,len(BE8)=0),1,(BA8 - BE8) / BE8)]]></Attributes>
+<![CDATA[=AZ8 - BD8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="7" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH8 / BI8]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "罗娇"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK8 = 0, len(BK8) = 0), 1, (BH8 - BK8) / BK8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="7" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL8 = 0, len(BL8) = 0), 1, (BH8 - BL8) / BL8)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="7" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH8 - BL8]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4099,7 +4489,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="3" r="8" s="7">
+<C c="3" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4107,7 +4497,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="4" r="8" s="7">
+<C c="4" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(E8[!0;!0]A{eval("a" + "3") = "杨盛祥"})]]></Attributes>
@@ -4115,7 +4505,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="5" r="8" s="8">
+<C c="5" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=D9 + E9]]></Attributes>
@@ -4123,7 +4513,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="6" r="8" s="7">
+<C c="6" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(G3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4131,7 +4521,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="7" r="8" s="9">
+<C c="7" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=F9 / G9]]></Attributes>
@@ -4143,7 +4533,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4153,19 +4543,15 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="8" s="7">
+<C c="8" r="8" s="9">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="8" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
+<C c="9" r="8" s="6">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="10" r="8" s="8">
+<C c="10" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(K3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4173,23 +4559,23 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="11" r="8" s="8">
+<C c="11" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J9 + K9]]></Attributes>
+<![CDATA[=sum(L3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="12" r="8" s="8">
+<C c="12" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=K9 + L9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="13" r="8" s="8">
+<C c="13" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(N3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4197,26 +4583,26 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="14" r="8" s="8">
+<C c="14" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M9 + N9]]></Attributes>
+<![CDATA[=sum(O3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="8" s="9">
+<C c="15" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L9=0,len(L9)=0),1,(F9 - L9) / L9)]]></Attributes>
+<![CDATA[=N9 + O9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="16" r="8" s="9">
+<C c="16" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O9=0,len(O9)=0),1,(F9 - O9) / O9)]]></Attributes>
+<![CDATA[=if(or(M9 = 0, len(M9) = 0), 1, (F9 - M9) / M9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4224,7 +4610,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="17" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(P9 = 0, len(P9) = 0), 1, (F9 - P9) / P9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4232,34 +4618,20 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="18" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=F9 - P9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="8" s="9">
+<C c="19" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R9 / S9]]></Attributes>
+<![CDATA[=sum(T3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="8" s="8">
+<C c="20" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4270,23 +4642,37 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="21" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=T9 / U9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="22" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="22" r="8" s="9">
+<C c="23" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(U9=0,len(U9)=0),1,(R9 - U9) / U9)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V9=0,len(V9)=0),1,(R9 - V9) / V9)]]></Attributes>
+<![CDATA[=sum(X3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4294,7 +4680,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="24" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(W9 = 0, len(W9) = 0), 1, (T9 - W9) / W9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4302,15 +4688,39 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="25" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(z3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(X9 = 0, len(X9) = 0), 1, (T9 - X9) / X9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="26" r="8" s="9">
+<C c="26" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=Y9/Z9]]></Attributes>
+<![CDATA[=T9 - X9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="27" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="28" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AC3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="29" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB9 / AC9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -4319,7 +4729,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4329,42 +4739,18 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="27" r="8" s="8">
+<C c="30" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=sum(AE3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="28" r="8" s="8">
+<C c="31" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="29" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AB9=0,len(AB9)=0),1,(Y9-AB9)/AB9)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="30" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AC9=0,len(AC9)=0),1,(Y9-AC9)/AC9)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="31" r="8" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(af3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=sum(AF3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4372,12 +4758,44 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="32" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(AE9 = 0, len(AE9) = 0), 1, (AB9 - AE9) / AE9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="33" r="8" s="9">
+<C c="33" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF9 = 0, len(AF9) = 0), 1, (AB9 - AF9) / AF9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="34" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AB9 - AF9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="35" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AJ3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="36" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AK3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="37" r="8" s="8">
 <PrivilegeControl/>
 <HighlightList>
 <Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
@@ -4385,7 +4803,7 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4395,42 +4813,10 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="34" r="8" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="35" r="8" s="8">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="36" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AI9=0,len(AI9)=0),1,(AF9-AI9)/AI9)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="37" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AJ9=0,len(AJ9)=0),1,(AF9-AJ9)/AJ9)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
 <C c="38" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4438,37 +4824,23 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="39" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AN3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=sum(AB3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="40" r="8" s="9">
+<C c="40" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM9 / AN9]]></Attributes>
+<![CDATA[=if(or(AM9 = 0, len(AM9) = 0), 1, (AJ9 - AM9) / AM9)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="41" r="8" s="7">
+<C c="41" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AP3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(AN9 = 0, len(AN9) = 0), 1, (AJ9 - AN9) / AN9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4476,24 +4848,23 @@ if(or(BD8=0,len(BD8)=0),1,(BA8 - BD8) / BD8)]]></Attributes>
 <C c="42" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AQ3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=AJ9 - AN9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="43" r="8" s="9">
+<C c="43" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
+<![CDATA[=sum(AR3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="44" r="8" s="9">
+<C c="44" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AQ9=0,len(AQ9)=0),1,(AM9 - AQ9) / AQ9)]]></Attributes>
+<![CDATA[=sum(AS3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4501,23 +4872,7 @@ if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
 <C c="45" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AT3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="46" r="8" s="7">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AU3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="47" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=AT9 / AU9]]></Attributes>
+<![CDATA[=AR9 / AS9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -4526,7 +4881,7 @@ if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4536,10 +4891,26 @@ if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="46" r="8" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AU3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="47" r="8" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AV3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="48" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(AU9 = 0, len(AU9) = 0), 1, (AR9 - AU9) / AU9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4547,29 +4918,28 @@ if(or(AP9=0,len(AP9)=0),1,(AM9 - AP9) / AP9)]]></Attributes>
 <C c="49" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(AV9 = 0, len(AV9) = 0), 1, (AR9 - AV9) / AV9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="8" s="9">
+<C c="50" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
+<![CDATA[=AR9 - AV9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="8" s="9">
+<C c="51" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX9=0,len(AX9)=0),1,(AT9 - AX9) / AX9)]]></Attributes>
+<![CDATA[=average(AZ3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="8" s="8">
+<C c="52" r="8" s="6">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4577,18 +4947,10 @@ if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="8" s="7">
+<C c="53" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="8" s="9">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA9 / BB9]]></Attributes>
+<![CDATA[=AZ9 / BA9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -4597,7 +4959,7 @@ if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4607,7 +4969,15 @@ if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="55" r="8" s="8">
+<C c="54" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="55" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BD3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
@@ -4618,24 +4988,101 @@ if(or(AW9=0,len(AW9)=0),1,(AT9 - AW9) / AW9)]]></Attributes>
 <C c="56" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+<![CDATA[=if(or(BC9 = 0, len(BC9) = 0), 1, (AZ9 - BC9) / BC9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="57" r="8" s="9">
+<C c="57" r="8" s="8">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
+<![CDATA[=if(or(BD9 = 0, len(BD9) = 0), 1, (AZ9 - BD9) / BD9)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="8" s="9">
+<C c="58" r="8" s="7">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE9=0,len(BE9)=0),1,(BA9 - BE9) / BE9)]]></Attributes>
+<![CDATA[=AZ9 - BD9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="8" s="6">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH9 / BI9]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3[!0;!0]A{eval("a" + "3") = "林耀亮"})]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK9 = 0, len(BK9) = 0), 1, (BH9 - BK9) / BK9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="8" s="8">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL9 = 0, len(BL9) = 0), 1, (BH9 - BL9) / BL9)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="8" s="7">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH9 - BL9]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4702,7 +5149,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4712,15 +5159,11 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="8" r="9" s="10">
+<C c="8" r="9" s="13">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="9" r="9" s="11">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(J3)]]></Attributes>
-</O>
+<C c="9" r="9" s="10">
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
@@ -4735,7 +5178,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="11" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=J10 + K10]]></Attributes>
+<![CDATA[=sum(L3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4743,7 +5186,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="12" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(M3)]]></Attributes>
+<![CDATA[=K10 + L10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4759,15 +5202,15 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="14" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=M10 + N10]]></Attributes>
+<![CDATA[=sum(O3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="15" r="9" s="12">
+<C c="15" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(L10=0,len(L10)=0),1,(F10 - L10) / L10)]]></Attributes>
+<![CDATA[=N10 + O10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4775,50 +5218,36 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="16" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(O10=0,len(O10)=0),1,(F10 - O10) / O10)]]></Attributes>
+<![CDATA[=if(or(M10 = 0, len(M10) = 0), 1, (F10 - M10) / M10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="17" r="9" s="11">
+<C c="17" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(R3)]]></Attributes>
+<![CDATA[=if(or(P10 = 0, len(P10) = 0), 1, (F10 - P10) / P10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="18" r="9" s="10">
+<C c="18" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(S3)]]></Attributes>
+<![CDATA[=F10 - P10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="19" r="9" s="12">
+<C c="19" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=R10 / S10]]></Attributes>
+<![CDATA[=sum(T3)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="20" r="9" s="11">
+<C c="20" r="9" s="10">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(U3)]]></Attributes>
@@ -4826,50 +5255,10 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="21" r="9" s="11">
+<C c="21" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(V3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="22" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(U10=0,len(U10)=0),1,(R10 - U10) / U10)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="23" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(V10=0,len(V10)=0),1,(R10 - V10) / V10)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="24" r="9" s="11">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(y3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="25" r="9" s="11">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(z3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="26" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=Y10/Z10]]></Attributes>
+<![CDATA[=T10 / U10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -4878,7 +5267,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -4888,10 +5277,50 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 </HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
+<C c="22" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(W3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="23" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(X3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="24" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(W10 = 0, len(W10) = 0), 1, (T10 - W10) / W10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="25" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(X10 = 0, len(X10) = 0), 1, (T10 - X10) / X10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="26" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=T10 - X10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
 <C c="27" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ab3)]]></Attributes>
+<![CDATA[=sum(AB3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4899,7 +5328,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="28" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ac3)]]></Attributes>
+<![CDATA[=sum(AC3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4907,15 +5336,29 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="29" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AB10=0,len(AB10)=0),1,(Y10-AB10)/AB10)]]></Attributes>
+<![CDATA[=AB10 / AC10]]></Attributes>
 </O>
 <PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="30" r="9" s="12">
+<C c="30" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AC10=0,len(AC10)=0),1,(Y10-AC10)/AC10)]]></Attributes>
+<![CDATA[=sum(AE3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4923,41 +5366,31 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="31" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(af3)]]></Attributes>
+<![CDATA[=sum(AF3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="32" r="9" s="11">
+<C c="32" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(ag3)]]></Attributes>
+<![CDATA[=if(or(AE10 = 0, len(AE10) = 0), 1, (AB10 - AE10) / AE10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
 <C c="33" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AF10 = 0, len(AF10) = 0), 1, (AB10 - AF10) / AF10)]]></Attributes>
+</O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
 <C c="34" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3)]]></Attributes>
+<![CDATA[=AB10 - AF10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -4965,39 +5398,49 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="35" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(y3)]]></Attributes>
+<![CDATA[=sum(AJ3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="36" r="9" s="12">
+<C c="36" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AI10=0,len(AI10)=0),1,(AF10-AI10)/AI10)]]></Attributes>
+<![CDATA[=sum(AK3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
 <C c="37" r="9" s="12">
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="38" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AJ10=0,len(AJ10)=0),1,(AF10-AJ10)/AJ10)]]></Attributes>
+<![CDATA[=sum(AB3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="38" r="9" s="10">
+<C c="39" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=sum(AM3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="39" r="9" s="10">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(AN3)]]></Attributes>
+<![CDATA[=sum(AB3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -5005,7 +5448,47 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <C c="40" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AM10 / AN10]]></Attributes>
+<![CDATA[=if(or(AM10 = 0, len(AM10) = 0), 1, (AJ10 - AM10) / AM10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="41" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(AN10 = 0, len(AN10) = 0), 1, (AJ10 - AN10) / AN10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="42" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AJ10 - AN10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="43" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AR3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="44" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=sum(AS3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="45" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=AR10 / AS10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -5014,7 +5497,7 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -5022,113 +5505,57 @@ if(or(BD9=0,len(BD9)=0),1,(BA9 - BD9) / BD9)]]></Attributes>
 </HighlightAction>
 </Highlight>
 </HighlightList>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="41" r="9" s="10">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(AP3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="42" r="9" s="10">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=sum(AQ3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="43" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=
-if(or(AP10=0,len(AP10)=0),1,(AM10 - AP10) / AP10)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="44" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(or(AQ10=0,len(AQ10)=0),1,(AM10 - AQ10) / AQ10)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="45" r="9" s="11">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=average(AT3)]]></Attributes>
-</O>
-<PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
 <C c="46" r="9" s="10">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AU3)]]></Attributes>
+<![CDATA[=sum(AU3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="47" r="9" s="12">
+<C c="47" r="9" s="10">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=AT10 / AU10]]></Attributes>
+<![CDATA[=sum(AV3)]]></Attributes>
 </O>
 <PrivilegeControl/>
-<HighlightList>
-<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
-<Name>
-<![CDATA[条件属性1]]></Name>
-<Condition class="com.fr.data.condition.FormulaCondition">
-<Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
-</Condition>
-<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
-<O>
-<![CDATA[]]></O>
-</HighlightAction>
-</Highlight>
-</HighlightList>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="48" r="9" s="11">
+<C c="48" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AW3)]]></Attributes>
+<![CDATA[=if(or(AU10 = 0, len(AU10) = 0), 1, (AR10 - AU10) / AU10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="49" r="9" s="11">
+<C c="49" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(AX3)]]></Attributes>
+<![CDATA[=if(or(AV10 = 0, len(AV10) = 0), 1, (AR10 - AV10) / AV10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="50" r="9" s="12">
+<C c="50" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
+<![CDATA[=AR10 - AV10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="51" r="9" s="12">
+<C c="51" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(AX10=0,len(AX10)=0),1,(AT10 - AX10) / AX10)]]></Attributes>
+<![CDATA[=average(AZ3)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="52" r="9" s="11">
+<C c="52" r="9" s="10">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=average(BA3)]]></Attributes>
@@ -5136,18 +5563,10 @@ if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="53" r="9" s="10">
+<C c="53" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BB3)]]></Attributes>
-</O>
-<PrivilegeControl/>
-<Expand leftParentDefault="false"/>
-</C>
-<C c="54" r="9" s="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=BA10 / BB10]]></Attributes>
+<![CDATA[=AZ10 / BA10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <HighlightList>
@@ -5156,7 +5575,7 @@ if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
 <![CDATA[条件属性1]]></Name>
 <Condition class="com.fr.data.condition.FormulaCondition">
 <Formula>
-<![CDATA[or($$$=0,$$$=1/0)]]></Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
 <O>
@@ -5164,6 +5583,14 @@ if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
 </HighlightAction>
 </Highlight>
 </HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="54" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BC3)]]></Attributes>
+</O>
+<PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
 <C c="55" r="9" s="11">
@@ -5174,10 +5601,10 @@ if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="56" r="9" s="11">
+<C c="56" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=average(BE3)]]></Attributes>
+<![CDATA[=if(or(BC10 = 0, len(BC10) = 0), 1, (AZ10 - BC10) / BC10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -5185,16 +5612,93 @@ if(or(AW10=0,len(AW10)=0),1,(AT10 - AW10) / AW10)]]></Attributes>
 <C c="57" r="9" s="12">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=
-if(or(BD10=0,len(BD10)=0),1,(BA10 - BD10) / BD10)]]></Attributes>
+<![CDATA[=if(or(BD10 = 0, len(BD10) = 0), 1, (AZ10 - BD10) / BD10)]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
 </C>
-<C c="58" r="9" s="12">
+<C c="58" r="9" s="11">
 <O t="Formula" class="Formula">
 <Attributes>
-<![CDATA[=if(or(BE10=0,len(BE10)=0),1,(BA10 - BE10) / BE10)]]></Attributes>
+<![CDATA[=AZ10 - BD10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="59" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BH3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="60" r="9" s="10">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BI3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="61" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH10 / BI10]]></Attributes>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[or($$$ = 0, $$$ = 1 / 0)]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.ValueHighlightAction">
+<O>
+<![CDATA[]]></O>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="62" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BK3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="63" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=average(BL3)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="64" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BK10 = 0, len(BK10) = 0), 1, (BH10 - BK10) / BK10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="65" r="9" s="12">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=if(or(BL10 = 0, len(BL10) = 0), 1, (BH10 - BL10) / BL10)]]></Attributes>
+</O>
+<PrivilegeControl/>
+<Expand leftParentDefault="false"/>
+</C>
+<C c="66" r="9" s="11">
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=BH10 - BL10]]></Attributes>
 </O>
 <PrivilegeControl/>
 <Expand leftParentDefault="false"/>
@@ -5203,7 +5707,7 @@ if(or(BD10=0,len(BD10)=0),1,(BA10 - BD10) / BD10)]]></Attributes>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
 <PaperSetting>
-<PaperSize width="155520000" height="72000000"/>
+<PaperSize width="187200000" height="72000000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>
@@ -5533,8 +6037,8 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="72"/>
-<Background name="ColorBackground" color="-1"/>
+<FRFont name="微软雅黑" style="0" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -5553,26 +6057,6 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-1"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="ColorBackground" color="-657931"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.0]]></Format>
 <FRFont name="微软雅黑" style="0" size="72"/>
@@ -5588,6 +6072,16 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.0%]]></Format>
 <FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-657931"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
 <Background name="ColorBackground" color="-657931"/>
 <Border>
 <Top style="1" color="-6908266"/>
@@ -5622,6 +6116,16 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.0%]]></Format>
 <FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1118482"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
 <Background name="ColorBackground" color="-1118482"/>
 <Border>
 <Top style="1" color="-6908266"/>
@@ -5656,6 +6160,16 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.0%]]></Format>
 <FRFont name="微软雅黑" style="1" size="72"/>
+<Background name="ColorBackground" color="-1644826"/>
+<Border>
+<Top style="1" color="-6908266"/>
+<Bottom style="1" color="-6908266"/>
+<Left style="1" color="-6908266"/>
+<Right style="1" color="-6908266"/>
+</Border>
+</Style>
+<Style imageLayout="1">
+<FRFont name="SimSun" style="0" size="72"/>
 <Background name="ColorBackground" color="-1644826"/>
 <Border>
 <Top style="1" color="-6908266"/>

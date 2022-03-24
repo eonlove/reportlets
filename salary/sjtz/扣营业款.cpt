@@ -229,6 +229,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A3"/>
 <PaperSetting/>
 <Background name="ColorBackground" color="-1"/>
 </ReportSettings>
@@ -316,23 +317,17 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <Text>
 <![CDATA[保存提交]]></Text>
 </InnerWidget>
-<BoundsAttr x="335" y="14" width="80" height="53"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
-<WidgetName name="Search"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<Text>
-<![CDATA[查询]]></Text>
-<Hotkeys>
-<![CDATA[enter]]></Hotkeys>
-</InnerWidget>
-<BoundsAttr x="224" y="14" width="80" height="53"/>
+<BoundsAttr x="366" y="3" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="月份"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
@@ -349,7 +344,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 </O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="88" y="14" width="97" height="21"/>
+<BoundsAttr x="80" y="3" width="97" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -365,10 +360,17 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <FRFont name="SimSun" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="8" y="14" width="80" height="21"/>
+<BoundsAttr x="0" y="3" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="姓名"/>
 <LabelName name="姓名:"/>
 <WidgetAttr description="">
@@ -380,7 +382,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="88" y="46" width="97" height="21"/>
+<BoundsAttr x="257" y="3" width="97" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -396,14 +398,13 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <FRFont name="SimSun" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="8" y="46" width="80" height="21"/>
+<BoundsAttr x="177" y="3" width="80" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
 <Widget widgetName="月份"/>
-<Widget widgetName="Search"/>
-<Widget widgetName="button0"/>
 <Widget widgetName="姓名"/>
+<Widget widgetName="button0"/>
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="false"/>
@@ -419,7 +420,7 @@ and 1=1 ${if(len(姓名)==0,"","and 姓名 like '%"+姓名+"%'")}]]></Query>
 <NameTag name="月份" tag="月份:"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="80"/>
+<DesignAttr width="960" height="36"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

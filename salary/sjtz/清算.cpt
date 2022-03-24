@@ -399,10 +399,17 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <Text>
 <![CDATA[批量上传]]></Text>
 </InnerWidget>
-<BoundsAttr x="545" y="3" width="70" height="49"/>
+<BoundsAttr x="660" y="3" width="70" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="notes"/>
 <LabelName name="notes:"/>
 <WidgetAttr description="">
@@ -414,7 +421,7 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="266" y="3" width="106" height="21"/>
+<BoundsAttr x="266" y="3" width="106" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -430,7 +437,7 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="186" y="3" width="80" height="21"/>
+<BoundsAttr x="186" y="3" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.FreeButton">
@@ -442,16 +449,24 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </JavaScript>
 </Listener>
 <WidgetName name="button0"/>
+<LabelName name="搜索姓名"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
 <Text>
 <![CDATA[提交]]></Text>
 </InnerWidget>
-<BoundsAttr x="464" y="3" width="70" height="49"/>
+<BoundsAttr x="570" y="3" width="77" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="name"/>
 <LabelName name="搜索姓名"/>
 <WidgetAttr description="">
@@ -464,7 +479,7 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="266" y="30" width="106" height="21"/>
+<BoundsAttr x="452" y="3" width="106" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -480,23 +495,17 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="186" y="30" width="80" height="21"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
-<WidgetName name="Search"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<Text>
-<![CDATA[查询]]></Text>
-<Hotkeys>
-<![CDATA[enter]]></Hotkeys>
-</InnerWidget>
-<BoundsAttr x="382" y="3" width="70" height="49"/>
+<BoundsAttr x="372" y="3" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="月份"/>
 <LabelName name="月份:"/>
 <WidgetAttr description="">
@@ -514,7 +523,7 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 </O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="3" width="106" height="21"/>
+<BoundsAttr x="80" y="3" width="106" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -530,16 +539,15 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="3" width="80" height="21"/>
+<BoundsAttr x="0" y="3" width="80" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
 <Widget widgetName="月份"/>
 <Widget widgetName="notes"/>
-<Widget widgetName="Search"/>
+<Widget widgetName="name"/>
 <Widget widgetName="button0"/>
 <Widget widgetName="button1"/>
-<Widget widgetName="name"/>
 </MobileWidgetList>
 <Display display="true"/>
 <DelayDisplayContent delay="false"/>
@@ -550,14 +558,16 @@ window.parent.FR.showDialog(o.title, o.width, o.height, $iframe); ]]></Content>
 <TagModified tag="notes" modified="true"/>
 <TagModified tag="name" modified="true"/>
 <TagModified tag="月份" modified="true"/>
+<TagModified tag="button0" modified="true"/>
 </NameTagModified>
 <WidgetNameTagMap>
 <NameTag name="notes" tag="notes:"/>
 <NameTag name="name" tag="搜索姓名"/>
 <NameTag name="月份" tag="月份:"/>
+<NameTag name="button0" tag="搜索姓名"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="54"/>
+<DesignAttr width="960" height="40"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

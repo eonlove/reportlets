@@ -254,7 +254,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <Text>
 <![CDATA[保存]]></Text>
 </InnerWidget>
-<BoundsAttr x="362" y="4" width="85" height="21"/>
+<BoundsAttr x="362" y="4" width="85" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
@@ -276,7 +276,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="270" y="4" width="80" height="21"/>
+<BoundsAttr x="263" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -292,7 +292,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="190" y="4" width="80" height="21"/>
+<BoundsAttr x="183" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">
@@ -320,7 +320,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 </O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="4" width="103" height="21"/>
+<BoundsAttr x="80" y="4" width="103" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -336,7 +336,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="4" width="80" height="21"/>
+<BoundsAttr x="0" y="4" width="80" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
@@ -358,7 +358,7 @@ contentPane.setEditOnMove(true);  ]]></Content>
 <NameTag name="name" tag="name:"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="29"/>
+<DesignAttr width="960" height="35"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

@@ -4,6 +4,11 @@
 <TableData name="mb" class="com.fr.data.impl.DBTableData">
 <Parameters>
 <Parameter>
+<Attributes name="单位"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+<Parameter>
 <Attributes name="月份"/>
 <O>
 <![CDATA[]]></O>
@@ -39,6 +44,7 @@ FROM(
 WHERE  1=1 ${IF(发放状态 = "暂停发放","and 发放状态 ='暂停发放'","")}
 AND 1=1 ${IF(发放状态 = "正常","and 发放状态 is null","")}
 AND 1=1 ${IF(len(岗位)==0,"","and 岗位 like '%"+岗位+"%'")}
+AND 1=1 ${IF(len(单位)==0,"","and (a.单位 in ('"+SUBSTITUTE(单位,",","','")+"'))")}
 AND 月份 = '${月份}'
 
 ORDER BY 单位,岗位]]></Query>
@@ -65,7 +71,7 @@ ORDER BY 单位,岗位]]></Query>
 <Query>
 <![CDATA[select *
 from code_dict
-where codetypeid = '000001']]></Query>
+where codetypeid = '000006']]></Query>
 </TableData>
 <TableData name="下拉岗位" class="com.fr.data.impl.DBTableData">
 <Parameters>
@@ -294,18 +300,7 @@ where `month` = '${月份}']]></Query>
 <C c="0" r="3" s="3">
 <O t="DSColumn">
 <Attributes dsName="mb" columnName="月份"/>
-<Condition class="com.fr.data.condition.CommonCondition">
-<CNUMBER>
-<![CDATA[0]]></CNUMBER>
-<CNAME>
-<![CDATA[单位]]></CNAME>
-<Compare op="12">
-<O t="Formula" class="Formula">
-<Attributes>
-<![CDATA[=if(len($单位)==0,nofilter,$单位)]]></Attributes>
-</O>
-</Compare>
-</Condition>
+<Condition class="com.fr.data.condition.ListCondition"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper">
 <Attr divideMode="1"/>
@@ -833,16 +828,13 @@ where `month` = '${月份}']]></Query>
 <Background name="ColorBackground" color="-1118482"/>
 <LCAttr vgap="0" hgap="0" compInterval="0"/>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.ui.TreeComboBoxEditor">
+<InnerWidget class="com.fr.plugin.widget.newcomboboxtree.NewComboBoxTreeEditor" pluginID="com.fr.plugin.widget.newcomboboxtree.v9">
 <WidgetName name="单位"/>
+<LabelName name="单位:"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
-<DirectEdit>
-<![CDATA[false]]></DirectEdit>
-<CustomData>
-<![CDATA[false]]></CustomData>
-<TreeAttr mutiSelect="true" returnFullPath="true" selectLeafOnly="true"/>
+<TreeAttr mutiSelect="true" selectLeafOnly="true"/>
 <isLayerBuild isLayerBuild="false"/>
 <isAutoBuild autoBuild="false"/>
 <isPerformanceFirst performanceFirst="false"/>
@@ -904,6 +896,7 @@ where `month` = '${月份}']]></Query>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
 <WidgetName name="Label岗位"/>
+<LabelName name="单位:"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
@@ -1033,7 +1026,7 @@ where `month` = '${月份}']]></Query>
 <NameTag name="岗位" tag="岗位:"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="48"/>
+<DesignAttr width="960" height="45"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

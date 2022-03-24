@@ -69,9 +69,9 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1152000,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3543300,3886200,3390900,3390900,3505200,4000500,4572000,4229100,9639300,2743200,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[3543300,3886200,3390900,3390900,3505200,4000500,4572000,4229100,9639300,2743200,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" cs="2" s="0">
 <O>
@@ -376,6 +376,7 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <ColumnConfig name="class" isKey="false" skipUnmodified="false">
 <ColumnRow column="4" row="1"/>
 </ColumnConfig>
+<Condition class="com.fr.data.condition.ListCondition"/>
 </DMLConfig>
 </SubmitVisitor>
 </ReportWriteAttr>
@@ -416,7 +417,7 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <Hotkeys>
 <![CDATA[enter]]></Hotkeys>
 </InnerWidget>
-<BoundsAttr x="189" y="4" width="80" height="21"/>
+<BoundsAttr x="189" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
@@ -426,12 +427,13 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <PrivilegeControl/>
 </WidgetAttr>
 <TextAttr/>
+<Reg class="com.fr.form.ui.reg.NoneReg"/>
 <widgetValue>
 <O>
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="4" width="100" height="21"/>
+<BoundsAttr x="80" y="4" width="100" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -447,7 +449,7 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <FRFont name="SimSun" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="4" width="80" height="21"/>
+<BoundsAttr x="0" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.FreeButton">
@@ -466,7 +468,7 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <Text>
 <![CDATA[提交保存]]></Text>
 </InnerWidget>
-<BoundsAttr x="285" y="4" width="72" height="21"/>
+<BoundsAttr x="279" y="4" width="72" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
@@ -488,7 +490,7 @@ where 1=1 ${if(len(name)==0,"","and nickname like '%"+name+"%'")}]]></Query>
 <NameTag name="button0" tag="搜索姓名/岗位"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="29"/>
+<DesignAttr width="960" height="36"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>

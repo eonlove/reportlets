@@ -2,17 +2,64 @@
 <WorkBook xmlVersion="20170720" releaseVersion="9.0.0">
 <TableDataMap>
 <TableData name="main" class="com.fr.data.impl.DBTableData">
-<Parameters/>
+<Parameters>
+<Parameter>
+<Attributes name="unit"/>
+<O>
+<![CDATA[]]></O>
+</Parameter>
+</Parameters>
 <Attributes maxMemRowCount="-1"/>
 <Connection class="com.fr.data.impl.NameDatabaseConnection">
 <DatabaseName>
 <![CDATA[oracle]]></DatabaseName>
 </Connection>
 <Query>
-<![CDATA[select * from COCO_DETAIL_APLUS t where is_aplUS = 'true'
-order by updatedate desc]]></Query>
+<![CDATA[select * from (
+select des.*,
+       case when 缺货率 = 0 then 0 
+            when 缺货率 = 1 then 1 
+            else round(一级毛利占比/(1-缺货率)*缺货率,4) end as 缺货导致的毛利损失比例,
+       case when 缺货率 = 0 then 0 
+            when 缺货率 = 1 then 商品利润 
+            else round((一级毛利占比/(1-缺货率)*缺货率) * 一级分类利润,4) end as 缺货导致的毛利损失金额  from (
+select a.*, 
+       case when b.qhts is null then 0 else qhts end as 缺货天数,
+       round(case when b.qhts is null then 0 else qhts end/30,4)  缺货率,
+       round(c.jslr_lv1,2) 一级分类利润,
+       round((case when d.jslr is null then 0 else d.jslr end),4)  商品利润,
+       case when c.jslr_lv1 <> 0 then round(((case when d.jslr is null then 0 else d.jslr end)/c.jslr_lv1),4) else 0 end as 一级毛利占比
+  from coco_detail_aplus a
+  left join (select txm, mdmc, count(distinct to_char(KCSJ,'yyyymmdd')) qhts
+               from jskucun
+              where (txm, mdmc) in
+                    (select sptm, unit from coco_detail_aplus)
+                and jskc <= 0
+                and kcsj >= to_date((select to_char(trunc(max(jysj)) - 29, 'yyyy-mm-dd') from zl_spls), 'yyyy-mm-dd')
+              group by txm, mdmc) b on a.sptm = b.txm and a.unit = b.mdmc
+  left join (select abc.yjfl,
+                    abc.jslr_lv1,
+                    case when unit = 'all' then '总部总库' else unit end as unit 
+               from coco_main_desabc abc 
+              where dur = (select to_char(trunc(max(jysj))-29,'yyyy-mm-dd')from zl_spls)
+                and unit <> '总部总库') c on a.unit = c.unit and a.yjfl = c.yjfl
+  left join (select  sptm, md,jslr
+               from (select sum(nvl(jslr, 0)) as jslr, pp.sptm, pp.md
+                       from spls_lrhy pp
+                      where rq >= to_date((select to_char(trunc(max(jysj)) - 29, 'yyyy-mm-dd') from zl_spls), 'yyyy-mm-dd')
+                        and md <>'总部总库'
+                      group by pp.sptm, pp.md)
+            union all 
+            select sptm,'总部总库' md,jslr
+               from (select sum(nvl(jslr, 0)) as jslr, pp.sptm
+                       from spls_lrhy pp
+                      where rq >= to_date((select to_char(trunc(max(jysj)) - 29, 'yyyy-mm-dd') from zl_spls), 'yyyy-mm-dd')
+                      group by pp.sptm)) d on a.sptm = d.sptm and a.unit = d.md
+ where a.is_aplus = 'true') des
+ where ${if(len(unit)==0," unit = '总部总库'"," unit = '"+unit+"'")}) des
+ order by des.缺货导致的毛利损失金额 desc]]></Query>
 </TableData>
-<TableData name="ds_all" class="com.fr.data.impl.DBTableData">
+<TableData name="dsunit" class="com.fr.data.impl.DBTableData">
 <Parameters/>
 <Attributes maxMemRowCount="-1"/>
 <Connection class="com.fr.data.impl.NameDatabaseConnection">
@@ -20,17 +67,9 @@ order by updatedate desc]]></Query>
 <![CDATA[oracle]]></DatabaseName>
 </Connection>
 <Query>
-<![CDATA[select '总数量：' ||
-       (select count(*) from COCO_DETAIL_APLUS t where is_aplUS = 'true') ||
-       chr(13) || '其中：' || chr(13) || aaa as sss
-  from (select replace(wm_concat(aa.yjfl || '：' || aa.yjfl_num),
-                       ',',
-                       chr(13)) aaa
-          from (select count(*) yjfl_num, yjfl
-                  from COCO_DETAIL_APLUS t
-                 where is_aplUS = 'true'
-                 group by yjfl
-                 order by count(*) desc) aa)]]></Query>
+<![CDATA[select department
+from department_info
+where is_open = 'Y']]></Query>
 </TableData>
 </TableDataMap>
 <ReportWebAttr>
@@ -139,6 +178,81 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </ToolBars>
 <WebPage isPage="false" isShowAsImage="false" isAutoScale="false" isTDHeavy="false"/>
 </WebPageContent>
+<WebWriteContent>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[$('.parameter-container-collapseimg-up').remove();]]></Content>
+</JavaScript>
+</Listener>
+<Listener event="afterload">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[var row_back_color = "";
+
+//捕获鼠标移入
+$(".x-table td[id]A").bind("mouseenter", function() {
+//捕获鼠标移入的所有行
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+//改色
+            row_back_color = $(this).css("background-color");
+            $(this).css("background-color", "rgb(176,196,222)");});});});
+            
+// 鼠标移出，恢复原色
+$(".x-table td[id]A").bind("mouseleave", function() {
+    $("#frozen-center #" + $(this).parent("tr").attr("id")).each(function() {
+        $(this).children("td").each(function() {
+            $(this).css("background-color", row_back_color);}); });});
+]]></Content>
+</JavaScript>
+</Listener>
+<ToolBars>
+<ToolBarManager>
+<Location>
+<Embed position="1"/>
+</Location>
+<ToolBar>
+<Widget class="com.fr.report.web.button.NewPrint">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('FR-Engine_Print')}]]></Text>
+<IconName>
+<![CDATA[print]]></IconName>
+</Widget>
+<Widget class="com.fr.report.web.button.Export">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[${i18n('Export')}]]></Text>
+<IconName>
+<![CDATA[export]]></IconName>
+<Buttons pdf="true" excelP="true" excelO="true" excelS="true" word="true" image="true" html="true"/>
+</Widget>
+<Widget class="com.fr.report.web.button.write.ShowCellValue">
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue/>
+<LabelAttr verticalcenter="true" textalign="0" autoline="false"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</Widget>
+</ToolBar>
+</ToolBarManager>
+</ToolBars>
+<SelectedColor/>
+<WebWrite SheetPosition="3"/>
+<RptLocation isShowAtLeft="false"/>
+<UnloadCheck/>
+<ShowWidgets/>
+<OtherAttr isAutoStash="false"/>
+</WebWriteContent>
 </ReportWebAttr>
 <ReportFitAttr fitStateInPC="1" fitFont="true"/>
 <ElementCaseMobileAttr>
@@ -150,61 +264,80 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <FR/>
 <HC/>
 <FC/>
+<UPFCR COLUMN="false" ROW="true"/>
 </ReportPageAttr>
 <ColumnPrivilegeControl/>
 <RowPrivilegeControl/>
 <RowHeight defaultValue="723900">
-<![CDATA[1143000,914400,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
+<![CDATA[1371600,1066800,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[2857500,0,4320000,6210300,5410200,9144000,5638800,6324600,0,2743200,2743200,2743200,2743200]]></ColumnWidth>
+<![CDATA[144000,3600000,5760000,2476500,2160000,2880000,2880000,2743200,3695700,3619500,0,144000,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="1" r="0" s="0">
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="2" r="0" s="1">
-<O>
-<![CDATA[分类1]]></O>
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="3" r="0" s="1">
-<O>
-<![CDATA[分类2]]></O>
-<PrivilegeControl/>
-<Expand/>
-</C>
-<C c="4" r="0" s="1">
+<C c="1" r="0" s="1">
 <O>
 <![CDATA[条形码]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="5" r="0" s="2">
+<C c="2" r="0" s="2">
 <O>
 <![CDATA[品名]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="6" r="0" s="1">
+<C c="3" r="0" s="2">
 <O>
-<![CDATA[更新时间]]></O>
+<![CDATA[缺货天数(近30天)]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="7" r="0" s="1">
+<C c="4" r="0" s="2">
 <O>
-<![CDATA[统计]]></O>
+<![CDATA[缺货率(近30天)]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="8" r="0">
+<C c="5" r="0" s="2">
+<O>
+<![CDATA[商品利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="6" r="0" s="2">
+<O>
+<![CDATA[一级分类利润]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="7" r="0" s="2">
+<O>
+<![CDATA[一级毛利占比]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="8" r="0" s="2">
+<O>
+<![CDATA[缺货导致的毛利损失金额]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="9" r="0" s="2">
+<O>
+<![CDATA[缺货导致的毛利损失比例]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="10" r="0">
 <O>
 <![CDATA[`]]></O>
+<PrivilegeControl/>
+<Expand/>
+</C>
+<C c="11" r="0">
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -214,15 +347,9 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <CellPageAttr/>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="0">
-<PrivilegeControl/>
-<CellGUIAttr adjustmode="0"/>
-<CellPageAttr/>
-<Expand dir="0"/>
-</C>
-<C c="2" r="1" s="3">
+<C c="1" r="1" s="3">
 <O t="DSColumn">
-<Attributes dsName="main" columnName="YJFL"/>
+<Attributes dsName="main" columnName="SPTM"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -239,38 +366,13 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <![CDATA[row() % 2 = 0]]></Formula>
 </Condition>
 <HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
-<Scope val="1"/>
-<Background name="ColorBackground" color="-1118482"/>
+<Background name="ColorBackground" color="-1644826"/>
 </HighlightAction>
 </Highlight>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="main" columnName="RJFL"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<CellGUIAttr adjustmode="0"/>
-<CellPageAttr/>
-<Expand dir="0"/>
-</C>
-<C c="4" r="1" s="3">
-<O t="DSColumn">
-<Attributes dsName="main" columnName="SPTM"/>
-<Complex/>
-<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
-<Parameters/>
-</O>
-<PrivilegeControl/>
-<CellGUIAttr adjustmode="0"/>
-<CellPageAttr/>
-<Expand dir="0"/>
-</C>
-<C c="5" r="1" s="4">
+<C c="2" r="1" s="4">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="XBZSPMC"/>
 <Complex/>
@@ -280,23 +382,147 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <CellGUIAttr adjustmode="0"/>
 <CellPageAttr/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="6" r="1" s="3">
+<C c="3" r="1" s="4">
 <O t="DSColumn">
-<Attributes dsName="main" columnName="UPDATEDATE"/>
+<Attributes dsName="main" columnName="缺货天数"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
 </O>
 <PrivilegeControl/>
-<CellGUIAttr adjustmode="0"/>
-<CellPageAttr/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="4" r="1" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="缺货率"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Present class="com.fr.base.present.FormulaPresent">
+<Content>
+<![CDATA[$$$]]></Content>
+</Present>
+<Expand dir="0"/>
+</C>
+<C c="5" r="1" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="商品利润"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="6" r="1" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="一级分类利润"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
 <Expand dir="0"/>
 </C>
 <C c="7" r="1" s="5">
 <O t="DSColumn">
-<Attributes dsName="ds_all" columnName="SSS"/>
+<Attributes dsName="main" columnName="一级毛利占比"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Present class="com.fr.base.present.FormulaPresent">
+<Content>
+<![CDATA[$$$]]></Content>
+</Present>
+<Expand dir="0"/>
+</C>
+<C c="8" r="1" s="4">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="缺货导致的毛利损失金额"/>
 <Complex/>
 <RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
 <Parameters/>
@@ -304,9 +530,45 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 <CellGUIAttr adjustmode="0"/>
 <CellPageAttr/>
-<Expand leftParentDefault="false" upParentDefault="false"/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
 </C>
-<C c="8" r="1">
+<C c="9" r="1" s="5">
+<O t="DSColumn">
+<Attributes dsName="main" columnName="缺货导致的毛利损失比例"/>
+<Complex/>
+<RG class="com.fr.report.cell.cellattr.core.group.FunctionGrouper"/>
+<Parameters/>
+</O>
+<PrivilegeControl/>
+<HighlightList>
+<Highlight class="com.fr.report.cell.cellattr.highlight.DefaultHighlight">
+<Name>
+<![CDATA[条件属性1]]></Name>
+<Condition class="com.fr.data.condition.FormulaCondition">
+<Formula>
+<![CDATA[row() % 2 = 0]]></Formula>
+</Condition>
+<HighlightAction class="com.fr.report.cell.cellattr.highlight.BackgroundHighlightAction">
+<Background name="ColorBackground" color="-1644826"/>
+</HighlightAction>
+</Highlight>
+</HighlightList>
+<Expand dir="0"/>
+</C>
+<C c="10" r="1">
 <O>
 <![CDATA[q`]]></O>
 <PrivilegeControl/>
@@ -317,6 +579,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
 <PaperSize width="60480000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
@@ -339,9 +602,112 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <PrivilegeControl/>
 </Report>
 <ReportParameterAttr>
-<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="false"/>
+<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="0" useParamsTemplate="false"/>
 <PWTitle>
 <![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
+<Parameters/>
+<Layout class="com.fr.form.ui.container.WParameterLayout">
+<WidgetName name="para"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Margin top="0" left="0" bottom="0" right="0"/>
+<Border>
+<border style="0" color="-723724" borderRadius="0" type="0" borderStyle="0"/>
+<WidgetTitle>
+<O>
+<![CDATA[新建标题]]></O>
+<FRFont name="SimSun" style="0" size="72"/>
+<Position pos="0"/>
+</WidgetTitle>
+<Alpha alpha="1.0"/>
+</Border>
+<Background name="ColorBackground" color="-1118482"/>
+<LCAttr vgap="0" hgap="0" compInterval="0"/>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
+<WidgetName name="Search_c"/>
+<LabelName name="单位："/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<Text>
+<![CDATA[查询]]></Text>
+<Hotkeys>
+<![CDATA[enter]]></Hotkeys>
+</InnerWidget>
+<BoundsAttr x="246" y="5" width="80" height="28"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Labelunit_c"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[单位：]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="微软雅黑" style="1" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="25" y="5" width="69" height="28"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.ComboBox">
+<Listener event="afterinit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[this.setValue("总部总库");]]></Content>
+</JavaScript>
+</Listener>
+<WidgetName name="unit"/>
+<LabelName name="总部总库"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<fontSize>
+<![CDATA[14]]></fontSize>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="DEPARTMENT" viName="DEPARTMENT"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[dsunit]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="94" y="5" width="145" height="28"/>
+</Widget>
+<Sorted sorted="false"/>
+<MobileWidgetList>
+<Widget widgetName="unit"/>
+<Widget widgetName="Search_c"/>
+</MobileWidgetList>
+<Display display="true"/>
+<DelayDisplayContent delay="false"/>
+<UseParamsTemplate use="false"/>
+<Position position="0"/>
+<Design_Width design_width="716"/>
+<NameTagModified>
+<TagModified tag="unit" modified="true"/>
+<TagModified tag="Search_c" modified="true"/>
+</NameTagModified>
+<WidgetNameTagMap>
+<NameTag name="unit" tag="单位："/>
+<NameTag name="Search_c" tag="单位："/>
+</WidgetNameTagMap>
+</Layout>
+<DesignAttr width="716" height="38"/>
+</ParameterUI>
 </ReportParameterAttr>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
@@ -394,7 +760,9 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 <Right style="1" color="-6908266"/>
 </Border>
 </Style>
-<Style horizontal_alignment="2" vertical_alignment="1" imageLayout="1">
+<Style horizontal_alignment="2" imageLayout="1">
+<Format class="com.fr.base.CoreDecimalFormat">
+<![CDATA[#0.0%]]></Format>
 <FRFont name="微软雅黑" style="0" size="88"/>
 <Background name="ColorBackground" color="-657929"/>
 <Border>
@@ -406,7 +774,7 @@ $(".x-table td[id]A").bind("mouseleave", function() {
 </Style>
 </StyleList>
 <DesignerVersion DesignerVersion="JAA"/>
-<PreviewType PreviewType="0"/>
+<PreviewType PreviewType="1"/>
 <TemplateID TemplateID="9a3d0f14-aa6d-4060-bac1-1aa1a76c53e5"/>
 <TemplateIdAttMark class="com.fr.base.iofileattr.TemplateIdAttrMark">
 <TemplateIdAttMark TemplateId="1ef67172-6820-46c1-b00f-3f0b0afaab92"/>

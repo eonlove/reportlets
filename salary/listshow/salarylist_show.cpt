@@ -197,7 +197,7 @@ FROM
 	###控件过滤
 
 	AND 1=1 ${IF(len(岗位)==0,"","and s.position_trans like '%"+岗位+"%'")}
-	AND 1=1 ${IF(len(单位)==0,"","and (s.department in ('"+SUBSTITUTE(单位,",","','")+"') or s.department like '"+LEFT(单位,2)+"%')")}
+	AND 1=1 ${IF(len(单位)==0,"","and (s.department_trans in ('"+SUBSTITUTE(单位,",","','")+"'))")}
 	AND 1=1 ${IF(len(状态)==0,"","and s.status_trans like '%"+状态+"%'")}
 	AND 1=1 ${IF(len(姓名)==0,"","and s.name_in_company like '%"+姓名+"%'")}
 	AND 1=1 ${IF(len(发放状态)==0,"","and s.pay_status ='暂停发放'")}
@@ -206,14 +206,13 @@ FROM
 	###权限控制
 	AND 1=1 ${IF(fr_authority = '副总',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类6 = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '营销副总',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类6 = '"+fr_username+"')","")}
-	AND 1=1 ${IF(fr_authority = '区域经理',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类2 = '"+fr_username+"')","")}
+	AND 1=1 ${IF(fr_authority = '区域经理',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类7 = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '区域主管',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类2 = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '装维主管',"and left(s.department,6) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '店长',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
 	AND 1=1 ${IF(fr_authority = '承包人',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
-
 	AND 1=1 ${IF(fr_authority = '班长',"and s.department in (select department from selectroster_tmp where name_in_company = '"+fr_username+"' and month = '"+月份+"')","")}
-AND 1=1 ${IF(fr_authority = '运营区经',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类5 = '"+fr_username+"')","")}
+	AND 1=1 ${IF(fr_authority = '运营区经',"and s.department_trans in (select 单位 from 新单位信息 where 自定义分类5 = '"+fr_username+"')","")}
 
 	AND 1=1 ${IF(fr_authority = '督察部经理',"and left(s.department,2) in (select department from selectroster_tmp where name_in_company = '"+fr_username+"')","")}
 	AND 1=1 ${IF(fr_authority = '市场部经理',"and s.department in ('09','10','11')","")}
@@ -554,7 +553,7 @@ where `month` = '${月份}']]></Query>
 </TableData>
 <TableData name="下拉单位树" class="com.fr.data.impl.RecursionTableData">
 <markFields>
-<![CDATA[2]]></markFields>
+<![CDATA[3]]></markFields>
 <markFieldsName>
 <![CDATA[codeid]]></markFieldsName>
 <originalTableDataName>
@@ -2696,7 +2695,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="46" r="2" s="13">
+<C c="46" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="reward"/>
 <Complex/>
@@ -2806,7 +2805,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="48" r="2" s="13">
+<C c="48" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="fjjl"/>
 <Complex/>
@@ -2869,7 +2868,7 @@ else{};]]></Content>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="50" r="2" s="14">
+<C c="50" r="2" s="13">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="spname_rls_mode"/>
 <Complex/>
@@ -2879,7 +2878,7 @@ else{};]]></Content>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="51" r="2" s="15">
+<C c="51" r="2" s="14">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="spname_rls_amount"/>
 <Complex/>
@@ -2889,7 +2888,7 @@ else{};]]></Content>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="52" r="2" s="16">
+<C c="52" r="2" s="15">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="sppos_rls_mode"/>
 <Complex/>
@@ -2899,7 +2898,7 @@ else{};]]></Content>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="53" r="2" s="17">
+<C c="53" r="2" s="16">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="sppos_rls_amount"/>
 <Complex/>
@@ -2909,7 +2908,7 @@ else{};]]></Content>
 <PrivilegeControl/>
 <Expand dir="0"/>
 </C>
-<C c="54" r="2" s="18">
+<C c="54" r="2" s="17">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=if(M3 <= 3, 0, if(AY3 = "固定", AZ3, if(AY3 = "保底", if(AX3 + AT3 > AZ3, AX3, AZ3), if(BA3 = "固定", BB3, if(BA3 = "保底", if(AX3 + AT3 > BB3, AX3, BB3), AX3)))))]]></Attributes>
@@ -2933,7 +2932,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand/>
 </C>
-<C c="55" r="2" s="13">
+<C c="55" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="fjkh"/>
 <Complex/>
@@ -3043,7 +3042,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="57" r="2" s="13">
+<C c="57" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="kqkk"/>
 <Complex/>
@@ -3098,7 +3097,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="58" r="2" s="18">
+<C c="58" r="2" s="17">
 <O t="Formula" class="Formula">
 <Attributes reserveExecute="true">
 <![CDATA[=if(M3 <= 3, 0, sum(BD3:BF3))]]></Attributes>
@@ -3122,7 +3121,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand/>
 </C>
-<C c="59" r="2" s="13">
+<C c="59" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="qs"/>
 <Complex/>
@@ -3177,7 +3176,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="60" r="2" s="18">
+<C c="60" r="2" s="17">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=if(M3 <= 3, 0, BC3 - BG3 + BH3)]]></Attributes>
@@ -3201,7 +3200,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand/>
 </C>
-<C c="61" r="2" s="13">
+<C c="61" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="loss"/>
 <Complex/>
@@ -3386,7 +3385,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand dir="0"/>
 </C>
-<C c="67" r="2" s="13">
+<C c="67" r="2" s="11">
 <O t="DSColumn">
 <Attributes dsName="main" columnName="debt"/>
 <Complex/>
@@ -3621,7 +3620,7 @@ else{};]]></Content>
 </HighlightList>
 <Expand/>
 </C>
-<C c="75" r="2" s="19">
+<C c="75" r="2" s="18">
 <O t="Formula" class="Formula">
 <Attributes reserveExecute="true">
 <![CDATA[=if(M3 <= 3, 0, BI3 - BW3)]]></Attributes>
@@ -4041,6 +4040,49 @@ else{};]]></Content>
 <Background name="ColorBackground" color="-1118482"/>
 <LCAttr vgap="0" hgap="0" compInterval="0"/>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.plugin.widget.newcomboboxtree.NewComboBoxTreeEditor" pluginID="com.fr.plugin.widget.newcomboboxtree.v9">
+<WidgetName name="单位"/>
+<LabelName name="单位:"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<TreeAttr mutiSelect="true" selectLeafOnly="true"/>
+<isLayerBuild isLayerBuild="false"/>
+<isAutoBuild autoBuild="false"/>
+<isPerformanceFirst performanceFirst="false"/>
+<Dictionary class="com.fr.data.impl.TableDataDictionary">
+<FormulaDictAttr kiName="codename" viName="codename"/>
+<TableDataDictAttr>
+<TableData class="com.fr.data.impl.NameTableData">
+<Name>
+<![CDATA[下拉单位树]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dictionary>
+<widgetValue>
+<O>
+<![CDATA[]]></O>
+</widgetValue>
+</InnerWidget>
+<BoundsAttr x="80" y="30" width="103" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
+<InnerWidget class="com.fr.form.ui.Label">
+<WidgetName name="Label单位"/>
+<WidgetAttr description="">
+<PrivilegeControl/>
+</WidgetAttr>
+<widgetValue>
+<O>
+<![CDATA[单位:]]></O>
+</widgetValue>
+<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
+<FRFont name="SimSun" style="0" size="72"/>
+<border style="0" color="-723724"/>
+</InnerWidget>
+<BoundsAttr x="0" y="30" width="80" height="21"/>
+</Widget>
+<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
 <WidgetName name="发放状态"/>
 <WidgetAttr description="">
@@ -4078,52 +4120,6 @@ else{};]]></Content>
 <border style="0" color="-723724"/>
 </InnerWidget>
 <BoundsAttr x="183" y="30" width="80" height="21"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.ui.TreeComboBoxEditor">
-<WidgetName name="单位"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<DirectEdit>
-<![CDATA[false]]></DirectEdit>
-<CustomData>
-<![CDATA[false]]></CustomData>
-<TreeAttr mutiSelect="true" selectLeafOnly="true"/>
-<isLayerBuild isLayerBuild="false"/>
-<isAutoBuild autoBuild="false"/>
-<isPerformanceFirst performanceFirst="false"/>
-<Dictionary class="com.fr.data.impl.TableDataDictionary">
-<FormulaDictAttr kiName="codeid" viName="codename"/>
-<TableDataDictAttr>
-<TableData class="com.fr.data.impl.NameTableData">
-<Name>
-<![CDATA[下拉单位树]]></Name>
-</TableData>
-</TableDataDictAttr>
-</Dictionary>
-<widgetValue>
-<O>
-<![CDATA[]]></O>
-</widgetValue>
-</InnerWidget>
-<BoundsAttr x="80" y="30" width="103" height="21"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.ui.Label">
-<WidgetName name="Label单位"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<widgetValue>
-<O>
-<![CDATA[单位:]]></O>
-</widgetValue>
-<LabelAttr verticalcenter="true" textalign="0" autoline="true"/>
-<FRFont name="微软雅黑" style="0" size="72"/>
-<border style="0" color="-723724"/>
-</InnerWidget>
-<BoundsAttr x="0" y="30" width="80" height="21"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.TextEditor">
@@ -4443,16 +4439,6 @@ FR.remoteEvaluate('sql("JDBC2","'+sql1+'",1,1)');]]></Content>
 <Style horizontal_alignment="0" imageLayout="1">
 <Format class="com.fr.base.CoreDecimalFormat">
 <![CDATA[#0.00]]></Format>
-<FRFont name="微软雅黑" style="0" size="72" foreground="-16776961" underline="1"/>
-<Background name="ColorBackground" color="-657929"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72" foreground="-16776961"/>
 <Background name="ColorBackground" color="-657929"/>
 <Border>
@@ -4463,8 +4449,6 @@ FR.remoteEvaluate('sql("JDBC2","'+sql1+'",1,1)');]]></Content>
 </Border>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
-<Format class="com.fr.base.CoreDecimalFormat">
-<![CDATA[#0.00]]></Format>
 <FRFont name="微软雅黑" style="0" size="72" foreground="-16776961"/>
 <Background name="ColorBackground" color="-657929"/>
 <Border>

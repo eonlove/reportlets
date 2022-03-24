@@ -88,7 +88,7 @@ from
           group by t.sptm,t.xbzspmc
     ) a
 ) b) des1
-left join coco_detail_aplus des2 on des1.sptm = des2.sptm ]]></Query>
+left join (select sptm,is_aplus from  coco_detail_aplus where ${if(len(unit)==0," unit = '总部总库'"," unit = '"+unit+"'")} and is_aplus = 'true')  des2 on des1.sptm = des2.sptm ]]></Query>
 </TableData>
 <TableData name="widget_unit" class="com.fr.data.impl.DBTableData">
 <Parameters/>
@@ -200,7 +200,7 @@ from zl_spls]]></Query>
 <RowHeight defaultValue="723900">
 <![CDATA[1008000,1066800,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3924300,4114800,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,1905000,2743200]]></ColumnWidth>
+<![CDATA[3924300,4114800,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2743200,2400300,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O>
@@ -329,8 +329,10 @@ from zl_spls]]></Query>
 <Expand/>
 </C>
 <C c="11" r="0" s="0">
-<O>
-<![CDATA[A+清单]]></O>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[="A+清单"+IF(len($unit) == 0,"(公司级)","("+unit+")")]]></Attributes>
+</O>
 <PrivilegeControl/>
 <Expand/>
 </C>
@@ -468,12 +470,19 @@ from zl_spls]]></Query>
 <![CDATA[=row()-1]]></Attributes>
 </O>
 </Parameter>
+<Parameter>
+<Attributes name="unit"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=IF(len($unit) == 0,"总部总库",$unit)]]></Attributes>
+</O>
+</Parameter>
 </Parameters>
 <Content>
 <![CDATA[setTimeout(function(){
 var sptm = contentPane.getCellValue(1, row);
-var is_aplus_old = contentPane.getCellValue(11, row);
-var t = FR.remoteEvaluate("sql(\"oracle\",\"select f_update_detail_aplus('" + sptm + "','" + is_aplus_old + "') from dual\",1,1)");
+var is_aplus = contentPane.getCellValue(11, row);
+var t = FR.remoteEvaluate("sql(\"oracle\",\"select f_update_detail_aplus('" + sptm + "','" + is_aplus + "','" + unit + "') from dual\",1,1)");
 if (t != 'OK') {
 	alert('添加失败，请联系IT处理');
 }
@@ -491,6 +500,7 @@ if (t != 'OK') {
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
 <PaperSize width="38880000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>

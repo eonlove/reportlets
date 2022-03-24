@@ -202,6 +202,7 @@ where 月份 = '${月份}']]></Query>
 </CellElementList>
 <ReportAttrSet>
 <ReportSettings headerHeight="0" footerHeight="0">
+<FrozenColumnRow columnrow="A2"/>
 <PaperSetting/>
 <Background name="ColorBackground" color="-1"/>
 </ReportSettings>
@@ -287,23 +288,17 @@ location.reload()]]></Content>
 <Text>
 <![CDATA[保存提交]]></Text>
 </InnerWidget>
-<BoundsAttr x="282" y="4" width="80" height="28"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
-<WidgetName name="Search"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<Text>
-<![CDATA[查询]]></Text>
-<Hotkeys>
-<![CDATA[enter]]></Hotkeys>
-</InnerWidget>
-<BoundsAttr x="192" y="4" width="80" height="28"/>
+<BoundsAttr x="199" y="4" width="80" height="28"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.DateEditor">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="月份"/>
 <LabelName name="月份:"/>
 <WidgetAttr description="">
@@ -338,7 +333,6 @@ location.reload()]]></Content>
 <Sorted sorted="false"/>
 <MobileWidgetList>
 <Widget widgetName="月份"/>
-<Widget widgetName="Search"/>
 <Widget widgetName="button0"/>
 </MobileWidgetList>
 <Display display="true"/>
@@ -359,7 +353,7 @@ location.reload()]]></Content>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="1" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-2823681"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -369,7 +363,7 @@ location.reload()]]></Content>
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>

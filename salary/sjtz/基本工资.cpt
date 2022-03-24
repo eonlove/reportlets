@@ -216,7 +216,7 @@ where codetypeid = '000002'
 <RowHeight defaultValue="723900">
 <![CDATA[1447800,1152000,723900,723900,723900,723900,723900,723900,723900,723900,723900]]></RowHeight>
 <ColumnWidth defaultValue="2743200">
-<![CDATA[3312000,3312000,3312000,3312000,3312000,3312000,3312000,3312000,3695700,3312000,3312000,3924300,2743200]]></ColumnWidth>
+<![CDATA[3312000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,3024000,2743200]]></ColumnWidth>
 <CellElementList>
 <C c="0" r="0" s="0">
 <O>
@@ -290,13 +290,13 @@ where codetypeid = '000002'
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="0" cs="2" s="1">
+<C c="12" r="0" cs="2" s="0">
 <O>
 <![CDATA[操作]]></O>
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="0" r="1" s="2">
+<C c="0" r="1" s="1">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="position"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -343,7 +343,7 @@ where codetypeid = '000002'
 </Present>
 <Expand dir="0"/>
 </C>
-<C c="1" r="1" s="2">
+<C c="1" r="1" s="1">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="status"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -388,7 +388,7 @@ where codetypeid = '000002'
 </Present>
 <Expand dir="0"/>
 </C>
-<C c="2" r="1" s="2">
+<C c="2" r="1" s="1">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="grade"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -433,7 +433,7 @@ where codetypeid = '000002'
 </Present>
 <Expand dir="0"/>
 </C>
-<C c="3" r="1" s="3">
+<C c="3" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="base_wage"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -454,7 +454,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="4" r="1" s="3">
+<C c="4" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="performance_wage"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -475,7 +475,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="5" r="1" s="3">
+<C c="5" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="confidential_wage"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -496,7 +496,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="6" r="1" s="3">
+<C c="6" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="fulltime_wage"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -517,7 +517,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="7" r="1" s="3">
+<C c="7" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="overtime_wage"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -538,7 +538,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="8" r="1" s="3">
+<C c="8" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="post_wage"/>
 <Complex/>
@@ -556,7 +556,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="9" r="1" s="3">
+<C c="9" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="post_subsidy"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -577,7 +577,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="10" r="1" s="3">
+<C c="10" r="1" s="2">
 <O t="DSColumn">
 <Attributes dsName="data" columnName="traffical_subsidy"/>
 <Condition class="com.fr.data.condition.ListCondition"/>
@@ -598,7 +598,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand dir="0"/>
 </C>
-<C c="11" r="1" s="2">
+<C c="11" r="1" s="1">
 <O t="Formula" class="Formula">
 <Attributes>
 <![CDATA[=sum(D2:K2)]]></Attributes>
@@ -606,7 +606,7 @@ where codetypeid = '000002'
 <PrivilegeControl/>
 <Expand/>
 </C>
-<C c="12" r="1" s="3">
+<C c="12" r="1" s="2">
 <O>
 <![CDATA[新增]]></O>
 <PrivilegeControl/>
@@ -622,7 +622,7 @@ where codetypeid = '000002'
 </Widget>
 <Expand/>
 </C>
-<C c="13" r="1" s="3">
+<C c="13" r="1" s="2">
 <O>
 <![CDATA[删除]]></O>
 <PrivilegeControl/>
@@ -643,7 +643,7 @@ where codetypeid = '000002'
 <ReportSettings headerHeight="0" footerHeight="0">
 <FrozenColumnRow columnrow="A2"/>
 <PaperSetting>
-<PaperSize width="57600000" height="42768000"/>
+<PaperSize width="51840000" height="42768000"/>
 <Margin top="986400" left="2743200" bottom="986400" right="2743200"/>
 </PaperSetting>
 <Background name="ColorBackground" color="-1"/>
@@ -708,7 +708,7 @@ where codetypeid = '000002'
 <PrivilegeControl/>
 </Report>
 <ReportParameterAttr>
-<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="0" useParamsTemplate="true"/>
+<Attributes showWindow="true" delayPlaying="false" windowPosition="1" align="0" useParamsTemplate="false"/>
 <PWTitle>
 <![CDATA[参数]]></PWTitle>
 <ParameterUI class="com.fr.form.main.parameter.FormParameterUI">
@@ -741,16 +741,24 @@ where codetypeid = '000002'
 </JavaScript>
 </Listener>
 <WidgetName name="button0"/>
+<LabelName name="等级"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
 </WidgetAttr>
 <Text>
 <![CDATA[保存修改]]></Text>
 </InnerWidget>
-<BoundsAttr x="532" y="4" width="70" height="52"/>
+<BoundsAttr x="597" y="5" width="83" height="29"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="level"/>
 <LabelName name="level:"/>
 <WidgetAttr description="">
@@ -774,7 +782,7 @@ where codetypeid = '000002'
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="35" width="114" height="21"/>
+<BoundsAttr x="463" y="5" width="114" height="29"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -790,10 +798,17 @@ where codetypeid = '000002'
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="35" width="80" height="21"/>
+<BoundsAttr x="383" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="STATUS"/>
 <LabelName name="STATUS:"/>
 <WidgetAttr description="">
@@ -817,7 +832,7 @@ where codetypeid = '000002'
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="300" y="4" width="109" height="21"/>
+<BoundsAttr x="274" y="4" width="109" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -834,10 +849,17 @@ where codetypeid = '000002'
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="220" y="4" width="80" height="21"/>
+<BoundsAttr x="194" y="4" width="80" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.ComboBox">
+<Listener event="afteredit">
+<JavaScript class="com.fr.js.JavaScriptImpl">
+<Parameters/>
+<Content>
+<![CDATA[_g().parameterCommit()]]></Content>
+</JavaScript>
+</Listener>
 <WidgetName name="POSITION"/>
 <WidgetAttr description="">
 <PrivilegeControl/>
@@ -856,7 +878,7 @@ where codetypeid = '000002'
 <![CDATA[]]></O>
 </widgetValue>
 </InnerWidget>
-<BoundsAttr x="80" y="4" width="114" height="21"/>
+<BoundsAttr x="80" y="4" width="114" height="30"/>
 </Widget>
 <Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
 <InnerWidget class="com.fr.form.ui.Label">
@@ -872,65 +894,40 @@ where codetypeid = '000002'
 <FRFont name="微软雅黑" style="0" size="72"/>
 <border style="0" color="-723724"/>
 </InnerWidget>
-<BoundsAttr x="0" y="4" width="80" height="21"/>
-</Widget>
-<Widget class="com.fr.form.ui.container.WAbsoluteLayout$BoundsWidget">
-<InnerWidget class="com.fr.form.parameter.FormSubmitButton">
-<WidgetName name="Search"/>
-<LabelName name="level:"/>
-<WidgetAttr description="">
-<PrivilegeControl/>
-</WidgetAttr>
-<Text>
-<![CDATA[查询]]></Text>
-<Hotkeys>
-<![CDATA[enter]]></Hotkeys>
-</InnerWidget>
-<BoundsAttr x="438" y="5" width="70" height="52"/>
+<BoundsAttr x="0" y="4" width="80" height="30"/>
 </Widget>
 <Sorted sorted="false"/>
 <MobileWidgetList>
 <Widget widgetName="POSITION"/>
 <Widget widgetName="STATUS"/>
-<Widget widgetName="button0"/>
-<Widget widgetName="Search"/>
 <Widget widgetName="level"/>
+<Widget widgetName="button0"/>
 </MobileWidgetList>
 <Display display="true"/>
-<DelayDisplayContent delay="true"/>
-<UseParamsTemplate use="true"/>
+<DelayDisplayContent delay="false"/>
+<UseParamsTemplate use="false"/>
 <Position position="0"/>
 <Design_Width design_width="960"/>
 <NameTagModified>
 <TagModified tag="POSITION" modified="true"/>
 <TagModified tag="STATUS" modified="true"/>
 <TagModified tag="level" modified="true"/>
-<TagModified tag="Search" modified="true"/>
+<TagModified tag="button0" modified="true"/>
 </NameTagModified>
 <WidgetNameTagMap>
 <NameTag name="POSITION" tag="POSITION:"/>
 <NameTag name="STATUS" tag="STATUS:"/>
 <NameTag name="level" tag="level:"/>
-<NameTag name="Search" tag="level:"/>
+<NameTag name="button0" tag="等级"/>
 </WidgetNameTagMap>
 </Layout>
-<DesignAttr width="960" height="80"/>
+<DesignAttr width="960" height="40"/>
 </ParameterUI>
 </ReportParameterAttr>
 <StyleList>
 <Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="88"/>
-<Background name="NullBackground"/>
-<Border>
-<Top style="1" color="-6908266"/>
-<Bottom style="1" color="-6908266"/>
-<Left style="1" color="-6908266"/>
-<Right style="1" color="-6908266"/>
-</Border>
-</Style>
-<Style horizontal_alignment="0" imageLayout="1">
-<FRFont name="微软雅黑" style="1" size="96"/>
-<Background name="NullBackground"/>
+<FRFont name="微软雅黑" style="1" size="80"/>
+<Background name="ColorBackground" color="-2823681"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -940,7 +937,7 @@ where codetypeid = '000002'
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="1" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
@@ -950,7 +947,7 @@ where codetypeid = '000002'
 </Style>
 <Style horizontal_alignment="0" imageLayout="1">
 <FRFont name="微软雅黑" style="0" size="72"/>
-<Background name="NullBackground"/>
+<Background name="ColorBackground" color="-657929"/>
 <Border>
 <Top style="1" color="-6908266"/>
 <Bottom style="1" color="-6908266"/>
